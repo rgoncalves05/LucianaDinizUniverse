@@ -219,6 +219,13 @@
   .ld-tip-ok { width: 100%; padding: 13px 16px; border: none; border-radius: 999px; background: var(--c); color: #FFFFFF; font: 700 15px 'Manrope', sans-serif; cursor: pointer; }
   @keyframes tipBg { from { opacity: 0; } to { opacity: 1; } }
   @keyframes tipIn { from { opacity: 0; transform: translateY(24px) scale(0.92); } to { opacity: 1; transform: none; } }
+  .ld-hint-row { display: flex; justify-content: flex-end; padding: 0 clamp(20px, 6vw, 56px); max-height: 48px; overflow: visible; transition: opacity 0.5s, max-height 0.5s 0.2s, margin 0.5s 0.2s; margin-top: -6px; }
+  .ld-hint-row.done { opacity: 0; max-height: 0; margin-top: 0; pointer-events: none; }
+  .ld-hint { margin: 4px 0 8px; padding: 5px 11px 5px 10px; border-radius: 999px; background: #FFFFFF; border: 1.5px solid #B01A63; color: #B01A63; font: 700 11.5px 'Manrope', sans-serif; pointer-events: none; display: flex; align-items: center; gap: 7px; animation: hintBob 2.4s ease-in-out infinite; }
+  .ld-hint::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: #B01A63; animation: hintDot 1.6s ease-out infinite; }
+  @keyframes hintBob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+  @keyframes hintDot { 0% { box-shadow: 0 0 0 0 rgba(176,26,99,0.55); } 100% { box-shadow: 0 0 0 10px rgba(176,26,99,0); } }
+  @media (max-width: 600px) { .ld-hint-row { justify-content: flex-start; } }
   .ld-footer { padding: 0 clamp(20px, 6vw, 56px) clamp(48px, 8vw, 72px); }
   .ld-footer p { font-size: 13px; color: #9C8B91; text-align: center; margin: 0 auto; max-width: 620px; }
 
@@ -276,6 +283,7 @@
     <canvas id="ld-flow" aria-hidden="true"></canvas>
     <h1 class="ld-h1" id="ld-h1"></h1>
   </div>
+  <div class="ld-hint-row" id="ld-hint-row"><p class="ld-hint" id="ld-hint" aria-hidden="true"></p></div>
   <p class="ld-sub" id="ld-sub"></p>
 
   <div class="ld-focus" id="ld-focus" hidden>
@@ -1456,11 +1464,14 @@
     // "I want to focus on:" list, most-clicked words first
     const FOCUS_LABEL = { en: 'I want to focus on:', pt: 'Quero focar em:', fr: 'Je veux me concentrer sur :', it: 'Voglio concentrarmi su:', de: 'Ich möchte mich konzentrieren auf:' };
     const focusBox = document.getElementById('ld-focus'), focusChips = document.getElementById('ld-focus-chips'), focusLabel = document.getElementById('ld-focus-label');
+    const HINT = { en: 'Click your obstacle', pt: 'Clique no seu obstáculo', fr: 'Cliquez sur votre obstacle', it: 'Clicca sul tuo ostacolo', de: 'Klicke auf dein Hindernis' };
+    const hintEl = document.getElementById('ld-hint');
     function renderFocus(fresh) {
       const lang = typeof currentLang !== 'undefined' ? currentLang : 'en';
       const list = WORDS[lang] || WORDS.en;
       const picked = wordObjs.filter((w) => w.n > 0).sort((a, b) => b.n - a.n || a.lastClick - b.lastClick);
       focusBox.hidden = picked.length === 0;
+      if (hintEl) { hintEl.textContent = HINT[lang] || HINT.en; document.getElementById('ld-hint-row').classList.toggle('done', picked.length > 0); }
       focusLabel.textContent = FOCUS_LABEL[lang] || FOCUS_LABEL.en;
       focusChips.innerHTML = '';
       picked.forEach((w) => {
@@ -1500,6 +1511,7 @@
     }
     tipBox.addEventListener('click', (e) => { if (e.target === tipBox) closeTip(); });
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeTip(); });
+    renderFocus();
     if (h1El && 'MutationObserver' in window) new MutationObserver(() => renderFocus()).observe(h1El, { childList: true, characterData: true, subtree: true });
 
     function wordAt(ev) {
