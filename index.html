@@ -205,6 +205,12 @@
   .ld-chip { cursor: pointer; font-family: 'Manrope', sans-serif; }
   .ld-chip:hover { background: #FBF6F3; }
   .ld-chip:focus-visible { outline: 2px solid #241B20; outline-offset: 2px; }
+  .ld-chip { padding: 0; gap: 0; overflow: hidden; }
+  .ld-chip-main { border: none; background: transparent; padding: 7px 4px 7px 14px; font: 700 14px 'Manrope', sans-serif; color: #241B20; cursor: pointer; }
+  .ld-chip-main:hover { color: var(--c); }
+  .ld-chip-x { border: none; background: transparent; width: 28px; align-self: stretch; padding: 0 8px 0 2px; font: 700 17px/1 'Manrope', sans-serif; color: #9C8B91; cursor: pointer; }
+  .ld-chip-x:hover { color: #B91C1C; }
+  .ld-chip-main:focus-visible, .ld-chip-x:focus-visible { outline: 2px solid #241B20; outline-offset: -2px; border-radius: 999px; }
   .ld-tip { position: fixed; inset: 0; z-index: 90; display: flex; align-items: center; justify-content: center; padding: 16px; background: rgba(36,27,32,0.55); animation: tipBg 0.25s ease-out; }
   .ld-tip[hidden] { display: none; }
   .ld-tip-card { position: relative; width: min(100%, 520px); max-height: 88vh; overflow: auto; background: #FFFFFF; border-radius: 24px; padding: 30px 26px 24px; border-top: 8px solid var(--c); box-shadow: 0 24px 60px rgba(36,27,32,0.3); animation: tipIn 0.45s cubic-bezier(.2,1.25,.4,1); }
@@ -1465,22 +1471,26 @@
     const FOCUS_LABEL = { en: 'I want to focus on:', pt: 'Quero focar em:', fr: 'Je veux me concentrer sur :', it: 'Voglio concentrarmi su:', de: 'Ich möchte mich konzentrieren auf:' };
     const focusBox = document.getElementById('ld-focus'), focusChips = document.getElementById('ld-focus-chips'), focusLabel = document.getElementById('ld-focus-label');
     const HINT = { en: 'Click your obstacle', pt: 'Clique no seu obstáculo', fr: 'Cliquez sur votre obstacle', it: 'Clicca sul tuo ostacolo', de: 'Klicke auf dein Hindernis' };
+    const REMOVE = { en: 'Remove', pt: 'Remover', fr: 'Retirer', it: 'Rimuovi', de: 'Entfernen' };
     const hintEl = document.getElementById('ld-hint');
     function renderFocus(fresh) {
       const lang = typeof currentLang !== 'undefined' ? currentLang : 'en';
       const list = WORDS[lang] || WORDS.en;
       const picked = wordObjs.filter((w) => w.n > 0).sort((a, b) => b.n - a.n || a.lastClick - b.lastClick);
       focusBox.hidden = picked.length === 0;
-      if (hintEl) { hintEl.textContent = HINT[lang] || HINT.en; document.getElementById('ld-hint-row').classList.toggle('done', picked.length > 0); }
+      if (hintEl) { hintEl.textContent = HINT[lang] || HINT.en; if (picked.length > 0) document.getElementById('ld-hint-row').classList.add('done'); }
       focusLabel.textContent = FOCUS_LABEL[lang] || FOCUS_LABEL.en;
       focusChips.innerHTML = '';
       picked.forEach((w) => {
-        const c = document.createElement('button');
-        c.type = 'button';
+        const c = document.createElement('span');
         c.className = 'ld-chip' + (fresh === w && w.n === 1 ? ' new' : '');
-        c.style.setProperty('--c', w.c);
-        c.textContent = list[w.i]; c.dataset.n = w.n;
-        c.addEventListener('click', () => openTip(w));
+        c.style.setProperty('--c', w.c); c.dataset.n = w.n;
+        const m = document.createElement('button'); m.type = 'button'; m.className = 'ld-chip-main'; m.textContent = list[w.i];
+        m.addEventListener('click', () => openTip(w));
+        const x = document.createElement('button'); x.type = 'button'; x.className = 'ld-chip-x'; x.textContent = '×';
+        x.setAttribute('aria-label', (REMOVE[lang] || REMOVE.en) + ' ' + list[w.i]);
+        x.addEventListener('click', (ev) => { ev.stopPropagation(); w.n = 0; w.lvl = 0; renderFocus(); });
+        c.append(m, x);
         focusChips.appendChild(c);
       });
     }
