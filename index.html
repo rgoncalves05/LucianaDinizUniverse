@@ -71,7 +71,8 @@
   .ld-lang-btn svg { display: block; width: 26px; height: 17px; border-radius: 3px; }
 
   .ld-title-wrap { position: relative; overflow: hidden; display: flex; align-items: center; min-height: clamp(210px, 28vw, 300px); padding: clamp(28px, 5vw, 56px) clamp(20px, 6vw, 56px) clamp(8px, 2vw, 16px); }
-  #ld-flow { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+  #ld-flow { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: pan-y; }
+  .ld-title-wrap .ld-h1 { pointer-events: none; }
   .ld-h1 { position: relative; z-index: 1; max-width: 720px; font-size: clamp(30px, 5.5vw, 46px); font-weight: 600; line-height: 1.1; color: #241B20; text-shadow: 0 0 22px #FBF6F3, 0 0 10px #FBF6F3, 0 0 3px #FBF6F3; }
   .ld-sub { font-size: clamp(15px, 2.2vw, 18px); line-height: 1.6; color: #6B5A61; margin: 0; max-width: calc(720px + 2 * clamp(20px, 6vw, 56px)); padding: 12px clamp(20px, 6vw, 56px) clamp(32px, 5vw, 56px); }
 
@@ -192,6 +193,32 @@
   @keyframes waPulse { 0% { box-shadow: 0 0 0 0 rgba(22,163,74,0.55); } 70%, 100% { box-shadow: 0 0 0 18px rgba(22,163,74,0); } }
   @keyframes waWiggle { 0%, 100% { transform: rotate(0); } 20% { transform: rotate(-16deg) scale(1.15); } 40% { transform: rotate(14deg) scale(1.15); } 60% { transform: rotate(-9deg); } 80% { transform: rotate(6deg); } }
   @keyframes waShine { 0%, 55% { left: -60%; } 100% { left: 130%; } }
+  .ld-focus { max-width: 1240px; margin: 0 auto; padding: 0 clamp(20px, 6vw, 56px) 26px; display: flex; align-items: center; gap: 12px 14px; flex-wrap: wrap; }
+  .ld-focus[hidden] { display: none; }
+  .ld-focus-label { font: italic 600 clamp(18px, 2.6vw, 22px) 'Fraunces', serif; color: #241B20; }
+  .ld-focus-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .ld-chip { display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 999px; font: 700 14px 'Manrope', sans-serif; border: 1.5px solid var(--c); background: #FFFFFF; color: #241B20; }
+  .ld-chip b { font-size: 11px; font-weight: 800; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; color: #FFFFFF; background: var(--c); }
+  .ld-chip b span { color: #FFFFFF; }
+  .ld-chip.new { animation: chipIn 0.5s cubic-bezier(.2,1.4,.4,1); }
+  @keyframes chipIn { from { opacity: 0; transform: scale(0.5) translateY(8px); } to { opacity: 1; transform: none; } }
+  .ld-chip { cursor: pointer; font-family: 'Manrope', sans-serif; }
+  .ld-chip:hover { background: #FBF6F3; }
+  .ld-chip:focus-visible { outline: 2px solid #241B20; outline-offset: 2px; }
+  .ld-tip { position: fixed; inset: 0; z-index: 90; display: flex; align-items: center; justify-content: center; padding: 16px; background: rgba(36,27,32,0.55); animation: tipBg 0.25s ease-out; }
+  .ld-tip[hidden] { display: none; }
+  .ld-tip-card { position: relative; width: min(100%, 520px); max-height: 88vh; overflow: auto; background: #FFFFFF; border-radius: 24px; padding: 30px 26px 24px; border-top: 8px solid var(--c); box-shadow: 0 24px 60px rgba(36,27,32,0.3); animation: tipIn 0.45s cubic-bezier(.2,1.25,.4,1); }
+  .ld-tip-kicker { font: 800 11px 'Manrope', sans-serif; letter-spacing: 0.1em; text-transform: uppercase; color: var(--c); }
+  .ld-tip-card h3 { font-family: 'Fraunces', serif; font-size: clamp(28px, 6vw, 36px); font-weight: 600; margin: 4px 0 10px; color: #241B20; }
+  .ld-tip-lead { font-size: 16px; line-height: 1.55; font-style: italic; color: #4A3E42; margin: 0 0 16px; }
+  .ld-tip-card ol { list-style: none; counter-reset: tip; margin: 0 0 20px; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+  .ld-tip-card li { counter-increment: tip; position: relative; padding-left: 40px; font-size: 15px; line-height: 1.55; color: #241B20; }
+  .ld-tip-card li::before { content: counter(tip); position: absolute; left: 0; top: 0; width: 28px; height: 28px; border-radius: 50%; background: var(--c); color: #FFFFFF; font: 800 13px 'Manrope', sans-serif; display: flex; align-items: center; justify-content: center; }
+  .ld-tip-share { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; margin-bottom: 10px; padding: 12px 16px; border: 1.5px solid var(--c); border-radius: 999px; background: #FFFFFF; color: var(--c); font: 700 15px 'Manrope', sans-serif; cursor: pointer; }
+  .ld-tip-share:hover { background: #FBF6F3; }
+  .ld-tip-ok { width: 100%; padding: 13px 16px; border: none; border-radius: 999px; background: var(--c); color: #FFFFFF; font: 700 15px 'Manrope', sans-serif; cursor: pointer; }
+  @keyframes tipBg { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes tipIn { from { opacity: 0; transform: translateY(24px) scale(0.92); } to { opacity: 1; transform: none; } }
   .ld-footer { padding: 0 clamp(20px, 6vw, 56px) clamp(48px, 8vw, 72px); }
   .ld-footer p { font-size: 13px; color: #9C8B91; text-align: center; margin: 0 auto; max-width: 620px; }
 
@@ -250,6 +277,13 @@
     <h1 class="ld-h1" id="ld-h1"></h1>
   </div>
   <p class="ld-sub" id="ld-sub"></p>
+
+  <div class="ld-focus" id="ld-focus" hidden>
+    <span class="ld-focus-label" id="ld-focus-label"></span>
+    <div class="ld-focus-chips" id="ld-focus-chips"></div>
+  </div>
+
+  <div class="ld-tip" id="ld-tip" hidden role="dialog" aria-modal="true"></div>
 
   <div class="ld-grid" id="ld-grid"></div>
 
@@ -1100,8 +1134,8 @@
     const ch = document.getElementById('ld-url-change'); if (ch) ch.addEventListener('click', () => askUrl(openQR));
   }
 
-  async function copyLink(btn) {
-    const url = pageUrl();
+  async function copyLink(btn, full) {
+    const url = full || pageUrl();
     try { await navigator.clipboard.writeText(url); }
     catch (e) {
       const t = document.createElement('textarea'); t.value = url; document.body.appendChild(t); t.select();
@@ -1110,16 +1144,18 @@
     if (btn) { btn.textContent = su().copied; }
   }
 
-  async function openShare() {
+  async function openShare(custom) {
+    const c = custom && custom.text ? custom : null;
     const url = pageUrl();
-    if (!url) return askUrl(openShare);
-    const text = su().msg;
+    if (!url) return askUrl(() => openShare(c));
+    const text = c ? c.text : su().msg;
+    const title = c ? c.title : 'Luciana Diniz';
     if (navigator.share) {
-      try { await navigator.share({ title: 'Luciana Diniz', text, url }); return; }
+      try { await navigator.share({ title, text, url }); return; }
       catch (e) { if (e && e.name === 'AbortError') return; }
     }
-    const wa = 'https://wa.me/?text=' + encodeURIComponent(text + ' ' + url);
-    const mail = 'mailto:?subject=' + encodeURIComponent('Luciana Diniz') + '&body=' + encodeURIComponent(text + '\n\n' + url);
+    const wa = 'https://wa.me/?text=' + encodeURIComponent(text + '\n\n' + url);
+    const mail = 'mailto:?subject=' + encodeURIComponent(title) + '&body=' + encodeURIComponent(text + '\n\n' + url);
     openModal(`<h3>${esc(su().share)}</h3>
       <div class="ld-share-list">
         <a class="ld-share-opt" href="${wa}" target="_blank" rel="noopener">WhatsApp</a>
@@ -1127,15 +1163,15 @@
         <button type="button" class="ld-share-opt" id="ld-copy">${esc(su().copy)}</button>
       </div>
       <p class="ld-modal-url">${esc(url)}</p>${changeLink()}`);
-    document.getElementById('ld-copy').addEventListener('click', (e) => copyLink(e.currentTarget));
-    const ch = document.getElementById('ld-url-change'); if (ch) ch.addEventListener('click', () => askUrl(openShare));
+    document.getElementById('ld-copy').addEventListener('click', (e) => copyLink(e.currentTarget, c ? text + '\n\n' + url : null));
+    const ch = document.getElementById('ld-url-change'); if (ch) ch.addEventListener('click', () => askUrl(() => openShare(c)));
   }
 
   function renderActions() {
     document.querySelectorAll('.js-actions').forEach((el) => {
       el.innerHTML = `<button type="button" class="ld-icon-btn" data-act="qr" title="QR code" aria-label="QR code">${ICON_QR}</button><button type="button" class="ld-icon-btn" data-act="share" title="${esc(su().share)}" aria-label="${esc(su().share)}">${ICON_SHARE}</button>`;
       el.querySelector('[data-act=qr]').addEventListener('click', openQR);
-      el.querySelector('[data-act=share]').addEventListener('click', openShare);
+      el.querySelector('[data-act=share]').addEventListener('click', () => openShare());
     });
   }
 
@@ -1317,6 +1353,18 @@
     const COLORS = ['#B01A63', '#B01A63', '#B01A63', '#4338CA', '#0F766E', '#B45309', '#1D4ED8'];
     const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const KY = 1.5, STEP = 0.032;
+    // words drifting along the same path, in the chosen language
+    const WORDS = {
+      en: ['Fear', 'Insecurity', 'Stress', 'Anxiety', 'Depression', 'Confidence', 'Focus', 'Balance'],
+      pt: ['Medo', 'Insegurança', 'Estresse', 'Ansiedade', 'Depressão', 'Confiança', 'Foco', 'Equilíbrio'],
+      fr: ['Peur', 'Insécurité', 'Stress', 'Anxiété', 'Dépression', 'Confiance', 'Concentration', 'Équilibre'],
+      it: ['Paura', 'Insicurezza', 'Stress', 'Ansia', 'Depressione', 'Fiducia', 'Concentrazione', 'Equilibrio'],
+      de: ['Furcht', 'Unsicherheit', 'Stress', 'Angst', 'Depression', 'Selbstvertrauen', 'Fokus', 'Gleichgewicht'],
+    };
+    const WCOL = ['#6B5A61', '#6B5A61', '#6B5A61', '#6B5A61', '#6B5A61', '#B01A63', '#4338CA', '#0F766E'];
+    const wordObjs = WCOL.map((c, i) => ({ i, c, t: (i / 8) * Math.PI * 2 + 0.4, s: i % 2 ? 1.04 : 0.96, lvl: 0, n: 0, born: 0, hx: 0, hy: 0, hw: 0, hh: 0, ha: 0 }));
+    const MAXLVL = 5;
+    const h1El = document.getElementById('ld-h1');
     let W = 0, H = 0, cx = 0, cy = 0, A = 0, trail = 12, particles = [], last = 0, inView = true;
 
     function build() {
@@ -1364,7 +1412,113 @@
         }
       }
       ctx.globalAlpha = 1;
+      drawWords();
     }
+
+    function drawWords() {
+      const list = WORDS[typeof currentLang !== 'undefined' ? currentLang : 'en'] || WORDS.en;
+      const cr = canvas.getBoundingClientRect(), hr = h1El ? h1El.getBoundingClientRect() : null;
+      const base = W < 600 ? 13 : 17, now = performance.now();
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.lineJoin = 'round';
+      for (const w of wordObjs) {
+        const x = px(w.t, w.s), y = py(w.t, w.s), txt = list[w.i];
+        // size: grows with each click, pops on click, then keeps pulsing
+        let m = 1 + w.lvl * 0.4;
+        if (w.lvl) {
+          const age = (now - w.born) / 1000;
+          if (!reduce) {
+            if (age < 0.7) m *= 1 + 0.5 * Math.sin(Math.PI * age / 0.7);
+            m *= 1 + 0.07 * Math.sin(now / 1000 * 5 + w.i);
+          }
+        }
+        const fs = base * m;
+        ctx.font = `italic 600 ${fs}px Fraunces, Georgia, serif`;
+        const tw = ctx.measureText(txt).width / 2 + 8;
+        const dc = Math.hypot(x - cx, (y - cy) / KY), fade = Math.min(1, Math.max(0, (dc - A * 0.08) / (A * 0.22)));
+        let a = (w.lvl ? 1 : 0.9) * (w.lvl ? Math.max(fade, 0.5) : fade);
+        if (hr) {
+          const l = hr.left - cr.left - 6, r = hr.right - cr.left + 6, tp = hr.top - cr.top - 6, bt = hr.bottom - cr.top + 6;
+          if (x + tw > l && x - tw < r && y > tp && y < bt) a *= w.lvl ? 0.35 : 0.1;
+        }
+        w.hx = x; w.hy = y; w.hw = tw; w.hh = fs * 0.7; w.ha = a;
+        ctx.globalAlpha = a;
+        ctx.lineWidth = 5; ctx.strokeStyle = '#FBF6F3';
+        ctx.strokeText(txt, x, y);
+        if (w.lvl) { ctx.shadowColor = w.c; ctx.shadowBlur = reduce ? 8 : 8 + 8 * (0.5 + 0.5 * Math.sin(now / 1000 * 5 + w.i)); }
+        ctx.fillStyle = w.c;
+        ctx.fillText(txt, x, y);
+        ctx.shadowBlur = 0;
+      }
+      ctx.globalAlpha = 1;
+    }
+
+
+    // "I want to focus on:" list, most-clicked words first
+    const FOCUS_LABEL = { en: 'I want to focus on:', pt: 'Quero focar em:', fr: 'Je veux me concentrer sur :', it: 'Voglio concentrarmi su:', de: 'Ich möchte mich konzentrieren auf:' };
+    const focusBox = document.getElementById('ld-focus'), focusChips = document.getElementById('ld-focus-chips'), focusLabel = document.getElementById('ld-focus-label');
+    function renderFocus(fresh) {
+      const lang = typeof currentLang !== 'undefined' ? currentLang : 'en';
+      const list = WORDS[lang] || WORDS.en;
+      const picked = wordObjs.filter((w) => w.n > 0).sort((a, b) => b.n - a.n || a.lastClick - b.lastClick);
+      focusBox.hidden = picked.length === 0;
+      focusLabel.textContent = FOCUS_LABEL[lang] || FOCUS_LABEL.en;
+      focusChips.innerHTML = '';
+      picked.forEach((w) => {
+        const c = document.createElement('button');
+        c.type = 'button';
+        c.className = 'ld-chip' + (fresh === w && w.n === 1 ? ' new' : '');
+        c.style.setProperty('--c', w.c);
+        c.textContent = list[w.i]; c.dataset.n = w.n;
+        c.addEventListener('click', () => openTip(w));
+        focusChips.appendChild(c);
+      });
+    }
+
+    // practical summary card for a word
+    const TIPS = {"en": {"close": "Close", "h": "In your day-to-day", "items": [["Fear is a signal, not a verdict: it shows what matters to you.", ["Name it out loud: \"I am afraid of…\". Naming it shrinks it.", "Break the situation into the smallest next step and do only that.", "Breathe in for 4, out for 6, three times, before you act.", "Practise in small doses: face a little of what scares you each day."]], ["Insecurity grows when we compare our inside with other people's outside.", ["Write down three things you did well today, however small.", "Swap comparison for learning: ask what you can take from someone, not what you lack.", "Ask one trusted person for honest feedback and listen without defending yourself.", "Speak to yourself the way you would speak to a friend."]], ["Stress is the body preparing for a demand; it needs an outlet, not just endurance.", ["Plan the day around two or three priorities, not twenty.", "Take a real break every 90 minutes: stand up, stretch, look far away.", "Move your body: a 15-minute walk is enough to lower tension.", "Protect your sleep: screens off 30 minutes before bed."]], ["Anxiety lives in the future; the way back is the present moment.", ["Ground yourself: name 5 things you see, 4 you hear and 3 you can touch.", "Write the worry down, then ask: what can I do about it today?", "Cut back on caffeine and news in the evening.", "If it is frequent or limits your life, talk to a health professional. You do not have to carry it alone."]], ["Depression is more than sadness, and it deserves care and support.", ["Keep a small routine: wake up, get daylight and eat at regular times.", "Do one small thing a day, even without energy: a shower, a short walk, a message to someone.", "Do not isolate yourself: tell someone you trust how you really are.", "Seek a psychologist or doctor. If you think about harming yourself, contact emergency services or a crisis line in your country right away."]], ["Confidence is built by keeping small promises to yourself.", ["Set one small goal each morning and finish it.", "Keep a \"proof list\" of past wins and read it before a challenge.", "Prepare well: preparation is the quietest form of confidence.", "Stand tall and breathe slowly: your posture talks to your mind."]], ["Focus is a muscle: trained in short sessions, it gets stronger.", ["Work in 25-minute blocks with your phone out of sight, then rest for 5.", "Choose a single task for the next block and write it down.", "Silence notifications during important tasks.", "End the day by noting tomorrow's first step."]], ["Balance is not doing everything equally; it is giving each area its turn.", ["Divide your week among work, body, relationships and rest, and schedule each one.", "Learn to say no to what does not fit this week.", "Keep one daily ritual just for you, even if it is only 10 minutes.", "Review it every Sunday: what gave me energy, what drained it?"]]]}, "pt": {"close": "Fechar", "h": "No seu dia a dia", "items": [["O medo é um sinal, não uma sentença: ele mostra o que importa para você.", ["Diga em voz alta: \"Estou com medo de…\". Dar nome ao medo o diminui.", "Divida a situação no menor próximo passo possível e faça só ele.", "Inspire contando 4 e solte contando 6, três vezes, antes de agir.", "Treine em doses pequenas: enfrente um pouco do que assusta a cada dia."]], ["A insegurança cresce quando comparamos o nosso interior com o exterior dos outros.", ["Anote três coisas que você fez bem hoje, por menores que sejam.", "Troque a comparação pelo aprendizado: pergunte o que pode tirar de alguém, não o que lhe falta.", "Peça uma opinião sincera a uma pessoa de confiança e ouça sem se defender.", "Fale consigo como falaria com uma amiga ou um amigo."]], ["O estresse é o corpo se preparando para uma exigência; ele precisa de uma saída, não só de resistência.", ["Planeje o dia em torno de duas ou três prioridades, não de vinte.", "Faça uma pausa de verdade a cada 90 minutos: levante, alongue, olhe para longe.", "Mexa o corpo: 15 minutos de caminhada já reduzem a tensão.", "Proteja o sono: telas desligadas 30 minutos antes de dormir."]], ["A ansiedade vive no futuro; o caminho de volta é o momento presente.", ["Volte ao agora: nomeie 5 coisas que vê, 4 que ouve e 3 que pode tocar.", "Escreva a preocupação e pergunte: o que posso fazer sobre isso hoje?", "Reduza cafeína e notícias à noite.", "Se for frequente ou limitar sua vida, converse com um profissional de saúde. Você não precisa carregar isso sozinho."]], ["A depressão é mais do que tristeza e merece cuidado e apoio.", ["Mantenha uma pequena rotina: acordar, pegar luz do dia e comer em horários regulares.", "Faça uma coisa pequena por dia, mesmo sem energia: um banho, uma caminhada curta, uma mensagem para alguém.", "Não se isole: conte a alguém de confiança como você realmente está.", "Procure um psicólogo ou médico. Se pensar em se machucar, ligue para a emergência ou para o CVV (188, no Brasil) agora mesmo."]], ["A confiança se constrói cumprindo pequenas promessas consigo mesmo.", ["Defina uma meta pequena a cada manhã e termine-a.", "Mantenha uma \"lista de provas\" com suas vitórias e leia antes de um desafio.", "Prepare-se bem: a preparação é a forma mais silenciosa de confiança.", "Fique de postura firme e respire devagar: o corpo conversa com a mente."]], ["O foco é um músculo: treinado em sessões curtas, ele fica mais forte.", ["Trabalhe em blocos de 25 minutos com o celular fora de vista e descanse 5.", "Escolha uma única tarefa para o próximo bloco e escreva-a.", "Silencie as notificações durante tarefas importantes.", "Termine o dia anotando o primeiro passo de amanhã."]], ["Equilíbrio não é fazer tudo igual; é dar a cada área a sua vez.", ["Divida a semana entre trabalho, corpo, relações e descanso, e agende cada um.", "Aprenda a dizer não ao que não cabe nesta semana.", "Tenha um ritual diário só seu, nem que seja de 10 minutos.", "Revise todo domingo: o que me deu energia e o que me drenou?"]]]}, "fr": {"close": "Fermer", "h": "Au quotidien", "items": [["La peur est un signal, pas un verdict : elle montre ce qui compte pour vous.", ["Dites-le à voix haute : « J'ai peur de… ». Nommer la peur la réduit.", "Découpez la situation en la plus petite étape suivante et faites seulement celle-là.", "Inspirez sur 4 temps, expirez sur 6, trois fois, avant d'agir.", "Entraînez-vous par petites doses : affrontez un peu de ce qui vous effraie chaque jour."]], ["L'insécurité grandit quand on compare notre intérieur à l'extérieur des autres.", ["Notez trois choses que vous avez bien faites aujourd'hui, même petites.", "Remplacez la comparaison par l'apprentissage : demandez ce que vous pouvez retenir de l'autre, pas ce qui vous manque.", "Demandez un avis sincère à une personne de confiance et écoutez sans vous défendre.", "Parlez-vous comme vous parleriez à un ami."]], ["Le stress est le corps qui se prépare à une exigence ; il lui faut une issue, pas seulement de l'endurance.", ["Organisez la journée autour de deux ou trois priorités, pas de vingt.", "Faites une vraie pause toutes les 90 minutes : levez-vous, étirez-vous, regardez au loin.", "Bougez : 15 minutes de marche suffisent pour faire baisser la tension.", "Protégez votre sommeil : écrans éteints 30 minutes avant de dormir."]], ["L'anxiété vit dans le futur ; le chemin du retour, c'est le moment présent.", ["Ancrez-vous : nommez 5 choses que vous voyez, 4 que vous entendez, 3 que vous pouvez toucher.", "Écrivez l'inquiétude, puis demandez-vous : que puis-je faire aujourd'hui ?", "Réduisez la caféine et les actualités le soir.", "Si c'est fréquent ou si cela limite votre vie, parlez-en à un professionnel de santé. Vous n'avez pas à le porter seul."]], ["La dépression est plus que de la tristesse et mérite soin et soutien.", ["Gardez une petite routine : se lever, voir la lumière du jour et manger à heures régulières.", "Faites une petite chose par jour, même sans énergie : une douche, une courte marche, un message à quelqu'un.", "Ne vous isolez pas : dites à une personne de confiance comment vous allez vraiment.", "Consultez un psychologue ou un médecin. Si vous pensez à vous faire du mal, appelez tout de suite les urgences ou une ligne d'écoute de votre pays."]], ["La confiance se construit en tenant de petites promesses envers soi-même.", ["Fixez un petit objectif chaque matin et menez-le à terme.", "Gardez une « liste de preuves » de vos réussites et relisez-la avant un défi.", "Préparez-vous bien : la préparation est la forme la plus discrète de confiance.", "Tenez-vous droit et respirez lentement : votre posture parle à votre esprit."]], ["La concentration est un muscle : entraînée par courtes séances, elle se renforce.", ["Travaillez par blocs de 25 minutes, téléphone hors de vue, puis reposez-vous 5 minutes.", "Choisissez une seule tâche pour le prochain bloc et écrivez-la.", "Coupez les notifications pendant les tâches importantes.", "Terminez la journée en notant la première étape de demain."]], ["L'équilibre, ce n'est pas tout faire à parts égales ; c'est donner à chaque domaine son tour.", ["Répartissez la semaine entre travail, corps, relations et repos, et planifiez chacun.", "Apprenez à dire non à ce qui ne tient pas cette semaine.", "Gardez un rituel quotidien rien que pour vous, même de 10 minutes.", "Faites le point chaque dimanche : qu'est-ce qui m'a donné de l'énergie, qu'est-ce qui m'en a pris ?"]]]}, "it": {"close": "Chiudi", "h": "Nella tua giornata", "items": [["La paura è un segnale, non una sentenza: mostra ciò che conta per te.", ["Dillo ad alta voce: «Ho paura di…». Dare un nome alla paura la rimpicciolisce.", "Dividi la situazione nel più piccolo passo successivo e fai solo quello.", "Inspira contando 4, espira contando 6, tre volte, prima di agire.", "Allenati a piccole dosi: affronta un po' di ciò che ti spaventa ogni giorno."]], ["L'insicurezza cresce quando confrontiamo il nostro interno con l'esterno degli altri.", ["Scrivi tre cose che hai fatto bene oggi, anche piccole.", "Sostituisci il confronto con l'apprendimento: chiediti cosa puoi imparare da qualcuno, non cosa ti manca.", "Chiedi un parere sincero a una persona di fiducia e ascolta senza difenderti.", "Parla a te stesso come parleresti a un amico."]], ["Lo stress è il corpo che si prepara a una richiesta; ha bisogno di una via d'uscita, non solo di resistenza.", ["Pianifica la giornata su due o tre priorità, non su venti.", "Fai una vera pausa ogni 90 minuti: alzati, stiracchiati, guarda lontano.", "Muoviti: 15 minuti di camminata bastano ad abbassare la tensione.", "Proteggi il sonno: schermi spenti 30 minuti prima di dormire."]], ["L'ansia vive nel futuro; la via del ritorno è il momento presente.", ["Radicati nel presente: nomina 5 cose che vedi, 4 che senti e 3 che puoi toccare.", "Scrivi la preoccupazione e chiediti: cosa posso fare oggi?", "Riduci caffeina e notizie la sera.", "Se è frequente o limita la tua vita, parlane con un professionista della salute. Non devi portarla da solo."]], ["La depressione è più della tristezza e merita cura e sostegno.", ["Mantieni una piccola routine: svegliarti, prendere la luce del giorno e mangiare a orari regolari.", "Fai una piccola cosa al giorno, anche senza energia: una doccia, una breve camminata, un messaggio a qualcuno.", "Non isolarti: di' a una persona di fiducia come stai davvero.", "Cerca uno psicologo o un medico. Se pensi di farti del male, chiama subito i servizi di emergenza o una linea di ascolto del tuo paese."]], ["La fiducia si costruisce mantenendo piccole promesse a se stessi.", ["Fissa un piccolo obiettivo ogni mattina e portalo a termine.", "Tieni una «lista di prove» delle tue vittorie e rileggila prima di una sfida.", "Preparati bene: la preparazione è la forma più silenziosa di fiducia.", "Stai dritto e respira lentamente: la postura parla alla mente."]], ["La concentrazione è un muscolo: allenata a sessioni brevi, diventa più forte.", ["Lavora a blocchi di 25 minuti con il telefono fuori vista, poi riposa 5 minuti.", "Scegli un solo compito per il prossimo blocco e scrivilo.", "Silenzia le notifiche durante i compiti importanti.", "Chiudi la giornata annotando il primo passo di domani."]], ["L'equilibrio non è fare tutto in parti uguali; è dare a ogni area il suo turno.", ["Dividi la settimana tra lavoro, corpo, relazioni e riposo, e pianifica ciascuno.", "Impara a dire no a ciò che non entra in questa settimana.", "Tieni un rituale quotidiano solo tuo, anche di 10 minuti.", "Fai il punto ogni domenica: cosa mi ha dato energia e cosa me l'ha tolta?"]]]}, "de": {"close": "Schließen", "h": "Im Alltag", "items": [["Furcht ist ein Signal, kein Urteil: Sie zeigt, was dir wichtig ist.", ["Sprich es laut aus: „Ich habe Angst vor …“. Benennen macht es kleiner.", "Teile die Situation in den kleinstmöglichen nächsten Schritt und tu nur den.", "Atme dreimal auf 4 ein und auf 6 aus, bevor du handelst.", "Übe in kleinen Dosen: stelle dich jeden Tag ein wenig dem, was dir Furcht macht."]], ["Unsicherheit wächst, wenn wir unser Inneres mit dem Äußeren anderer vergleichen.", ["Schreibe drei Dinge auf, die du heute gut gemacht hast, auch kleine.", "Ersetze Vergleichen durch Lernen: Frage, was du von jemandem mitnehmen kannst, nicht, was dir fehlt.", "Bitte eine vertraute Person um ehrliches Feedback und höre zu, ohne dich zu verteidigen.", "Sprich mit dir, wie du mit einem Freund sprechen würdest."]], ["Stress ist der Körper, der sich auf eine Anforderung vorbereitet; er braucht ein Ventil, nicht nur Durchhalten.", ["Plane den Tag um zwei oder drei Prioritäten, nicht um zwanzig.", "Mach alle 90 Minuten eine echte Pause: aufstehen, dehnen, in die Ferne schauen.", "Beweg dich: 15 Minuten Spazierengehen senken schon die Anspannung.", "Schütze deinen Schlaf: Bildschirme 30 Minuten vor dem Schlafen aus."]], ["Angst lebt in der Zukunft; der Weg zurück ist der gegenwärtige Moment.", ["Erde dich: Benenne 5 Dinge, die du siehst, 4, die du hörst, und 3, die du berühren kannst.", "Schreibe die Sorge auf und frage: Was kann ich heute dagegen tun?", "Reduziere abends Koffein und Nachrichten.", "Wenn sie häufig ist oder dein Leben einschränkt, sprich mit einer Fachperson. Du musst das nicht allein tragen."]], ["Depression ist mehr als Traurigkeit und verdient Fürsorge und Unterstützung.", ["Halte eine kleine Routine: aufstehen, Tageslicht tanken und zu festen Zeiten essen.", "Tu jeden Tag eine kleine Sache, auch ohne Energie: duschen, kurz spazieren, jemandem schreiben.", "Isoliere dich nicht: Sag einer vertrauten Person, wie es dir wirklich geht.", "Such dir eine Psychologin, einen Psychologen oder Ärztin. Wenn du daran denkst, dir etwas anzutun, ruf sofort den Notruf oder eine Krisenhotline in deinem Land an."]], ["Selbstvertrauen entsteht, wenn du kleine Versprechen an dich selbst hältst.", ["Setze dir jeden Morgen ein kleines Ziel und schließe es ab.", "Führe eine „Beweisliste“ vergangener Erfolge und lies sie vor einer Herausforderung.", "Bereite dich gut vor: Vorbereitung ist die leiseste Form von Selbstvertrauen.", "Steh aufrecht und atme langsam: Deine Haltung spricht zu deinem Kopf."]], ["Fokus ist ein Muskel: In kurzen Einheiten trainiert, wird er stärker.", ["Arbeite in 25-Minuten-Blöcken mit dem Handy außer Sicht, dann 5 Minuten Pause.", "Wähle für den nächsten Block nur eine Aufgabe und schreibe sie auf.", "Stelle Benachrichtigungen bei wichtigen Aufgaben stumm.", "Beende den Tag mit dem ersten Schritt für morgen."]], ["Gleichgewicht heißt nicht, alles gleich zu tun; es heißt, jedem Bereich seine Zeit zu geben.", ["Verteile die Woche auf Arbeit, Körper, Beziehungen und Erholung und plane jeden Bereich ein.", "Lerne, Nein zu sagen zu dem, was diese Woche nicht passt.", "Pflege ein tägliches Ritual nur für dich, auch wenn es nur 10 Minuten sind.", "Zieh jeden Sonntag Bilanz: Was hat mir Energie gegeben, was hat sie mir genommen?"]]]}};
+    const tipBox = document.getElementById('ld-tip');
+    function closeTip() { tipBox.hidden = true; }
+    function openTip(w) {
+      const lang = typeof currentLang !== 'undefined' ? currentLang : 'en';
+      const d = TIPS[lang] || TIPS.en, it = d.items[w.i], word = (WORDS[lang] || WORDS.en)[w.i];
+      tipBox.innerHTML = '';
+      const card = document.createElement('div');
+      card.className = 'ld-tip-card'; card.style.setProperty('--c', w.c === '#6B5A61' ? '#4338CA' : w.c);
+      const k = document.createElement('div'); k.className = 'ld-tip-kicker'; k.textContent = d.h;
+      const h = document.createElement('h3'); h.textContent = word;
+      const lead = document.createElement('p'); lead.className = 'ld-tip-lead'; lead.textContent = it[0];
+      const ol = document.createElement('ol');
+      it[1].forEach((t) => { const li = document.createElement('li'); li.textContent = t; ol.appendChild(li); });
+      const ok = document.createElement('button'); ok.type = 'button'; ok.className = 'ld-tip-ok'; ok.textContent = d.close;
+      ok.addEventListener('click', closeTip);
+      const sh = document.createElement('button'); sh.type = 'button'; sh.className = 'ld-tip-share';
+      sh.innerHTML = ICON_SHARE + '<span></span>'; sh.lastChild.textContent = (SHARE_UI[lang] || SHARE_UI.en).share;
+      sh.addEventListener('click', () => openShare({ title: word + ' — Luciana Diniz', text: word + '\n\n' + it[0] + '\n\n' + it[1].map((t, n) => (n + 1) + '. ' + t).join('\n') }));
+      card.append(k, h, lead, ol, sh, ok);
+      tipBox.appendChild(card);
+      tipBox.hidden = false; ok.focus();
+    }
+    tipBox.addEventListener('click', (e) => { if (e.target === tipBox) closeTip(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeTip(); });
+    if (h1El && 'MutationObserver' in window) new MutationObserver(() => renderFocus()).observe(h1El, { childList: true, characterData: true, subtree: true });
+
+    function wordAt(ev) {
+      const r = canvas.getBoundingClientRect(), x = ev.clientX - r.left, y = ev.clientY - r.top;
+      for (let k = wordObjs.length - 1; k >= 0; k--) {
+        const w = wordObjs[k];
+        if (w.ha > 0.25 && Math.abs(x - w.hx) < w.hw + 6 && Math.abs(y - w.hy) < w.hh + 6) return w;
+      }
+      return null;
+    }
+    canvas.addEventListener('click', (ev) => {
+      const w = wordAt(ev);
+      if (!w) return;
+      w.n++; w.lastClick = performance.now(); renderFocus(w);
+      w.lvl = w.lvl >= MAXLVL ? 0 : w.lvl + 1; // after the biggest size, one more click calms it back down
+      w.born = performance.now();
+      if (reduce) draw();
+    });
+    canvas.addEventListener('mousemove', (ev) => { canvas.style.cursor = wordAt(ev) ? 'pointer' : ''; });
 
     function frame(now) {
       requestAnimationFrame(frame);
@@ -1372,6 +1526,7 @@
       const main = document.getElementById('view-main');
       if (document.hidden || !inView || !main || !main.classList.contains('active') || !W) return;
       for (const p of particles) p.t += p.speed * dt;
+      for (const w of wordObjs) w.t += 0.3 * dt;
       draw();
     }
 
