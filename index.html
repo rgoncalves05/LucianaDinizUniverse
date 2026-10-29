@@ -170,8 +170,11 @@
   .ld-wa-box h2 { font-family: 'Fraunces', Georgia, serif; font-size: clamp(22px, 3.5vw, 28px); margin: 0 0 4px; color: #241B20; }
   .ld-wa-box p { margin: 0; color: #6B5A61; font-size: 15px; line-height: 1.5; max-width: 460px; }
   .ld-wa-btn { display: inline-flex; align-items: center; gap: 10px; background: #16A34A; color: #FFFFFF; text-decoration: none; font-weight: 700; font-size: 16px; padding: 14px 24px; border-radius: 999px; }
+  .ld-wa-btns { display: flex; flex-wrap: wrap; gap: 12px; }
+  .ld-mail-btn { background: #241B20; }
+  .ld-mail-btn:hover { background: #3A2E34; }
   .ld-wa-btn:hover { background: #15803D; }
-  @media (max-width: 560px) { .ld-wa-btn { width: 100%; justify-content: center; box-sizing: border-box; } }
+  @media (max-width: 560px) { .ld-wa-btns { width: 100%; } .ld-wa-btn { width: 100%; justify-content: center; box-sizing: border-box; } }
   .ld-wa-box { position: relative; }
   .ld-wa-box.pre { opacity: 0; transform: translateY(40px) scale(0.94); }
   .ld-wa-box.in { animation: waIn 0.9s cubic-bezier(.2,1.25,.4,1) both, waGlow 1.6s ease-out 0.5s 2; }
@@ -253,7 +256,10 @@
   <div class="ld-wa">
     <div class="ld-wa-box">
       <div><h2 id="ld-wa-title"></h2><p id="ld-wa-text"></p></div>
+      <div class="ld-wa-btns">
       <a class="ld-wa-btn" id="ld-wa-btn" target="_blank" rel="noopener"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.4 14c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.2-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.8s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.6c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.1 1 2.1 1.300 2.400 1.500.3.1.5.1.6-.1l.9-1.100c.2-.2.4-.2.600-.1l1.900.9c.3.1.5.2.5.3.1.100.1.700-.1 1.300Z"/></svg><span id="ld-wa-cta"></span></a>
+      <a class="ld-wa-btn ld-mail-btn" id="ld-mail-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3" stroke="currentColor" stroke-width="1.8"/><path d="M4 8l8 6 8-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="ld-mail-cta"></span></a>
+      </div>
     </div>
   </div>
   <div class="ld-footer">
@@ -804,12 +810,12 @@
     { id: 'equestrian', icon: 'match', color: '#4338CA', bg: '#E9E7FB', href: 'https://matchequestrian.com/', detail: 'equestrian' },
     { id: 'butterfly', icon: 'book', color: '#B45309', bg: '#FBEADA', href: 'https://hotmart.com/en/marketplace/products/all-subscriptions/T62609130S' },
     { id: 'masterclass', icon: 'book', color: '#6D28D9', bg: '#EFE7FB', href: 'https://hotmart.com/en/marketplace/products/my-way-masterclass/L40005221H' },
-    { id: 'interactive', icon: 'flag', color: '#9A3412', bg: '#FDEBDD', href: 'https://www.luciana-diniz.com/interactivehall' },
     { id: 'aiagents', icon: 'chat', color: '#1D4ED8', bg: '#DBEAFE', href: 'https://www.luciana-diniz.com/ai-agents' },
     { id: 'fit4gold', icon: 'book', color: '#166534', bg: '#DCFCE7', href: 'https://hotmart.com/en/marketplace/products/fit-4-gold/I41007311Q' },
     { id: 'youtube', icon: 'play', color: '#B91C1C', bg: '#FEE2E2', href: 'https://www.youtube.com/channel/UC5p5jP4DB_sgpiMFA4WeLEA' },
     { id: 'instagram', icon: 'camera', color: '#C13584', bg: '#FCE7F3', href: 'https://www.instagram.com/luciana_diniz11/' },
     { id: 'checkpoint', icon: 'play', color: '#0E7490', bg: '#CFFAFE', href: 'https://www.youtube.com/playlist?list=PLFdwisXGhzx8' },
+    { id: 'interactive', icon: 'flag', color: '#9A3412', bg: '#FDEBDD', href: 'https://www.luciana-diniz.com/interactivehall' },
     { id: 'cv', icon: 'book', color: '#334155', bg: '#E2E8F0', href: '#cv', internal: true },
   ];
 
@@ -843,11 +849,11 @@
   };
 
   const WA = {
-    en: { title: "Let's talk", text: 'Questions, partnerships or want to start your journey? Message us on WhatsApp.', cta: 'Chat on WhatsApp', msg: 'Hello, I would like to know more about the Luciana Diniz Universe' },
-    pt: { title: 'Vamos conversar', text: 'Dúvidas, parcerias ou quer começar sua jornada? Fale com a gente pelo WhatsApp.', cta: 'Falar no WhatsApp', msg: 'Olá, gostaria de saber mais sobre o Universo Luciana Diniz' },
-    fr: { title: 'Parlons-en', text: 'Une question, un partenariat ou envie de commencer votre parcours ? Écrivez-nous sur WhatsApp.', cta: 'Discuter sur WhatsApp', msg: "Bonjour, j\'aimerais en savoir plus sur l\'univers de Luciana Diniz" },
-    it: { title: 'Parliamone', text: 'Domande, partnership o vuoi iniziare il tuo percorso? Scrivici su WhatsApp.', cta: 'Scrivici su WhatsApp', msg: 'Ciao, vorrei saperne di più sull\'universo di Luciana Diniz' },
-    de: { title: 'Lass uns sprechen', text: 'Fragen, Partnerschaften oder bereit für den Start? Schreib uns auf WhatsApp.', cta: 'Auf WhatsApp schreiben', msg: 'Hallo, ich möchte mehr über das Luciana-Diniz-Universum erfahren' },
+    en: { title: "Let's talk", text: 'Questions, partnerships or want to start your journey? Message us on WhatsApp or by email.', cta: 'Chat on WhatsApp', msg: 'Hello, I would like to know more about the Luciana Diniz Universe', mail: 'Send an email', mailSub: 'Contact from the Luciana Diniz website', mailBody: 'Hello, I would like to know more about the Luciana Diniz Universe' },
+    pt: { title: 'Vamos conversar', text: 'Dúvidas, parcerias ou quer começar sua jornada? Fale com a gente pelo WhatsApp ou por e-mail.', cta: 'Falar no WhatsApp', msg: 'Olá, gostaria de saber mais sobre o Universo Luciana Diniz', mail: 'Enviar e-mail', mailSub: 'Contato pelo site da Luciana Diniz', mailBody: 'Olá, gostaria de saber mais sobre o Universo Luciana Diniz' },
+    fr: { title: 'Parlons-en', text: 'Une question, un partenariat ou envie de commencer votre parcours ? Écrivez-nous sur WhatsApp ou par e-mail.', cta: 'Discuter sur WhatsApp', msg: "Bonjour, j\'aimerais en savoir plus sur l\'univers de Luciana Diniz", mail: 'Envoyer un e-mail', mailSub: 'Contact depuis le site de Luciana Diniz', mailBody: "Bonjour, j'aimerais en savoir plus sur l'univers de Luciana Diniz" },
+    it: { title: 'Parliamone', text: 'Domande, partnership o vuoi iniziare il tuo percorso? Scrivici su WhatsApp o via e-mail.', cta: 'Scrivici su WhatsApp', msg: 'Ciao, vorrei saperne di più sull\'universo di Luciana Diniz', mail: "Invia un'e-mail", mailSub: 'Contatto dal sito di Luciana Diniz', mailBody: "Ciao, vorrei saperne di più sull'universo di Luciana Diniz" },
+    de: { title: 'Lass uns sprechen', text: 'Fragen, Partnerschaften oder bereit für den Start? Schreib uns auf WhatsApp oder per E-Mail.', cta: 'Auf WhatsApp schreiben', msg: 'Hallo, ich möchte mehr über das Luciana-Diniz-Universum erfahren', mail: 'E-Mail senden', mailSub: 'Kontakt über die Website von Luciana Diniz', mailBody: 'Hallo, ich möchte mehr über das Luciana-Diniz-Universum erfahren' },
   };
   const WA_NUMBER = '491724526422';
 
@@ -1219,6 +1225,8 @@
     document.getElementById('ld-wa-title').textContent = wa.title;
     document.getElementById('ld-wa-text').textContent = wa.text;
     document.getElementById('ld-wa-cta').textContent = wa.cta;
+    document.getElementById('ld-mail-cta').textContent = wa.mail;
+    document.getElementById('ld-mail-btn').href = 'mailto:luciana.diniz@me.com?subject=' + encodeURIComponent(wa.mailSub) + '&body=' + encodeURIComponent(wa.mailBody);
     document.getElementById('ld-wa-btn').href = 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(wa.msg);
   }
 
