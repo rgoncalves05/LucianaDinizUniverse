@@ -1,0 +1,1488 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Luciana Diniz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,400..600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: 'Manrope', sans-serif; background: #FBF6F3; color: #241B20; }
+  h1, h2, h3 { font-family: 'Fraunces', serif; margin: 0; }
+  a { color: inherit; }
+  table { border-collapse: collapse; width: 100%; }
+
+  .ld-view { display: none; }
+  .ld-view.active { display: block; }
+
+  /* ---------- Main landing ---------- */
+  .ld-nav {
+    position: sticky; top: 0; z-index: 10;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+    padding: 14px clamp(20px, 6vw, 56px);
+    background: rgba(251, 246, 243, 0.85); backdrop-filter: blur(8px);
+    border-bottom: 1px solid #ECE1DC;
+  }
+  .ld-wordmark { font-family: 'Fraunces', serif; font-weight: 600; font-size: 18px; color: #241B20; text-decoration: none; cursor: pointer; }
+  .ld-langs { position: relative; display: flex; }
+  .ld-right { display: flex; align-items: center; gap: 8px; }
+  .ld-actions { display: flex; align-items: center; gap: 6px; }
+  .ld-icon-btn { width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center; border: 1.5px solid #ECE1DC; border-radius: 999px; background: #FFFFFF; color: #241B20; cursor: pointer; padding: 0; }
+  .ld-icon-btn:hover { border-color: #C9B9B2; background: #FBF6F3; }
+  .ld-icon-btn:focus-visible { outline: 2px solid #241B20; outline-offset: 2px; }
+  .ld-actions.dark .ld-icon-btn { background: transparent; border-color: rgba(255,255,255,0.3); color: #FFFFFF; }
+  .ld-actions.dark .ld-icon-btn:hover { background: rgba(255,255,255,0.12); }
+  .ld-modal { position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center; padding: 20px; background: rgba(36,27,32,0.55); }
+  .ld-modal[hidden] { display: none; }
+  .ld-modal-card { position: relative; width: min(100%, 360px); background: #FFFFFF; border-radius: 24px; padding: 28px 24px 24px; display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center; color: #241B20; font-family: 'Manrope', sans-serif; box-shadow: 0 24px 60px rgba(36,27,32,0.3); }
+  .ld-modal-card h3 { font-family: 'Fraunces', serif; font-size: 20px; font-weight: 600; margin: 0; }
+  .ld-modal-close { position: absolute; top: 10px; right: 10px; width: 34px; height: 34px; border: none; border-radius: 50%; background: #F4ECE8; color: #241B20; font-size: 18px; line-height: 1; cursor: pointer; }
+  .ld-qr { width: 240px; height: 240px; padding: 12px; border: 1px solid #ECE1DC; border-radius: 16px; background: #FFFFFF; }
+  .ld-qr svg { width: 100%; height: 100%; display: block; }
+  .ld-modal-url { font-size: 12px; color: #6B5A61; word-break: break-all; margin: 0; }
+  .ld-modal-note { font-size: 12px; line-height: 1.45; color: #9A3412; background: #FDEBDD; border-radius: 10px; padding: 8px 10px; margin: 0; }
+  .ld-url-input { width: 100%; padding: 13px 16px; border: 1.5px solid #ECE1DC; border-radius: 14px; font: 500 15px 'Manrope', sans-serif; color: #241B20; }
+  .ld-url-input:focus { outline: 2px solid #241B20; outline-offset: 1px; }
+  .ld-modal-err { font-size: 12px; color: #B91C1C; margin: 0; }
+  .ld-modal-err[hidden] { display: none; }
+  .ld-share-opt.ld-share-primary { background: #241B20; border-color: #241B20; color: #FFFFFF; }
+  .ld-share-opt.ld-share-primary:hover { background: #3A2E34; }
+  .ld-linkbtn { border: none; background: none; color: #6B5A61; font: 700 12px 'Manrope', sans-serif; text-decoration: underline; cursor: pointer; padding: 4px; }
+  .ld-share-list { display: flex; flex-direction: column; gap: 8px; width: 100%; }
+  .ld-share-opt { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 13px 16px; border: 1.5px solid #ECE1DC; border-radius: 999px; background: #FFFFFF; color: #241B20; font: 700 14px 'Manrope', sans-serif; text-decoration: none; cursor: pointer; }
+  .ld-share-opt:hover { background: #FBF6F3; }
+  .ld-combo-btn { display: flex; align-items: center; gap: 8px; padding: 7px 11px 7px 9px; border: 1.5px solid #ECE1DC; border-radius: 999px; background: #FFFFFF; color: #241B20; font: 700 12px 'Manrope', sans-serif; cursor: pointer; }
+  .ld-combo-btn:hover { border-color: #C9B9B2; }
+  .ld-combo-btn[aria-expanded="true"] .ld-chev { transform: rotate(180deg); }
+  .ld-chev { transition: transform 0.15s; color: #6B5A61; }
+  .ld-combo-btn > svg:first-child, .ld-combo-opt > svg { width: 24px; height: 16px; border-radius: 3px; flex-shrink: 0; display: block; }
+  .ld-combo-menu { position: absolute; right: 0; top: calc(100% + 8px); min-width: 180px; z-index: 30; background: #FFFFFF; border: 1px solid #ECE1DC; border-radius: 16px; box-shadow: 0 14px 34px rgba(36,27,32,0.16); padding: 6px; display: flex; flex-direction: column; gap: 2px; }
+  .ld-combo-menu[hidden] { display: none; }
+  .ld-combo-opt { display: flex; align-items: center; gap: 10px; width: 100%; padding: 9px 10px; border: none; border-radius: 10px; background: transparent; color: #241B20; font: 600 14px 'Manrope', sans-serif; text-align: left; cursor: pointer; }
+  .ld-combo-opt:hover { background: #FBF6F3; }
+  .ld-combo-opt[aria-selected="true"] { background: #F4ECE8; font-weight: 800; }
+  .ld-combo-btn:focus-visible, .ld-combo-opt:focus-visible { outline: 2px solid #241B20; outline-offset: 2px; }
+  [id] { scroll-margin-top: 72px; }
+  .ld-lang-btn { display: flex; align-items: center; justify-content: center; padding: 6px 8px; border-radius: 10px; border: 1.5px solid #ECE1DC; background: #FFFFFF; cursor: pointer; opacity: 0.6; transition: opacity 0.15s, transform 0.15s; }
+  .ld-lang-btn:hover { opacity: 1; }
+  .ld-lang-btn.active { opacity: 1; border-color: #241B20; transform: scale(1.06); }
+  .ld-lang-btn svg { display: block; width: 26px; height: 17px; border-radius: 3px; }
+
+  .ld-title-wrap { position: relative; overflow: hidden; display: flex; align-items: center; min-height: clamp(210px, 28vw, 300px); padding: clamp(28px, 5vw, 56px) clamp(20px, 6vw, 56px) clamp(8px, 2vw, 16px); }
+  #ld-flow { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+  .ld-h1 { position: relative; z-index: 1; max-width: 720px; font-size: clamp(30px, 5.5vw, 46px); font-weight: 600; line-height: 1.1; color: #241B20; text-shadow: 0 0 22px #FBF6F3, 0 0 10px #FBF6F3, 0 0 3px #FBF6F3; }
+  .ld-sub { font-size: clamp(15px, 2.2vw, 18px); line-height: 1.6; color: #6B5A61; margin: 0; max-width: calc(720px + 2 * clamp(20px, 6vw, 56px)); padding: 12px clamp(20px, 6vw, 56px) clamp(32px, 5vw, 56px); }
+
+  /* course path: vertical timeline linking the cards */
+  .ld-grid {
+    --P: clamp(20px, 6vw, 56px); --p: 0;
+    position: relative; counter-reset: stop;
+    display: flex; flex-direction: column; gap: 26px;
+    max-width: 1240px; margin: 0 auto;
+    padding: 12px var(--P) clamp(56px, 8vw, 96px);
+  }
+  .ld-grid::before, .ld-grid::after { content: ''; position: absolute; left: 50%; top: 0; width: 3px; transform: translateX(-50%); border-radius: 3px; }
+  .ld-grid::before { bottom: 0; background-image: linear-gradient(to bottom, #D9C9C2 55%, transparent 0); background-size: 3px 12px; background-repeat: repeat-y; }
+  .ld-grid::after { height: calc(var(--p) * 100%); background: #B01A63; }
+  .ld-card {
+    display: flex; flex-direction: column; gap: 16px;
+    padding: clamp(22px, 3vw, 28px);
+    border-radius: 22px; border: 1px solid #ECE1DC; background: #FFFFFF;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .ld-card:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(36,27,32,0.08); }
+  .ld-grid > .ld-card { position: relative; counter-increment: stop; width: calc(50% - 46px); }
+  .ld-grid > .ld-card:nth-child(odd) { align-self: flex-start; }
+  .ld-grid > .ld-card:nth-child(even) { align-self: flex-end; }
+  .ld-grid > .ld-card::before {
+    content: counter(stop); position: absolute; top: 26px; width: 38px; height: 38px; box-sizing: border-box;
+    display: flex; align-items: center; justify-content: center; border-radius: 50%;
+    background: #FBF6F3; border: 3px solid var(--c, #B01A63); color: var(--c, #B01A63);
+    font: 800 14px 'Manrope', sans-serif; transition: background 0.3s, color 0.3s;
+  }
+  .ld-grid > .ld-card::after { content: ''; position: absolute; top: 43px; width: 27px; height: 3px; background: var(--c, #B01A63); opacity: 0.6; }
+  .ld-grid > .ld-card:nth-child(odd)::before { left: calc(100% + 46px - 19px); }
+  .ld-grid > .ld-card:nth-child(even)::before { left: calc(-46px - 19px); }
+  .ld-grid > .ld-card:nth-child(odd)::after { left: 100%; }
+  .ld-grid > .ld-card:nth-child(even)::after { right: 100%; }
+  .ld-grid > .ld-card.passed::before { background: var(--c, #B01A63); color: #FFFFFF; }
+  @keyframes ldPop { 0% { transform: scale(1); box-shadow: 0 0 0 0 var(--c); } 35% { transform: scale(1.4); } 70% { transform: scale(0.94); } 100% { transform: scale(1); box-shadow: 0 0 0 18px rgba(255,255,255,0); } }
+  .ld-grid > .ld-card.pop::before { animation: ldPop 0.9s ease-out; }
+  @media (max-width: 760px) {
+    .ld-grid::before, .ld-grid::after { left: calc(var(--P) + 18px); }
+    .ld-grid > .ld-card:nth-child(n) { align-self: flex-end; width: calc(100% - 52px); }
+    .ld-grid > .ld-card:nth-child(n)::before { left: -52px; top: 22px; width: 36px; height: 36px; }
+    .ld-grid > .ld-card:nth-child(n)::after { left: -16px; right: auto; top: 38px; width: 16px; }
+  }
+
+  .ld-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .ld-tag-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .ld-tag { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+  .ld-badge { font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 999px; white-space: nowrap; }
+
+  .ld-card h3 { font-size: clamp(19px, 2.4vw, 22px); font-weight: 600; }
+  .ld-tagline { font-size: 14px; font-style: italic; margin: 0; }
+  .ld-desc { font-size: 15px; line-height: 1.55; color: #4A3E42; margin: 0; flex-grow: 1; }
+
+  .ld-cta {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    font-weight: 700; font-size: 14px; text-decoration: none;
+    padding: 14px 20px; border-radius: 999px; color: #FFFFFF; width: 100%;
+  }
+  .ld-cta:hover { opacity: 0.9; }
+  .ld-cta-2 {
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 14px; text-decoration: none;
+    padding: 12px 20px; border-radius: 999px; border: 1.5px solid; background: transparent; width: 100%;
+  }
+  .ld-cta-2:hover { background: rgba(36,27,32,0.04); }
+
+  /* ---------- Product detail ---------- */
+  .dt-top { position: sticky; top: 0; z-index: 10; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 14px clamp(20px, 6vw, 56px); background: rgba(251,246,243,0.88); backdrop-filter: blur(8px); border-bottom: 1px solid #ECE1DC; }
+  .dt-back { font-size: 14px; font-weight: 700; color: #241B20; text-decoration: none; cursor: pointer; }
+  .dt-hero { padding: clamp(36px, 7vw, 72px) clamp(20px, 6vw, 56px); display: flex; flex-direction: column; gap: 16px; }
+  .dt-hero-in { max-width: 760px; display: flex; flex-direction: column; gap: 16px; align-items: flex-start; }
+  .dt-kicker { font-size: 12px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; }
+  .dt-h1 { font-size: clamp(32px, 6vw, 52px); font-weight: 600; line-height: 1.08; color: #241B20; }
+  .dt-lead { font-size: clamp(16px, 2.3vw, 19px); line-height: 1.6; color: #4A3E42; margin: 0; }
+  .dt-btn { display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: 15px; text-decoration: none; padding: 14px 26px; border-radius: 999px; color: #FFFFFF; }
+  .dt-btn:hover { opacity: 0.9; }
+  .dt-url { font-size: 12px; color: #9C8B91; }
+  .dt-body { padding: 0 clamp(20px, 6vw, 56px) clamp(40px, 7vw, 72px); display: flex; flex-direction: column; gap: clamp(28px, 5vw, 44px); max-width: 1080px; }
+  .dt-h2 { font-size: clamp(22px, 3vw, 28px); font-weight: 600; color: #241B20; }
+  .dt-steps { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin-top: 16px; }
+  .dt-step { background: #FFFFFF; border: 1px solid #ECE1DC; border-radius: 18px; padding: 20px; display: flex; flex-direction: column; gap: 8px; }
+  .dt-num { width: 32px; height: 32px; border-radius: 999px; color: #FFFFFF; font-weight: 800; font-size: 14px; display: flex; align-items: center; justify-content: center; }
+  .dt-step h3 { font-size: 17px; font-weight: 600; }
+  .dt-step p { font-size: 14px; line-height: 1.55; color: #4A3E42; margin: 0; }
+  .dt-blocks { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+  .dt-block { background: #FFFFFF; border: 1px solid #ECE1DC; border-radius: 18px; padding: clamp(20px, 3vw, 26px); }
+  .dt-block h3 { font-size: 19px; font-weight: 600; margin-bottom: 8px; }
+  .dt-block p { font-size: 15px; line-height: 1.6; color: #4A3E42; margin: 0; }
+  .dt-block ul { margin: 10px 0 0; padding-left: 20px; font-size: 15px; line-height: 1.7; color: #4A3E42; }
+  .dt-cta-row { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+  .ld-note { font-size: 12px; color: #9C8B91; line-height: 1.4; }
+
+  .ld-wa { margin: 0 auto; max-width: 880px; padding: 0 clamp(20px, 6vw, 56px) clamp(32px, 5vw, 48px); }
+  .ld-wa-box { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; background: #FFFFFF; border: 1.5px solid #CDEBD8; border-radius: 24px; padding: clamp(22px, 4vw, 32px); }
+  .ld-wa-box h2 { font-family: 'Fraunces', Georgia, serif; font-size: clamp(22px, 3.5vw, 28px); margin: 0 0 4px; color: #241B20; }
+  .ld-wa-box p { margin: 0; color: #6B5A61; font-size: 15px; line-height: 1.5; max-width: 460px; }
+  .ld-wa-btn { display: inline-flex; align-items: center; gap: 10px; background: #16A34A; color: #FFFFFF; text-decoration: none; font-weight: 700; font-size: 16px; padding: 14px 24px; border-radius: 999px; }
+  .ld-wa-btn:hover { background: #15803D; }
+  @media (max-width: 560px) { .ld-wa-btn { width: 100%; justify-content: center; box-sizing: border-box; } }
+  .ld-wa-box { position: relative; }
+  .ld-wa-box.pre { opacity: 0; transform: translateY(40px) scale(0.94); }
+  .ld-wa-box.in { animation: waIn 0.9s cubic-bezier(.2,1.25,.4,1) both, waGlow 1.6s ease-out 0.5s 2; }
+  .ld-wa-box.in h2 { animation: waRise 0.7s ease-out 0.25s both; }
+  .ld-wa-box.in p { animation: waRise 0.7s ease-out 0.4s both; }
+  .ld-wa-box.in .ld-wa-btn { animation: waBtn 0.8s cubic-bezier(.2,1.4,.4,1) 0.55s both, waPulse 2.2s ease-out 1.6s infinite; }
+  .ld-wa-box.in .ld-wa-btn svg { animation: waWiggle 1.1s ease-in-out 1.2s 2; transform-origin: 50% 80%; }
+  .ld-wa-btn { position: relative; overflow: hidden; }
+  .ld-wa-btn::after { content: ''; position: absolute; top: 0; bottom: 0; width: 40%; left: -60%; background: linear-gradient(100deg, transparent, rgba(255,255,255,0.45), transparent); transform: skewX(-20deg); }
+  .ld-wa-box.in .ld-wa-btn::after { animation: waShine 3s ease-in-out 1.4s infinite; }
+  @keyframes waIn { from { opacity: 0; transform: translateY(40px) scale(0.94); } to { opacity: 1; transform: none; } }
+  @keyframes waGlow { 0% { box-shadow: 0 0 0 0 rgba(22,163,74,0.5); } 100% { box-shadow: 0 0 0 28px rgba(22,163,74,0); } }
+  @keyframes waRise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+  @keyframes waBtn { from { opacity: 0; transform: scale(0.4); } to { opacity: 1; transform: scale(1); } }
+  @keyframes waPulse { 0% { box-shadow: 0 0 0 0 rgba(22,163,74,0.55); } 70%, 100% { box-shadow: 0 0 0 18px rgba(22,163,74,0); } }
+  @keyframes waWiggle { 0%, 100% { transform: rotate(0); } 20% { transform: rotate(-16deg) scale(1.15); } 40% { transform: rotate(14deg) scale(1.15); } 60% { transform: rotate(-9deg); } 80% { transform: rotate(6deg); } }
+  @keyframes waShine { 0%, 55% { left: -60%; } 100% { left: 130%; } }
+  .ld-footer { padding: 0 clamp(20px, 6vw, 56px) clamp(48px, 8vw, 72px); }
+  .ld-footer p { font-size: 13px; color: #9C8B91; text-align: center; margin: 0 auto; max-width: 620px; }
+
+  .back-link { text-align: center; padding: 14px 0; font-size: 13px; font-weight: 700; text-decoration: none; display: block; }
+
+  /* ---------- Branded content ---------- */
+  .mk-wrap { max-width: 1080px; margin: 0 auto; padding-left: clamp(16px, 4vw, 32px); padding-right: clamp(16px, 4vw, 32px); }
+  .mk-header { position: sticky; top: 0; z-index: 10; background: #11221B; color: #FFFFFF; border-bottom: 2px solid #F59E0B; }
+  .mk-header-inner { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 0; flex-wrap: wrap; }
+  .mk-nav { display: flex; align-items: center; gap: clamp(10px, 2vw, 22px); font-size: 13px; font-weight: 600; color: #E7E5E4; flex-wrap: wrap; }
+  .mk-nav a:hover { color: #FBBF24; }
+  .mk-nav-cta { background: #F59E0B; color: #1C1917; padding: 7px 14px; border-radius: 6px; font-weight: 700; text-decoration: none; }
+  .mk-stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 16px; }
+  .mk-stat { text-align: center; padding: 8px; }
+  .mk-stat .n { font-size: clamp(26px, 4vw, 40px); font-weight: 800; color: #FBBF24; margin: 0; }
+  .mk-stat .l { font-size: 11px; font-weight: 700; color: #D6D3D1; margin: 4px 0 0; }
+  .mk-h2 { font-size: clamp(18px, 2.4vw, 22px); font-weight: 800; color: #11221B; border-bottom: 2px solid #F59E0B; padding-bottom: 8px; margin: 0; }
+  .mk-h2-em { border-bottom-color: #34D399; }
+  .mk-sector { background: #FAFAF9; border: 1px solid #E7E5E4; border-radius: 10px; padding: 12px; font-size: 13px; }
+  .mk-table th { background: #11221B; color: #FFFFFF; padding: 12px 14px; text-align: left; font-size: 12px; }
+  .mk-table td { padding: 12px 14px; border-top: 1px solid #E7E5E4; font-size: 13px; }
+  .mk-table tr:nth-child(even) td { background: #FAFAF9; }
+  .mk-price { font-weight: 700; color: #92400E; }
+
+  /* ---------- Athlete CV ---------- */
+  .cv-wrap { max-width: 980px; margin: 0 auto; padding-left: clamp(16px, 4vw, 32px); padding-right: clamp(16px, 4vw, 32px); }
+  .cv-header { position: sticky; top: 0; z-index: 10; background: #1E2A4A; color: #FFFFFF; border-bottom: 3px solid #C9A227; }
+  .cv-header-inner { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 0; flex-wrap: wrap; }
+  .cv-nav { display: flex; align-items: center; gap: clamp(10px, 2vw, 20px); font-size: 13px; font-weight: 600; color: #D7DBE6; flex-wrap: wrap; }
+  .cv-nav a:hover { color: #E8C565; }
+  .cv-section { padding: clamp(24px, 4vw, 36px) 0; }
+  .cv-h2 { font-size: clamp(17px, 2.2vw, 20px); font-weight: 700; color: #1E2A4A; border-bottom: 2px solid #C9A227; padding-bottom: 8px; letter-spacing: 0.02em; }
+  .cv-table th { background: #1E2A4A; color: #FFFFFF; padding: 10px 14px; text-align: left; font-size: 12px; font-weight: 700; }
+  .cv-table td { padding: 10px 14px; border-top: 1px solid #E7E0D2; font-size: 13px; }
+  .cv-table tr:nth-child(even) td { background: #F3EFE6; }
+  .cv-table tr.hi td { background: #EDE4CC; font-weight: 700; }
+  .cv-bullets { margin: 10px 0 0; padding-left: 20px; font-size: 14px; line-height: 1.65; color: #313645; }
+  .cv-bullets li { margin-bottom: 4px; }
+  .cv-table-caption { font-size: 12px; font-weight: 700; color: #1E2A4A; margin: 18px 0 6px; text-transform: uppercase; letter-spacing: 0.04em; }
+</style>
+</head>
+<body>
+
+<!-- ============ MAIN LANDING ============ -->
+<div id="view-main" class="ld-view active">
+  <nav class="ld-nav">
+    <a class="ld-wordmark" onclick="goTo('main')">Luciana Diniz</a>
+    <div class="ld-right">
+      <div class="ld-actions js-actions"></div>
+      <div class="ld-langs js-langs"></div>
+    </div>
+  </nav>
+
+  <div class="ld-title-wrap">
+    <canvas id="ld-flow" aria-hidden="true"></canvas>
+    <h1 class="ld-h1" id="ld-h1"></h1>
+  </div>
+  <p class="ld-sub" id="ld-sub"></p>
+
+  <div class="ld-grid" id="ld-grid"></div>
+
+  <div class="ld-wa">
+    <div class="ld-wa-box">
+      <div><h2 id="ld-wa-title"></h2><p id="ld-wa-text"></p></div>
+      <a class="ld-wa-btn" id="ld-wa-btn" target="_blank" rel="noopener"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.4 14c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.2-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.8s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.6c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.1 1 2.1 1.300 2.400 1.500.3.1.5.1.6-.1l.9-1.100c.2-.2.4-.2.600-.1l1.900.9c.3.1.5.2.5.3.1.100.1.700-.1 1.300Z"/></svg><span id="ld-wa-cta"></span></a>
+    </div>
+  </div>
+  <div class="ld-footer">
+    <p id="ld-footer-text"></p>
+  </div>
+</div>
+
+<!-- ============ PRODUCT DETAIL (CheckMatch / Equestrian Match) ============ -->
+<div id="view-detail" class="ld-view"></div>
+
+<!-- ============ BRANDED CONTENT ============ -->
+<div id="view-branded" class="ld-view">
+  <header class="mk-header">
+    <div class="mk-wrap mk-header-inner">
+      <a href="#about" style="display: flex; align-items: center; gap: 8px; text-decoration: none;">
+        <span style="font-weight: 800; letter-spacing: 0.04em; font-size: 17px; color: #FFFFFF;">LUCIANA DINIZ</span>
+        <span style="font-size: 11px; font-weight: 700; color: #FBBF24;">| 5x OLYMPIAN</span>
+      </a>
+      <nav class="mk-nav">
+        <a href="#about">About</a>
+        <a href="#demographics">Audience</a>
+        <a href="#rates">Rate Card</a>
+        <a href="#contact" class="mk-nav-cta">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <section id="about" style="background: #11221B; color: #FFFFFF; padding: clamp(40px, 7vw, 80px) 0;">
+    <div class="mk-wrap" style="display: flex; flex-direction: column; gap: 28px;">
+      <div style="max-width: 760px;">
+        <span style="font-size: 12px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #FBBF24;">Global Media Kit 2026</span>
+        <h1 style="font-size: clamp(26px, 5vw, 44px); font-weight: 800; line-height: 1.15; margin: 8px 0 0;">THE GLOBAL EQUESTRIAN ICON &amp; BRAND AMBASSADOR</h1>
+        <p style="font-size: clamp(14px, 1.8vw, 17px); color: #D6D3D1; margin: 12px 0 0; line-height: 1.6;">
+          Connecting Luxury, AgTech, Equestrian Fashion &amp; High-Performance Lifestyle Brands with HNW Global Audiences.
+        </p>
+      </div>
+      <div class="mk-stat-grid" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(245,158,11,0.3); border-radius: 14px; padding: clamp(16px, 3vw, 24px);">
+        <div class="mk-stat"><p class="n">5x</p><p class="l">OLYMPIAN ATHLETE</p></div>
+        <div class="mk-stat"><p class="n">TOP 4</p><p class="l">FEI WORLD RANKING</p></div>
+        <div class="mk-stat"><p class="n">148K+</p><p class="l">ENGAGED FOLLOWERS</p></div>
+        <div class="mk-stat"><p class="n">100+</p><p class="l">COUNTRIES REACHED</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section style="background: #FFFFFF; padding: clamp(40px, 6vw, 64px) 0;">
+    <div class="mk-wrap" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px;">
+
+      <div style="display: flex; flex-direction: column; gap: 22px;">
+        <div>
+          <h2 class="mk-h2">EXECUTIVE ATHLETE PROFILE</h2>
+          <p style="font-size: 15px; line-height: 1.6; color: #44403C; margin: 12px 0 0;">
+            Luciana Diniz is a 5-time Olympian, Global Champions Tour winner, author, and world-renowned equestrian icon. Selected for the 2026 World Championships with high potential for the 2028 Los Angeles Olympics, she offers partner brands an unmatchable global platform.
+          </p>
+        </div>
+        <div>
+          <h2 class="mk-h2">THE BUTTERFLY METHOD</h2>
+          <p style="font-size: 15px; line-height: 1.6; color: #44403C; margin: 12px 0 0;">
+            Her proprietary training and mindset methodology connects horse wisdom, emotional balance, and high performance. With hundreds of active students across 5 continents and 100+ countries, Luciana inspires an active, highly engaged, and affluent global community.
+          </p>
+        </div>
+        <div style="background: #FAFAF9; border: 1px solid #E7E5E4; border-radius: 10px; padding: 16px;">
+          <h3 style="font-size: 13px; font-weight: 800; color: #11221B; margin: 0 0 8px;">CORE VALUE PILLARS &amp; BRAND FIT</h3>
+          <ul style="font-size: 13px; color: #44403C; margin: 0; padding-left: 18px; line-height: 1.7;">
+            <li><b>High Performance:</b> Sustained top-tier world performance across 5 Olympic Games.</li>
+            <li><b>Emotional Connection:</b> Authentic bond and respect for animal welfare.</li>
+            <li><b>Global Influence:</b> Multicultural reach across Europe, North &amp; South America.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="background: #ECFDF5; border: 1px solid #A7F3D0; border-radius: 14px; padding: 22px; display: flex; flex-direction: column; gap: 18px; justify-content: space-between;">
+        <h2 class="mk-h2 mk-h2-em">INDUSTRY ENDORSEMENTS &amp; PREFACES</h2>
+        <div>
+          <p style="font-style: italic; font-size: 14px; color: #1C1917; margin: 0; line-height: 1.55;">"Luciana is a smart, bold woman who reinvents herself... In her book, she writes with elegance, showing how she transformed crises into learning, losses into courage, and tears into wisdom."</p>
+          <p style="font-size: 12px; font-weight: 700; color: #064E3B; margin: 6px 0 0;">— Dr. Augusto Cury, Psychiatrist, Author &amp; Speaker</p>
+        </div>
+        <div>
+          <p style="font-style: italic; font-size: 14px; color: #1C1917; margin: 0; line-height: 1.55;">"A mega rider, 5 Olympics — an achievement reached by very few women across all disciplines in the Olympic Games. Talented and competent in the arena, her Butterfly Method connects and teaches thousands."</p>
+          <p style="font-size: 12px; font-weight: 700; color: #064E3B; margin: 6px 0 0;">— Chris Morais, Equestrian Champion &amp; Agribusiness Leader</p>
+        </div>
+        <div>
+          <p style="font-style: italic; font-size: 14px; color: #1C1917; margin: 0; line-height: 1.55;">"Your love for your horse and the way you ride through the course are amazing. The ethics of your training should be an example for the entire sport!"</p>
+          <p style="font-size: 12px; font-weight: 700; color: #064E3B; margin: 6px 0 0;">— Global Equestrian Community Testimonial</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="demographics" style="background: #F5F5F4; border-top: 1px solid #E7E5E4; padding: clamp(40px, 6vw, 64px) 0;">
+    <div class="mk-wrap" style="display: flex; flex-direction: column; gap: 32px;">
+      <div style="text-align: center; max-width: 620px; margin: 0 auto;">
+        <h2 style="font-size: clamp(22px, 3.5vw, 32px); font-weight: 800; color: #11221B; margin: 0;">AUDIENCE DEMOGRAPHICS &amp; VIRAL TRACTION</h2>
+        <p style="font-size: 14px; color: #57534E; margin: 8px 0 0;">Direct Access to an Affluent, High-Converting Global Equestrian &amp; Lifestyle Audience</p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
+        <div style="background: #FFFFFF; border: 1px solid #D6D3D1; border-radius: 14px; overflow: hidden;">
+          <table class="mk-table">
+            <thead><tr><th>DEMOGRAPHIC METRIC</th><th>AUDIENCE BREAKDOWN</th></tr></thead>
+            <tbody>
+              <tr><td><b>Gender Split</b></td><td><b>72.9% Female</b> | 27.1% Male</td></tr>
+              <tr><td><b>Core Age Bracket</b></td><td><b>59.2% aged 25–44 years old</b> (High Purchasing Power)</td></tr>
+              <tr><td><b>Top Global Markets</b></td><td>Brazil (12.4%), France (11.9%), USA (7.9%), Italy (7.8%), Germany (7.2%)</td></tr>
+              <tr><td><b>Audience Profile</b></td><td>Horse Owners, Agribusiness Leaders, Tech Founders, C-Level Executives, Vets</td></tr>
+              <tr><td><b>Engagement Quality</b></td><td>High trust, high retention, active conversion on recommendations</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div style="background: #FFFBEB; border: 1px solid #FCD34D; border-radius: 14px; padding: 22px; display: flex; flex-direction: column; gap: 14px; justify-content: space-between;">
+          <h3 style="font-size: 15px; font-weight: 800; color: #11221B; border-bottom: 1px solid #FCD34D; padding-bottom: 8px; margin: 0;">ORGANIC VIRAL REACH &amp; ENGAGEMENT</h3>
+          <div>
+            <p style="font-size: clamp(24px, 3.5vw, 34px); font-weight: 800; color: #11221B; margin: 0;">+90,000 Views</p>
+            <p style="font-size: 12px; color: #57534E; font-weight: 600; margin: 2px 0 0;">Average Organic Views per Training / Educational Reel</p>
+          </div>
+          <div>
+            <p style="font-size: clamp(20px, 3vw, 28px); font-weight: 800; color: #B45309; margin: 0;">1.0M | 672K | 588K</p>
+            <p style="font-size: 12px; color: #57534E; font-weight: 600; margin: 2px 0 0;">Peak Viral Reach on Highlight Reels</p>
+          </div>
+          <p style="font-size: 12px; color: #44403C; line-height: 1.5; margin: 0;"><b>Authentic Community Trust:</b> Content focuses on horse welfare, riding methodology, behind-the-scenes Olympic preparation, and mindset coaching.</p>
+        </div>
+      </div>
+
+      <div style="background: #FFFFFF; border: 1px solid #E7E5E4; border-radius: 14px; padding: 22px;">
+        <h3 style="font-size: 12px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #11221B; text-align: center; margin: 0 0 16px;">CONVERGING BRAND SECTORS &amp; STRATEGIC ALIGNMENT</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px;">
+          <div class="mk-sector"><b style="color: #11221B;">LUXURY &amp; AUTOMOTIVE</b><p style="color: #78716C; margin: 4px 0 0;">Audi, Fine Jewelry, High-End SUVs, Luxury Travel</p></div>
+          <div class="mk-sector"><b style="color: #11221B;">AGTECH &amp; PERFORMANCE</b><p style="color: #78716C; margin: 4px 0 0;">Equisense Sensors, Equestrian Match Apps, Agribusiness</p></div>
+          <div class="mk-sector"><b style="color: #11221B;">FASHION &amp; APPAREL</b><p style="color: #78716C; margin: 4px 0 0;">Horse Circles, High-End Athletic &amp; Equestrian Wear</p></div>
+          <div class="mk-sector"><b style="color: #11221B;">HEALTH &amp; LONGEVITY</b><p style="color: #78716C; margin: 4px 0 0;">Supplements, Longevity, Wellness &amp; Elite Nutrition</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="rates" style="background: #FFFFFF; padding: clamp(40px, 6vw, 64px) 0;">
+    <div class="mk-wrap" style="display: flex; flex-direction: column; gap: 28px;">
+      <div style="text-align: center; max-width: 620px; margin: 0 auto;">
+        <h2 style="font-size: clamp(22px, 3.5vw, 32px); font-weight: 800; color: #11221B; margin: 0;">INTERNATIONAL RATE CARD &amp; PACKAGES</h2>
+        <p style="font-size: 14px; color: #57534E; margin: 8px 0 0;">Launch Rates Valid Until November 30, 2026 • Includes Automatic Cross-Posting to TikTok</p>
+      </div>
+
+      <div style="overflow-x: auto; border: 1px solid #D6D3D1; border-radius: 14px;">
+        <table class="mk-table" style="min-width: 640px;">
+          <thead>
+            <tr><th>DELIVERABLE FORMAT</th><th>CAMPAIGN SPECIFICATIONS</th><th>USD ($)</th><th>EUR (€)</th><th>BRL (R$)</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><b>3 Instagram Stories</b></td><td>Sequence published same day with trackable link or promo code</td><td class="mk-price">$590 / $985</td><td class="mk-price">€510 / €850</td><td class="mk-price">R$ 3k / 5k</td></tr>
+            <tr><td><b>Collaborative Post</b></td><td>Carousel (up to 5 photos) or Reel (up to 1 min), live 1 month</td><td class="mk-price">$790 / $1,180</td><td class="mk-price">€680 / €1,020</td><td class="mk-price">R$ 4k / 6k</td></tr>
+            <tr><td><b>Monthly Retainer</b></td><td>1 Collab Carousel + 3 Stories with 30-sec video per month</td><td class="mk-price">$1,870 /mo</td><td class="mk-price">€1,610 /mo</td><td class="mk-price">R$ 9,500 /mês</td></tr>
+            <tr><td><b>Quarterly Package</b></td><td>3-Month Retainer Campaign (Includes 14% Savings)</td><td class="mk-price">$5,020 total</td><td class="mk-price">€4,320 total</td><td class="mk-price">R$ 25,500 total</td></tr>
+            <tr><td><b>Annual Partnership</b></td><td>12-Month Omnichannel Sponsorship (Includes 27% Savings)</td><td class="mk-price">$18,900 total</td><td class="mk-price">€16,270 total</td><td class="mk-price">R$ 96,000 total</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+        <div style="background: #FAFAF9; border: 1px solid #E7E5E4; border-radius: 14px; padding: 20px;">
+          <h3 style="font-size: 15px; font-weight: 800; color: #11221B; margin: 0 0 10px;">ADDITIONAL USAGE RIGHTS &amp; TERMS</h3>
+          <p style="font-size: 13px; color: #44403C; margin: 6px 0;"><b>Paid Media Rights (90 Days):</b> +40% fee</p>
+          <p style="font-size: 13px; color: #44403C; margin: 6px 0;"><b>In-Person Event Appearance:</b> +30% fee</p>
+          <p style="font-size: 13px; color: #44403C; margin: 6px 0;"><b>Print &amp; Website Image Rights:</b> +25% fee</p>
+          <p style="font-size: 13px; color: #44403C; margin: 6px 0;"><b>Category Exclusivity (3 Months):</b> +20% fee</p>
+          <p style="font-size: 13px; color: #44403C; margin: 6px 0;"><b>Payment Terms:</b> 50% upon signing, 50% upon publication.</p>
+        </div>
+
+        <div id="contact" style="background: #11221B; color: #FFFFFF; border: 1px solid rgba(245,158,11,0.4); border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 14px; justify-content: space-between;">
+          <div>
+            <span style="font-size: 11px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #FBBF24;">Get In Touch</span>
+            <h3 style="font-size: 19px; font-weight: 800; margin: 4px 0 0;">GLOBAL MEDIA INQUIRIES &amp; BOOKINGS</h3>
+            <p style="font-size: 13px; color: #D6D3D1; margin: 4px 0 0;">Ready to launch a high-impact global campaign with Luciana Diniz?</p>
+          </div>
+          <div style="background: rgba(255,255,255,0.1); border-radius: 10px; padding: 14px; display: flex; flex-direction: column; gap: 4px; font-size: 13px;">
+            <p style="font-weight: 700; color: #FBBF24; margin: 0;">MURILO TREVISAN — Media Project Manager</p>
+            <p style="margin: 0;"><b>WhatsApp / Direct Mobile:</b> +55 11 97548-0088</p>
+            <p style="margin: 0;"><b>Business Email:</b> murilo.trevisan@ld.com</p>
+            <p style="margin: 0;"><b>Official Instagram:</b> @lucianadiniz_11</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer style="background: #1C1917; color: #A8A29E; padding: 20px 0; text-align: center; font-size: 11px;">
+    <div class="mk-wrap" style="display: flex; flex-direction: column; gap: 6px;">
+      <span>CONFIDENTIAL &amp; PROPRIETARY — PREPARED FOR GLOBAL BRAND PARTNERSHIPS &amp; AGENCIES</span>
+      <span>© 2026 LUCIANA DINIZ. ALL RIGHTS RESERVED.</span>
+    </div>
+  </footer>
+
+  <a class="back-link" style="color: #11221B; background: #FAFAF9;" onclick="goTo('main')">← Back to the overview</a>
+</div>
+
+<!-- ============ ATHLETE CV ============ -->
+<div id="view-cv" class="ld-view">
+  <header class="cv-header">
+    <div class="cv-wrap cv-header-inner">
+      <a href="#profile" style="display: flex; align-items: center; gap: 8px; text-decoration: none;">
+        <span style="font-weight: 800; letter-spacing: 0.03em; font-size: 16px; color: #FFFFFF;">LUCIANA DINIZ</span>
+        <span style="font-size: 11px; font-weight: 700; color: #E8C565;">| ATHLETE CV</span>
+      </a>
+      <nav class="cv-nav">
+        <a href="#profile">Profile</a>
+        <a href="#record">Record</a>
+        <a href="#business">Business</a>
+        <a href="#background">Background</a>
+      </nav>
+    </div>
+  </header>
+
+  <section id="profile" class="cv-wrap" style="padding-top: clamp(28px, 5vw, 48px);">
+    <h1 style="font-size: clamp(32px, 5vw, 48px); font-weight: 700; color: #1E2230;">Luciana Diniz</h1>
+    <p style="font-size: 13px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: #C9A227; margin: 8px 0 0;">Five-Time Olympic Show Jumping Athlete · Entrepreneur · Author</p>
+    <p style="font-size: 13px; color: #5A5F70; margin: 10px 0 0; line-height: 1.6;">
+      Born 1970, São Paulo, Brazil &nbsp;|&nbsp; Nationalities: Brazilian &amp; Portuguese &nbsp;|&nbsp; Based in Europe since 1988 &nbsp;|&nbsp; luciana.diniz@me.com
+    </p>
+
+    <div style="margin-top: 28px;">
+      <h2 class="cv-h2">PROFILE</h2>
+      <p style="font-size: 14.5px; line-height: 1.7; color: #313645; margin: 12px 0 0;">
+        Luciana Diniz is a five-time Olympic show jumper (Athens 2004, Beijing 2008 as trainer for Argentina, London 2012, Rio de Janeiro 2016, Tokyo 2020, and Paris 2024 as team reserve) with over 30 years at the top of international equestrian sport, more than 1,800 FEI-registered starts, a <b>2015 Longines Global Champions Tour title</b>, <b>Rider of the Year title 2012</b>, and a career-high <b>FEI World Ranking of 4th</b>. Her achievements extend beyond competition: she is the founder of an equestrian education brand active in more than 50 countries and 6 continents, and of two technology ventures, the author of two books on elite performance, a public figure with a global following, and the subject of recognition from international sporting and public figures, including a former President of the FEI.
+      </p>
+    </div>
+  </section>
+
+  <section id="record" class="cv-wrap cv-section">
+    <h2 class="cv-h2">OLYMPIC GAMES RECORD</h2>
+    <div style="overflow-x: auto; margin-top: 12px;">
+      <table class="cv-table" style="min-width: 560px;">
+        <thead><tr><th>Year</th><th>Host</th><th>Nation</th><th>Horse</th><th>Result</th></tr></thead>
+        <tbody>
+          <tr class="hi"><td>2024</td><td>Paris, FRA</td><td>Brazil</td><td>Vertigo du Desert</td><td>Team reserve (helped secure Brazil's Olympic team qualification in Barcelona, 2023)</td></tr>
+          <tr><td>2020/21</td><td>Tokyo, JPN</td><td>Portugal</td><td>Vertigo du Desert</td><td>10th Individual Final</td></tr>
+          <tr><td>2016</td><td>Rio de Janeiro, BRA</td><td>Portugal</td><td>Fit For Fun</td><td>9th Individual Final</td></tr>
+          <tr><td>2012</td><td>London, GBR</td><td>Portugal</td><td>Lennox</td><td>17th Individual</td></tr>
+          <tr><td>2008</td><td>Hong Kong, HKG (Beijing Games)</td><td>—</td><td>—</td><td>Appointed trainer for Team Argentina</td></tr>
+          <tr><td>2004</td><td>Athens, GRE</td><td>Brazil</td><td>Mariachi</td><td>Individual; 9th with Team</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size: 12.5px; font-style: italic; color: #5A5F70; margin: 8px 0 0;">Named Rider of the Year in 2012.</p>
+
+    <h2 class="cv-h2" style="margin-top: 32px;">WORLD EQUESTRIAN GAMES / WORLD CHAMPIONSHIPS &amp; EUROPEAN CHAMPIONSHIPS</h2>
+
+    <p class="cv-table-caption">World Equestrian Games / World Championships</p>
+    <div style="overflow-x: auto;">
+      <table class="cv-table" style="min-width: 480px;">
+        <thead><tr><th>Year</th><th>Host</th><th>Horse</th><th>Result</th></tr></thead>
+        <tbody>
+          <tr class="hi"><td>2026</td><td>Aachen, GER</td><td>Vertigo du Desert</td><td>80th Individual; Team Brazil</td></tr>
+          <tr><td>2006</td><td>Aachen, GER</td><td>Dover</td><td>Top 25</td></tr>
+          <tr><td>1994</td><td>Den Haag, NED</td><td>Graf Grande</td><td>46th Individual; 4th with Team (first senior championship, age 23)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="cv-table-caption">European Championships</p>
+    <div style="overflow-x: auto;">
+      <table class="cv-table" style="min-width: 480px;">
+        <thead><tr><th>Year</th><th>Host</th><th>Horse</th><th>Result</th></tr></thead>
+        <tbody>
+          <tr class="hi"><td>2015</td><td>Aachen, GER</td><td>Fit For Fun</td><td>Participated</td></tr>
+          <tr><td>2013</td><td>Herning, DEN</td><td>Winningmood</td><td>16th</td></tr>
+          <tr><td>2011</td><td>Madrid, ESP</td><td>Winningmood</td><td>9th</td></tr>
+          <tr><td>2009</td><td>Windsor, GBR</td><td>Winningmood</td><td>Participated</td></tr>
+          <tr><td>2007</td><td>Mannheim, GER</td><td>Locarno</td><td>Participated</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="cv-h2" style="margin-top: 32px;">FEI WORLD CUP FINALS &amp; TOURNAMENT TITLES</h2>
+    <p class="cv-table-caption">World Cup Finals</p>
+    <div style="overflow-x: auto;">
+      <table class="cv-table" style="min-width: 480px;">
+        <thead><tr><th>Year</th><th>Host</th><th>Horse</th><th>Result</th></tr></thead>
+        <tbody>
+          <tr><td>2014</td><td>Lyon, FRA</td><td>Fit For Fun</td><td>Participated</td></tr>
+          <tr><td>2013</td><td>Gothenburg, SWE</td><td>Lennox</td><td>8th</td></tr>
+          <tr><td>2012</td><td>'s-Hertogenbosch, NED</td><td>Lennox</td><td>15th</td></tr>
+          <tr><td>2011</td><td>Leipzig, GER</td><td>Winningmood</td><td>Participated</td></tr>
+          <tr><td>2010</td><td>Geneva, SUI</td><td>Winningmood</td><td>4th</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="cv-table-caption">World Cup Tournament Wins (1st place)</p>
+    <div style="overflow-x: auto;">
+      <table class="cv-table" style="min-width: 380px;">
+        <thead><tr><th>Year</th><th>Location</th><th>Horse</th></tr></thead>
+        <tbody>
+          <tr class="hi"><td>2019</td><td>Leipzig, GER</td><td>Locarno</td></tr>
+          <tr><td>2015</td><td>Leipzig, GER</td><td>Lennox</td></tr>
+          <tr><td>2013</td><td>Zurich, SUI</td><td>Lennox</td></tr>
+          <tr><td>2012</td><td>Verona, ITA</td><td>Bluebuster</td></tr>
+          <tr><td>2011</td><td>Vigo, FRA</td><td>Winningmood</td></tr>
+          <tr><td>2011</td><td>Lyon, FRA</td><td>Winningmood</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="cv-h2" style="margin-top: 32px;">GRAND PRIX, GLOBAL CHAMPIONS TOUR &amp; NATIONS CUP HIGHLIGHTS</h2>
+    <p style="font-size: 14px; line-height: 1.65; color: #313645; margin: 10px 0 0;">
+      Winner of the <b>Longines Global Champions Tour 2015</b> overall season title (with Fit For Fun). Runner-up in the Rolex Grand Slam Grand Prix of Aachen and Calgary three times second-place across 2017–2018, considered the "Queen of the Second-Place".
+    </p>
+    <div style="overflow-x: auto; margin-top: 10px;">
+      <table class="cv-table" style="min-width: 560px;">
+        <thead><tr><th>Year</th><th>Location</th><th>Horse</th></tr></thead>
+        <tbody>
+          <tr class="hi"><td>2026</td><td>Abu Dhabi, UAE — CSIO5* Longines Grand Prix</td><td>Vertigo du Desert — 1st place, individual champion; 3rd with Team Brazil (League of Nations)</td></tr>
+          <tr class="hi"><td>2023</td><td>Barcelona, ESP — FEI Nations Cup Final</td><td>Vertigo du Desert — 1st, Individual Rank; secured Team Brazil's Paris 2024 Olympic qualification</td></tr>
+          <tr><td>2020</td><td>Vejer de la Frontera, ESP (Nations Cup)</td><td>Vertigo du Desert</td></tr>
+          <tr><td>2020</td><td>Deauville, FRA</td><td>Conchento PS</td></tr>
+          <tr><td>2019</td><td>Rotterdam, NED</td><td>Fit For Fun</td></tr>
+          <tr><td>2019</td><td>Gijón, ESP (Nations Cup)</td><td>Vertigo du Desert</td></tr>
+          <tr><td>2019</td><td>Barcelona, ESP</td><td>Fit For Fun</td></tr>
+          <tr><td>2019</td><td>Athens, GRE</td><td>Vertigo du Desert</td></tr>
+          <tr><td>2018</td><td>St. Gallen, SUI</td><td>Fit For Fun</td></tr>
+          <tr><td>2018</td><td>Barcelona, ESP</td><td>Fit For Fun</td></tr>
+          <tr><td>2016</td><td>Rotterdam, NED</td><td>Fit For Fun</td></tr>
+          <tr><td>2016</td><td>Doha, QAT</td><td>Fit For Fun</td></tr>
+          <tr><td>2015</td><td>Doha, QAT</td><td>Fit For Fun (GCT season winner)</td></tr>
+          <tr><td>2015</td><td>Vienna, AUT</td><td>Winningmood</td></tr>
+          <tr><td>2015</td><td>Madrid, ESP</td><td>Winningmood</td></tr>
+          <tr><td>2015</td><td>Basel, SUI</td><td>Fit For Fun</td></tr>
+          <tr><td>2014</td><td>Valkenswaard, NED</td><td>Lady Lindenhof</td></tr>
+          <tr><td>2014</td><td>Cannes, FRA</td><td>Lady Lindenhof</td></tr>
+          <tr><td>2013</td><td>Donetsk, UKR</td><td>Lennox</td></tr>
+          <tr><td>2013</td><td>Basel, SUI</td><td>Lennox</td></tr>
+          <tr><td>2012</td><td>Wiesbaden, GER</td><td>Lennox</td></tr>
+          <tr><td>2012</td><td>Abu Dhabi, UAE</td><td>Bluebuster</td></tr>
+          <tr><td>2008</td><td>Paderborn, GER</td><td>Locarno</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size: 13px; font-style: italic; color: #1E2A4A; background: #F3EFE6; border-left: 3px solid #C9A227; padding: 10px 14px; margin: 14px 0 0;">
+      The February 2026 Abu Dhabi Grand Prix victory made Luciana Diniz the first Brazilian woman to top the podium at that level in the discipline.
+    </p>
+
+    <h2 class="cv-h2" style="margin-top: 32px;">FEI WORLD RANKING</h2>
+    <ul class="cv-bullets">
+      <li>November 2013: ranked <b>4th</b> in the world; 9th in December 2013</li>
+      <li>2014 and 2015: ranked in the Top 10 of the FEI World Ranking, reaching 12th at one point in 2015 and qualifying for the Top 10 Final that year</li>
+      <li>Only Brazilian rider — male or female — to have reached the world Top 10</li>
+      <li><b>1,822 FEI-registered starts and 45 international wins</b> (FEI official career statistics, as of 2026); still competing at 1.60m Grand Prix level</li>
+    </ul>
+
+    <h2 class="cv-h2" style="margin-top: 32px;">PUBLIC PROFILE &amp; MEDIA PRESENCE</h2>
+    <ul class="cv-bullets">
+      <li>148,000+ followers on Instagram (@lucianadiniz_11), with many millions of views per year and an average organic reach of 90,000+ views per training post, and individual posts reaching 3 million views</li>
+      <li>Global audience across 50+ countries and 6 continents; top markets are Brazil, France, the United States, Italy and Germany</li>
+      <li>Coaches and mentors hundreds of students worldwide through in-person clinics and the Butterfly Method® online academy</li>
+    </ul>
+
+    <h2 class="cv-h2" style="margin-top: 32px;">ENDORSEMENTS &amp; PRESS RECOGNITION</h2>
+    <ul class="cv-bullets">
+      <li>Preface to <b>Fit For Gold</b> written by HRH Princess Haya Bint Al Hussein of Jordan, former President of the International Equestrian Federation (FEI)</li>
+      <li>Preface to <b>Fit For Gold</b> also written by Augusto Cury, Brazilian psychiatrist, bestselling author and former presidential candidate</li>
+      <li>Featured on the cover of Globo Rural (Brazil's leading agribusiness publication) and recognized by Chris Morais, Brazilian equestrian and agribusiness reference</li>
+      <li>Brand partnerships and sponsorships include Audi, Bruno Delgrange, Roeckl, Equisense, Horse Circles and ClipMyHorse.tv</li>
+    </ul>
+  </section>
+
+  <section id="business" class="cv-wrap cv-section" style="border-top: 1px solid #E7E0D2;">
+    <h2 class="cv-h2">ENTREPRENEURSHIP &amp; BUSINESS VENTURES</h2>
+    <div style="display: flex; flex-direction: column; gap: 16px; margin-top: 14px;">
+      <div>
+        <h3 style="font-size: 14.5px; font-weight: 700; color: #1E2A4A; margin: 0;">Luciana Diniz GmbH &amp; Co. KG</h3>
+        <p style="font-size: 13.5px; line-height: 1.6; color: #313645; margin: 4px 0 0;">Founder and principal of her own international sports and media company, operating across Europe and overseeing her athletic, academy and publishing activities.</p>
+      </div>
+      <div>
+        <h3 style="font-size: 14.5px; font-weight: 700; color: #1E2A4A; margin: 0;">The Butterfly Method® / Luciana Diniz Academy (luciana-diniz.com)</h3>
+        <p style="font-size: 13.5px; line-height: 1.6; color: #313645; margin: 4px 0 0;">Founder of a multidisciplinary online equestrian and personal-development education platform, sold in more than 40 countries, comprising 43+ video lessons and 2 e-books, "FIT 4 GOLD" and "Jump 4 Your Dreams", across three learning tracks (performance/competition, horse welfare, personal transformation). Brand partners include Bruno Delgrange, Roeckl, Equisense and ClipMyHorse.tv.</p>
+      </div>
+      <div>
+        <h3 style="font-size: 14.5px; font-weight: 700; color: #1E2A4A; margin: 0;">Equestrian Match (matchequestrian.com)</h3>
+        <p style="font-size: 13.5px; line-height: 1.6; color: #313645; margin: 4px 0 0;">Founder of a digital behavioral-compatibility platform for riders, trainers, grooms and horse owners, assessing rider and horse profiles to improve horse-human partnerships.</p>
+      </div>
+      <div>
+        <h3 style="font-size: 14.5px; font-weight: 700; color: #1E2A4A; margin: 0;">Checkmatch (checkmatch.ai)</h3>
+        <p style="font-size: 13.5px; line-height: 1.6; color: #313645; margin: 4px 0 0;">Founder of an AI-powered behavioral-compatibility and self-discovery platform, extending the Equestrian Match methodology to personal and professional relationships.</p>
+      </div>
+    </div>
+
+    <h2 class="cv-h2" style="margin-top: 32px;">PUBLICATIONS</h2>
+    <ul class="cv-bullets">
+      <li><b>Fit 4 Gold</b> — chronicles her preparation and competition journey to the Rio 2016 Olympics with Fit For Fun.</li>
+      <li><b>Jump 4 Your Dreams</b> — her career, her horses, and the philosophy behind the Butterfly Method®, with training and horse-care guidance.</li>
+      <li>Rider-focused workbook (in production) — a planning and preparation tool for competitive riders.</li>
+    </ul>
+  </section>
+
+  <section id="background" class="cv-wrap cv-section" style="border-top: 1px solid #E7E0D2;">
+    <h2 class="cv-h2">BACKGROUND</h2>
+    <p style="font-size: 14px; line-height: 1.7; color: #313645; margin: 12px 0 0;">
+      Born in São Paulo, Brazil, into a family of athletes of Portuguese descent: her mother, Lica Diniz, is an eight-time Brazilian dressage champion, Pan-American Games bronze medalist, and Brazilian Guinness World Records entrant; her father, Arnaldo dos Santos Diniz, and brothers André and Fábio Diniz were both top 10 national-level polo players.
+    </p>
+    <p style="font-size: 14px; line-height: 1.7; color: #313645; margin: 12px 0 0;">
+      She began riding at age 9 and launched her competitive career at the Sociedade Hípica Paulista. At 18, she left Brazil for Belgium to train under Nelson Pessoa Filho ("Neco"), one of the sport's leading coaches, which launched her international career.
+    </p>
+    <p style="font-size: 14px; line-height: 1.7; color: #313645; margin: 12px 0 0;">
+      She has represented Brazil (2004; current flag since 2022, including as Paris 2024 team reserve), Portugal (2006–2022, including three Olympic Games), and Brazil again since July 2022. She holds Brazilian and Portuguese nationality and has been competing in the sport worldwide for more than 30 years.
+    </p>
+    <p style="font-size: 14px; line-height: 1.7; color: #313645; margin: 12px 0 0;">
+      In 2018 she served as an Athlete Role Model at the Youth Olympic Games.
+    </p>
+
+    <h2 class="cv-h2" style="margin-top: 32px;">LANGUAGES &amp; SKILLS</h2>
+    <ul class="cv-bullets">
+      <li><b>Languages:</b> 5 languages, Portuguese (native); English (professional working proficiency); additional working exposure to other European languages gained from 30+ years based and competing across Germany, Belgium, France, Spain and Switzerland.</li>
+      <li><b>Elite athletic performance:</b> 30+ years at 1.50m–1.60m Grand Prix level; five-time Olympian; FEI World Top 10.</li>
+      <li><b>Entrepreneurship:</b> founder and operator of an international education brand (50+ countries) and two technology platforms.</li>
+      <li><b>Media &amp; public profile:</b> regular feature subject in international equestrian and lifestyle and wellness press; published author; active public speaker and mentor through the Butterfly Method® program.</li>
+      <li><b>Horsemanship &amp; coaching:</b> horse selection, training and welfare; rider mental-performance coaching.</li>
+    </ul>
+  </section>
+
+  <footer style="text-align: center; padding: 20px 0; border-top: 1px solid #E7E0D2; color: #8A8D99; font-size: 12px;">
+    Luciana Diniz · Curriculum Vitae · Updated October 2026
+  </footer>
+
+  <a class="back-link" style="color: #1E2A4A; background: #FBF8F3;" onclick="goTo('main')">← Back to the overview</a>
+</div>
+
+<div id="ld-modal" class="ld-modal" hidden></div>
+
+<script>var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],f={},c=function(t,r){o=function(t){for(var r=new Array(t),e=0;e<t;e+=1){r[e]=new Array(t);for(var n=0;n<t;n+=1)r[e][n]=null}return r}(i=4*e+17),l(0,0),l(i-7,0),l(0,i-7),s(),h(),d(t,r),e>=7&&v(t),null==a&&(a=p(e,n,u)),w(a,r)},l=function(t,r){for(var e=-1;e<=7;e+=1)if(!(t+e<=-1||i<=t+e))for(var n=-1;n<=7;n+=1)r+n<=-1||i<=r+n||(o[t+e][r+n]=0<=e&&e<=6&&(0==n||6==n)||0<=n&&n<=6&&(0==e||6==e)||2<=e&&e<=4&&2<=n&&n<=4)},h=function(){for(var t=8;t<i-8;t+=1)null==o[t][6]&&(o[t][6]=t%2==0);for(var r=8;r<i-8;r+=1)null==o[6][r]&&(o[6][r]=r%2==0)},s=function(){for(var t=B.getPatternPosition(e),r=0;r<t.length;r+=1)for(var n=0;n<t.length;n+=1){var i=t[r],a=t[n];if(null==o[i][a])for(var u=-2;u<=2;u+=1)for(var f=-2;f<=2;f+=1)o[i+u][a+f]=-2==u||2==u||-2==f||2==f||0==u&&0==f}},v=function(t){for(var r=B.getBCHTypeNumber(e),n=0;n<18;n+=1){var a=!t&&1==(r>>n&1);o[Math.floor(n/3)][n%3+i-8-3]=a}for(n=0;n<18;n+=1){a=!t&&1==(r>>n&1);o[n%3+i-8-3][Math.floor(n/3)]=a}},d=function(t,r){for(var e=n<<3|r,a=B.getBCHTypeInfo(e),u=0;u<15;u+=1){var f=!t&&1==(a>>u&1);u<6?o[u][8]=f:u<8?o[u+1][8]=f:o[i-15+u][8]=f}for(u=0;u<15;u+=1){f=!t&&1==(a>>u&1);u<8?o[8][i-u-1]=f:u<9?o[8][15-u-1+1]=f:o[8][15-u-1]=f}o[i-8][8]=!t},w=function(t,r){for(var e=-1,n=i-1,a=7,u=0,f=B.getMaskFunction(r),c=i-1;c>0;c-=2)for(6==c&&(c-=1);;){for(var g=0;g<2;g+=1)if(null==o[n][c-g]){var l=!1;u<t.length&&(l=1==(t[u]>>>a&1)),f(n,c-g)&&(l=!l),o[n][c-g]=l,-1==(a-=1)&&(u+=1,a=7)}if((n+=e)<0||i<=n){n-=e,e=-e;break}}},p=function(t,r,e){for(var n=A.getRSBlocks(t,r),o=b(),i=0;i<e.length;i+=1){var a=e[i];o.put(a.getMode(),4),o.put(a.getLength(),B.getLengthInBits(a.getMode(),t)),a.write(o)}var u=0;for(i=0;i<n.length;i+=1)u+=n[i].dataCount;if(o.getLengthInBits()>8*u)throw"code length overflow. ("+o.getLengthInBits()+">"+8*u+")";for(o.getLengthInBits()+4<=8*u&&o.put(0,4);o.getLengthInBits()%8!=0;)o.putBit(!1);for(;!(o.getLengthInBits()>=8*u||(o.put(236,8),o.getLengthInBits()>=8*u));)o.put(17,8);return function(t,r){for(var e=0,n=0,o=0,i=new Array(r.length),a=new Array(r.length),u=0;u<r.length;u+=1){var f=r[u].dataCount,c=r[u].totalCount-f;n=Math.max(n,f),o=Math.max(o,c),i[u]=new Array(f);for(var g=0;g<i[u].length;g+=1)i[u][g]=255&t.getBuffer()[g+e];e+=f;var l=B.getErrorCorrectPolynomial(c),h=k(i[u],l.getLength()-1).mod(l);for(a[u]=new Array(l.getLength()-1),g=0;g<a[u].length;g+=1){var s=g+h.getLength()-a[u].length;a[u][g]=s>=0?h.getAt(s):0}}var v=0;for(g=0;g<r.length;g+=1)v+=r[g].totalCount;var d=new Array(v),w=0;for(g=0;g<n;g+=1)for(u=0;u<r.length;u+=1)g<i[u].length&&(d[w]=i[u][g],w+=1);for(g=0;g<o;g+=1)for(u=0;u<r.length;u+=1)g<a[u].length&&(d[w]=a[u][g],w+=1);return d}(o,n)};f.addData=function(t,r){var e=null;switch(r=r||"Byte"){case"Numeric":e=M(t);break;case"Alphanumeric":e=x(t);break;case"Byte":e=m(t);break;case"Kanji":e=L(t);break;default:throw"mode:"+r}u.push(e),a=null},f.isDark=function(t,r){if(t<0||i<=t||r<0||i<=r)throw t+","+r;return o[t][r]},f.getModuleCount=function(){return i},f.make=function(){if(e<1){for(var t=1;t<40;t++){for(var r=A.getRSBlocks(t,n),o=b(),i=0;i<u.length;i++){var a=u[i];o.put(a.getMode(),4),o.put(a.getLength(),B.getLengthInBits(a.getMode(),t)),a.write(o)}var g=0;for(i=0;i<r.length;i++)g+=r[i].dataCount;if(o.getLengthInBits()<=8*g)break}e=t}c(!1,function(){for(var t=0,r=0,e=0;e<8;e+=1){c(!0,e);var n=B.getLostPoint(f);(0==e||t>n)&&(t=n,r=e)}return r}())},f.createTableTag=function(t,r){t=t||2;var e="";e+='<table style="',e+=" border-width: 0px; border-style: none;",e+=" border-collapse: collapse;",e+=" padding: 0px; margin: "+(r=void 0===r?4*t:r)+"px;",e+='">',e+="<tbody>";for(var n=0;n<f.getModuleCount();n+=1){e+="<tr>";for(var o=0;o<f.getModuleCount();o+=1)e+='<td style="',e+=" border-width: 0px; border-style: none;",e+=" border-collapse: collapse;",e+=" padding: 0px; margin: 0px;",e+=" width: "+t+"px;",e+=" height: "+t+"px;",e+=" background-color: ",e+=f.isDark(n,o)?"#000000":"#ffffff",e+=";",e+='"/>';e+="</tr>"}return e+="</tbody>",e+="</table>"},f.createSvgTag=function(t,r,e,n){var o={};"object"==typeof arguments[0]&&(t=(o=arguments[0]).cellSize,r=o.margin,e=o.alt,n=o.title),t=t||2,r=void 0===r?4*t:r,(e="string"==typeof e?{text:e}:e||{}).text=e.text||null,e.id=e.text?e.id||"qrcode-description":null,(n="string"==typeof n?{text:n}:n||{}).text=n.text||null,n.id=n.text?n.id||"qrcode-title":null;var i,a,u,c,g=f.getModuleCount()*t+2*r,l="";for(c="l"+t+",0 0,"+t+" -"+t+",0 0,-"+t+"z ",l+='<svg version="1.1" xmlns="http://www.w3.org/2000/svg"',l+=o.scalable?"":' width="'+g+'px" height="'+g+'px"',l+=' viewBox="0 0 '+g+" "+g+'" ',l+=' preserveAspectRatio="xMinYMin meet"',l+=n.text||e.text?' role="img" aria-labelledby="'+y([n.id,e.id].join(" ").trim())+'"':"",l+=">",l+=n.text?'<title id="'+y(n.id)+'">'+y(n.text)+"</title>":"",l+=e.text?'<description id="'+y(e.id)+'">'+y(e.text)+"</description>":"",l+='<rect width="100%" height="100%" fill="white" cx="0" cy="0"/>',l+='<path d="',a=0;a<f.getModuleCount();a+=1)for(u=a*t+r,i=0;i<f.getModuleCount();i+=1)f.isDark(a,i)&&(l+="M"+(i*t+r)+","+u+c);return l+='" stroke="transparent" fill="black"/>',l+="</svg>"},f.createDataURL=function(t,r){t=t||2,r=void 0===r?4*t:r;var e=f.getModuleCount()*t+2*r,n=r,o=e-r;return I(e,e,function(r,e){if(n<=r&&r<o&&n<=e&&e<o){var i=Math.floor((r-n)/t),a=Math.floor((e-n)/t);return f.isDark(a,i)?0:1}return 1})},f.createImgTag=function(t,r,e){t=t||2,r=void 0===r?4*t:r;var n=f.getModuleCount()*t+2*r,o="";return o+="<img",o+=' src="',o+=f.createDataURL(t,r),o+='"',o+=' width="',o+=n,o+='"',o+=' height="',o+=n,o+='"',e&&(o+=' alt="',o+=y(e),o+='"'),o+="/>"};var y=function(t){for(var r="",e=0;e<t.length;e+=1){var n=t.charAt(e);switch(n){case"<":r+="&lt;";break;case">":r+="&gt;";break;case"&":r+="&amp;";break;case'"':r+="&quot;";break;default:r+=n}}return r};return f.createASCII=function(t,r){if((t=t||1)<2)return function(t){t=void 0===t?2:t;var r,e,n,o,i,a=1*f.getModuleCount()+2*t,u=t,c=a-t,g={"██":"█","█ ":"▀"," █":"▄","  ":" "},l={"██":"▀","█ ":"▀"," █":" ","  ":" "},h="";for(r=0;r<a;r+=2){for(n=Math.floor((r-u)/1),o=Math.floor((r+1-u)/1),e=0;e<a;e+=1)i="█",u<=e&&e<c&&u<=r&&r<c&&f.isDark(n,Math.floor((e-u)/1))&&(i=" "),u<=e&&e<c&&u<=r+1&&r+1<c&&f.isDark(o,Math.floor((e-u)/1))?i+=" ":i+="█",h+=t<1&&r+1>=c?l[i]:g[i];h+="\n"}return a%2&&t>0?h.substring(0,h.length-a-1)+Array(a+1).join("▀"):h.substring(0,h.length-1)}(r);t-=1,r=void 0===r?2*t:r;var e,n,o,i,a=f.getModuleCount()*t+2*r,u=r,c=a-r,g=Array(t+1).join("██"),l=Array(t+1).join("  "),h="",s="";for(e=0;e<a;e+=1){for(o=Math.floor((e-u)/t),s="",n=0;n<a;n+=1)i=1,u<=n&&n<c&&u<=e&&e<c&&f.isDark(o,Math.floor((n-u)/t))&&(i=0),s+=i?g:l;for(o=0;o<t;o+=1)h+=s+"\n"}return h.substring(0,h.length-1)},f.renderTo2dContext=function(t,r){r=r||2;for(var e=f.getModuleCount(),n=0;n<e;n++)for(var o=0;o<e;o++)t.fillStyle=f.isDark(n,o)?"black":"white",t.fillRect(o*r,n*r,r,r)},f};t.stringToBytes=(t.stringToBytesFuncs={default:function(t){for(var r=[],e=0;e<t.length;e+=1){var n=t.charCodeAt(e);r.push(255&n)}return r}}).default,t.createStringToBytes=function(t,r){var e=function(){for(var e=S(t),n=function(){var t=e.read();if(-1==t)throw"eof";return t},o=0,i={};;){var a=e.read();if(-1==a)break;var u=n(),f=n()<<8|n();i[String.fromCharCode(a<<8|u)]=f,o+=1}if(o!=r)throw o+" != "+r;return i}(),n="?".charCodeAt(0);return function(t){for(var r=[],o=0;o<t.length;o+=1){var i=t.charCodeAt(o);if(i<128)r.push(i);else{var a=e[t.charAt(o)];"number"==typeof a?(255&a)==a?r.push(a):(r.push(a>>>8),r.push(255&a)):r.push(n)}}return r}};var r,e,n,o,i,a=1,u=2,f=4,c=8,g={L:1,M:0,Q:3,H:2},l=0,h=1,s=2,v=3,d=4,w=5,p=6,y=7,B=(r=[[],[6,18],[6,22],[6,26],[6,30],[6,34],[6,22,38],[6,24,42],[6,26,46],[6,28,50],[6,30,54],[6,32,58],[6,34,62],[6,26,46,66],[6,26,48,70],[6,26,50,74],[6,30,54,78],[6,30,56,82],[6,30,58,86],[6,34,62,90],[6,28,50,72,94],[6,26,50,74,98],[6,30,54,78,102],[6,28,54,80,106],[6,32,58,84,110],[6,30,58,86,114],[6,34,62,90,118],[6,26,50,74,98,122],[6,30,54,78,102,126],[6,26,52,78,104,130],[6,30,56,82,108,134],[6,34,60,86,112,138],[6,30,58,86,114,142],[6,34,62,90,118,146],[6,30,54,78,102,126,150],[6,24,50,76,102,128,154],[6,28,54,80,106,132,158],[6,32,58,84,110,136,162],[6,26,54,82,110,138,166],[6,30,58,86,114,142,170]],e=1335,n=7973,i=function(t){for(var r=0;0!=t;)r+=1,t>>>=1;return r},(o={}).getBCHTypeInfo=function(t){for(var r=t<<10;i(r)-i(e)>=0;)r^=e<<i(r)-i(e);return 21522^(t<<10|r)},o.getBCHTypeNumber=function(t){for(var r=t<<12;i(r)-i(n)>=0;)r^=n<<i(r)-i(n);return t<<12|r},o.getPatternPosition=function(t){return r[t-1]},o.getMaskFunction=function(t){switch(t){case l:return function(t,r){return(t+r)%2==0};case h:return function(t,r){return t%2==0};case s:return function(t,r){return r%3==0};case v:return function(t,r){return(t+r)%3==0};case d:return function(t,r){return(Math.floor(t/2)+Math.floor(r/3))%2==0};case w:return function(t,r){return t*r%2+t*r%3==0};case p:return function(t,r){return(t*r%2+t*r%3)%2==0};case y:return function(t,r){return(t*r%3+(t+r)%2)%2==0};default:throw"bad maskPattern:"+t}},o.getErrorCorrectPolynomial=function(t){for(var r=k([1],0),e=0;e<t;e+=1)r=r.multiply(k([1,C.gexp(e)],0));return r},o.getLengthInBits=function(t,r){if(1<=r&&r<10)switch(t){case a:return 10;case u:return 9;case f:case c:return 8;default:throw"mode:"+t}else if(r<27)switch(t){case a:return 12;case u:return 11;case f:return 16;case c:return 10;default:throw"mode:"+t}else{if(!(r<41))throw"type:"+r;switch(t){case a:return 14;case u:return 13;case f:return 16;case c:return 12;default:throw"mode:"+t}}},o.getLostPoint=function(t){for(var r=t.getModuleCount(),e=0,n=0;n<r;n+=1)for(var o=0;o<r;o+=1){for(var i=0,a=t.isDark(n,o),u=-1;u<=1;u+=1)if(!(n+u<0||r<=n+u))for(var f=-1;f<=1;f+=1)o+f<0||r<=o+f||0==u&&0==f||a==t.isDark(n+u,o+f)&&(i+=1);i>5&&(e+=3+i-5)}for(n=0;n<r-1;n+=1)for(o=0;o<r-1;o+=1){var c=0;t.isDark(n,o)&&(c+=1),t.isDark(n+1,o)&&(c+=1),t.isDark(n,o+1)&&(c+=1),t.isDark(n+1,o+1)&&(c+=1),0!=c&&4!=c||(e+=3)}for(n=0;n<r;n+=1)for(o=0;o<r-6;o+=1)t.isDark(n,o)&&!t.isDark(n,o+1)&&t.isDark(n,o+2)&&t.isDark(n,o+3)&&t.isDark(n,o+4)&&!t.isDark(n,o+5)&&t.isDark(n,o+6)&&(e+=40);for(o=0;o<r;o+=1)for(n=0;n<r-6;n+=1)t.isDark(n,o)&&!t.isDark(n+1,o)&&t.isDark(n+2,o)&&t.isDark(n+3,o)&&t.isDark(n+4,o)&&!t.isDark(n+5,o)&&t.isDark(n+6,o)&&(e+=40);var g=0;for(o=0;o<r;o+=1)for(n=0;n<r;n+=1)t.isDark(n,o)&&(g+=1);return e+=Math.abs(100*g/r/r-50)/5*10},o),C=function(){for(var t=new Array(256),r=new Array(256),e=0;e<8;e+=1)t[e]=1<<e;for(e=8;e<256;e+=1)t[e]=t[e-4]^t[e-5]^t[e-6]^t[e-8];for(e=0;e<255;e+=1)r[t[e]]=e;var n={glog:function(t){if(t<1)throw"glog("+t+")";return r[t]},gexp:function(r){for(;r<0;)r+=255;for(;r>=256;)r-=255;return t[r]}};return n}();function k(t,r){if(void 0===t.length)throw t.length+"/"+r;var e=function(){for(var e=0;e<t.length&&0==t[e];)e+=1;for(var n=new Array(t.length-e+r),o=0;o<t.length-e;o+=1)n[o]=t[o+e];return n}(),n={getAt:function(t){return e[t]},getLength:function(){return e.length},multiply:function(t){for(var r=new Array(n.getLength()+t.getLength()-1),e=0;e<n.getLength();e+=1)for(var o=0;o<t.getLength();o+=1)r[e+o]^=C.gexp(C.glog(n.getAt(e))+C.glog(t.getAt(o)));return k(r,0)},mod:function(t){if(n.getLength()-t.getLength()<0)return n;for(var r=C.glog(n.getAt(0))-C.glog(t.getAt(0)),e=new Array(n.getLength()),o=0;o<n.getLength();o+=1)e[o]=n.getAt(o);for(o=0;o<t.getLength();o+=1)e[o]^=C.gexp(C.glog(t.getAt(o))+r);return k(e,0).mod(t)}};return n}var A=function(){var t=[[1,26,19],[1,26,16],[1,26,13],[1,26,9],[1,44,34],[1,44,28],[1,44,22],[1,44,16],[1,70,55],[1,70,44],[2,35,17],[2,35,13],[1,100,80],[2,50,32],[2,50,24],[4,25,9],[1,134,108],[2,67,43],[2,33,15,2,34,16],[2,33,11,2,34,12],[2,86,68],[4,43,27],[4,43,19],[4,43,15],[2,98,78],[4,49,31],[2,32,14,4,33,15],[4,39,13,1,40,14],[2,121,97],[2,60,38,2,61,39],[4,40,18,2,41,19],[4,40,14,2,41,15],[2,146,116],[3,58,36,2,59,37],[4,36,16,4,37,17],[4,36,12,4,37,13],[2,86,68,2,87,69],[4,69,43,1,70,44],[6,43,19,2,44,20],[6,43,15,2,44,16],[4,101,81],[1,80,50,4,81,51],[4,50,22,4,51,23],[3,36,12,8,37,13],[2,116,92,2,117,93],[6,58,36,2,59,37],[4,46,20,6,47,21],[7,42,14,4,43,15],[4,133,107],[8,59,37,1,60,38],[8,44,20,4,45,21],[12,33,11,4,34,12],[3,145,115,1,146,116],[4,64,40,5,65,41],[11,36,16,5,37,17],[11,36,12,5,37,13],[5,109,87,1,110,88],[5,65,41,5,66,42],[5,54,24,7,55,25],[11,36,12,7,37,13],[5,122,98,1,123,99],[7,73,45,3,74,46],[15,43,19,2,44,20],[3,45,15,13,46,16],[1,135,107,5,136,108],[10,74,46,1,75,47],[1,50,22,15,51,23],[2,42,14,17,43,15],[5,150,120,1,151,121],[9,69,43,4,70,44],[17,50,22,1,51,23],[2,42,14,19,43,15],[3,141,113,4,142,114],[3,70,44,11,71,45],[17,47,21,4,48,22],[9,39,13,16,40,14],[3,135,107,5,136,108],[3,67,41,13,68,42],[15,54,24,5,55,25],[15,43,15,10,44,16],[4,144,116,4,145,117],[17,68,42],[17,50,22,6,51,23],[19,46,16,6,47,17],[2,139,111,7,140,112],[17,74,46],[7,54,24,16,55,25],[34,37,13],[4,151,121,5,152,122],[4,75,47,14,76,48],[11,54,24,14,55,25],[16,45,15,14,46,16],[6,147,117,4,148,118],[6,73,45,14,74,46],[11,54,24,16,55,25],[30,46,16,2,47,17],[8,132,106,4,133,107],[8,75,47,13,76,48],[7,54,24,22,55,25],[22,45,15,13,46,16],[10,142,114,2,143,115],[19,74,46,4,75,47],[28,50,22,6,51,23],[33,46,16,4,47,17],[8,152,122,4,153,123],[22,73,45,3,74,46],[8,53,23,26,54,24],[12,45,15,28,46,16],[3,147,117,10,148,118],[3,73,45,23,74,46],[4,54,24,31,55,25],[11,45,15,31,46,16],[7,146,116,7,147,117],[21,73,45,7,74,46],[1,53,23,37,54,24],[19,45,15,26,46,16],[5,145,115,10,146,116],[19,75,47,10,76,48],[15,54,24,25,55,25],[23,45,15,25,46,16],[13,145,115,3,146,116],[2,74,46,29,75,47],[42,54,24,1,55,25],[23,45,15,28,46,16],[17,145,115],[10,74,46,23,75,47],[10,54,24,35,55,25],[19,45,15,35,46,16],[17,145,115,1,146,116],[14,74,46,21,75,47],[29,54,24,19,55,25],[11,45,15,46,46,16],[13,145,115,6,146,116],[14,74,46,23,75,47],[44,54,24,7,55,25],[59,46,16,1,47,17],[12,151,121,7,152,122],[12,75,47,26,76,48],[39,54,24,14,55,25],[22,45,15,41,46,16],[6,151,121,14,152,122],[6,75,47,34,76,48],[46,54,24,10,55,25],[2,45,15,64,46,16],[17,152,122,4,153,123],[29,74,46,14,75,47],[49,54,24,10,55,25],[24,45,15,46,46,16],[4,152,122,18,153,123],[13,74,46,32,75,47],[48,54,24,14,55,25],[42,45,15,32,46,16],[20,147,117,4,148,118],[40,75,47,7,76,48],[43,54,24,22,55,25],[10,45,15,67,46,16],[19,148,118,6,149,119],[18,75,47,31,76,48],[34,54,24,34,55,25],[20,45,15,61,46,16]],r=function(t,r){var e={};return e.totalCount=t,e.dataCount=r,e},e={};return e.getRSBlocks=function(e,n){var o=function(r,e){switch(e){case g.L:return t[4*(r-1)+0];case g.M:return t[4*(r-1)+1];case g.Q:return t[4*(r-1)+2];case g.H:return t[4*(r-1)+3];default:return}}(e,n);if(void 0===o)throw"bad rs block @ typeNumber:"+e+"/errorCorrectionLevel:"+n;for(var i=o.length/3,a=[],u=0;u<i;u+=1)for(var f=o[3*u+0],c=o[3*u+1],l=o[3*u+2],h=0;h<f;h+=1)a.push(r(c,l));return a},e}(),b=function(){var t=[],r=0,e={getBuffer:function(){return t},getAt:function(r){var e=Math.floor(r/8);return 1==(t[e]>>>7-r%8&1)},put:function(t,r){for(var n=0;n<r;n+=1)e.putBit(1==(t>>>r-n-1&1))},getLengthInBits:function(){return r},putBit:function(e){var n=Math.floor(r/8);t.length<=n&&t.push(0),e&&(t[n]|=128>>>r%8),r+=1}};return e},M=function(t){var r=a,e=t,n={getMode:function(){return r},getLength:function(t){return e.length},write:function(t){for(var r=e,n=0;n+2<r.length;)t.put(o(r.substring(n,n+3)),10),n+=3;n<r.length&&(r.length-n==1?t.put(o(r.substring(n,n+1)),4):r.length-n==2&&t.put(o(r.substring(n,n+2)),7))}},o=function(t){for(var r=0,e=0;e<t.length;e+=1)r=10*r+i(t.charAt(e));return r},i=function(t){if("0"<=t&&t<="9")return t.charCodeAt(0)-"0".charCodeAt(0);throw"illegal char :"+t};return n},x=function(t){var r=u,e=t,n={getMode:function(){return r},getLength:function(t){return e.length},write:function(t){for(var r=e,n=0;n+1<r.length;)t.put(45*o(r.charAt(n))+o(r.charAt(n+1)),11),n+=2;n<r.length&&t.put(o(r.charAt(n)),6)}},o=function(t){if("0"<=t&&t<="9")return t.charCodeAt(0)-"0".charCodeAt(0);if("A"<=t&&t<="Z")return t.charCodeAt(0)-"A".charCodeAt(0)+10;switch(t){case" ":return 36;case"$":return 37;case"%":return 38;case"*":return 39;case"+":return 40;case"-":return 41;case".":return 42;case"/":return 43;case":":return 44;default:throw"illegal char :"+t}};return n},m=function(r){var e=f,n=t.stringToBytes(r),o={getMode:function(){return e},getLength:function(t){return n.length},write:function(t){for(var r=0;r<n.length;r+=1)t.put(n[r],8)}};return o},L=function(r){var e=c,n=t.stringToBytesFuncs.SJIS;if(!n)throw"sjis not supported.";!function(){var t=n("友");if(2!=t.length||38726!=(t[0]<<8|t[1]))throw"sjis not supported."}();var o=n(r),i={getMode:function(){return e},getLength:function(t){return~~(o.length/2)},write:function(t){for(var r=o,e=0;e+1<r.length;){var n=(255&r[e])<<8|255&r[e+1];if(33088<=n&&n<=40956)n-=33088;else{if(!(57408<=n&&n<=60351))throw"illegal char at "+(e+1)+"/"+n;n-=49472}n=192*(n>>>8&255)+(255&n),t.put(n,13),e+=2}if(e<r.length)throw"illegal char at "+(e+1)}};return i},D=function(){var t=[],r={writeByte:function(r){t.push(255&r)},writeShort:function(t){r.writeByte(t),r.writeByte(t>>>8)},writeBytes:function(t,e,n){e=e||0,n=n||t.length;for(var o=0;o<n;o+=1)r.writeByte(t[o+e])},writeString:function(t){for(var e=0;e<t.length;e+=1)r.writeByte(t.charCodeAt(e))},toByteArray:function(){return t},toString:function(){var r="";r+="[";for(var e=0;e<t.length;e+=1)e>0&&(r+=","),r+=t[e];return r+="]"}};return r},S=function(t){var r=t,e=0,n=0,o=0,i={read:function(){for(;o<8;){if(e>=r.length){if(0==o)return-1;throw"unexpected end of file./"+o}var t=r.charAt(e);if(e+=1,"="==t)return o=0,-1;t.match(/^\s$/)||(n=n<<6|a(t.charCodeAt(0)),o+=6)}var i=n>>>o-8&255;return o-=8,i}},a=function(t){if(65<=t&&t<=90)return t-65;if(97<=t&&t<=122)return t-97+26;if(48<=t&&t<=57)return t-48+52;if(43==t)return 62;if(47==t)return 63;throw"c:"+t};return i},I=function(t,r,e){for(var n=function(t,r){var e=t,n=r,o=new Array(t*r),i={setPixel:function(t,r,n){o[r*e+t]=n},write:function(t){t.writeString("GIF87a"),t.writeShort(e),t.writeShort(n),t.writeByte(128),t.writeByte(0),t.writeByte(0),t.writeByte(0),t.writeByte(0),t.writeByte(0),t.writeByte(255),t.writeByte(255),t.writeByte(255),t.writeString(","),t.writeShort(0),t.writeShort(0),t.writeShort(e),t.writeShort(n),t.writeByte(0);var r=a(2);t.writeByte(2);for(var o=0;r.length-o>255;)t.writeByte(255),t.writeBytes(r,o,255),o+=255;t.writeByte(r.length-o),t.writeBytes(r,o,r.length-o),t.writeByte(0),t.writeString(";")}},a=function(t){for(var r=1<<t,e=1+(1<<t),n=t+1,i=u(),a=0;a<r;a+=1)i.add(String.fromCharCode(a));i.add(String.fromCharCode(r)),i.add(String.fromCharCode(e));var f,c,g,l=D(),h=(f=l,c=0,g=0,{write:function(t,r){if(t>>>r!=0)throw"length over";for(;c+r>=8;)f.writeByte(255&(t<<c|g)),r-=8-c,t>>>=8-c,g=0,c=0;g|=t<<c,c+=r},flush:function(){c>0&&f.writeByte(g)}});h.write(r,n);var s=0,v=String.fromCharCode(o[s]);for(s+=1;s<o.length;){var d=String.fromCharCode(o[s]);s+=1,i.contains(v+d)?v+=d:(h.write(i.indexOf(v),n),i.size()<4095&&(i.size()==1<<n&&(n+=1),i.add(v+d)),v=d)}return h.write(i.indexOf(v),n),h.write(e,n),h.flush(),l.toByteArray()},u=function(){var t={},r=0,e={add:function(n){if(e.contains(n))throw"dup key:"+n;t[n]=r,r+=1},size:function(){return r},indexOf:function(r){return t[r]},contains:function(r){return void 0!==t[r]}};return e};return i}(t,r),o=0;o<r;o+=1)for(var i=0;i<t;i+=1)n.setPixel(i,o,e(i,o));var a=D();n.write(a);for(var u=function(){var t=0,r=0,e=0,n="",o={},i=function(t){n+=String.fromCharCode(a(63&t))},a=function(t){if(t<0);else{if(t<26)return 65+t;if(t<52)return t-26+97;if(t<62)return t-52+48;if(62==t)return 43;if(63==t)return 47}throw"n:"+t};return o.writeByte=function(n){for(t=t<<8|255&n,r+=8,e+=1;r>=6;)i(t>>>r-6),r-=6},o.flush=function(){if(r>0&&(i(t<<6-r),t=0,r=0),e%3!=0)for(var o=3-e%3,a=0;a<o;a+=1)n+="="},o.toString=function(){return n},o}(),f=a.toByteArray(),c=0;c<f.length;c+=1)u.writeByte(f[c]);return u.flush(),"data:image/gif;base64,"+u};return t}();qrcode.stringToBytesFuncs["UTF-8"]=function(t){return function(t){for(var r=[],e=0;e<t.length;e++){var n=t.charCodeAt(e);n<128?r.push(n):n<2048?r.push(192|n>>6,128|63&n):n<55296||n>=57344?r.push(224|n>>12,128|n>>6&63,128|63&n):(e++,n=65536+((1023&n)<<10|1023&t.charCodeAt(e)),r.push(240|n>>18,128|n>>12&63,128|n>>6&63,128|63&n))}return r}(t)},function(t){"function"==typeof define&&define.amd?define([],t):"object"==typeof exports&&(module.exports=t())}(function(){return qrcode});</script>
+<script>
+  const TRANSLATIONS = {
+    en: {
+      h1: 'Step into the Luciana Diniz universe',
+      sub: "The world of Luciana goes far beyond the arena. It is a universe of learning, self-discovery and connection between people, riders and horses: with courses, tests, exercises, AI companions, books, videos, social media and partnerships waiting at every turn. Whatever you open first, there is always something more to discover.",
+      footer: "Text adapted from each product's public page. Final copy to be confirmed with Luciana before publishing.",
+      cards: {
+        brand: { tag: 'Partnerships & brands', badge: 'On request', title: 'Branded Content — Media Kit', tagline: 'For brands that want to stand next to Luciana.', desc: 'A portfolio of sponsored-content formats, reach, and partnership terms — the reference for any brand interested in an activation with Luciana.', cta: 'View media kit →' },
+        checkmatch: { tag: "Quick tool", badge: "Free", title: "CheckMatch Lite", tagline: "Know your Self. Understand others.", desc: "A free app that builds your behavioral profile in a couple of minutes and measures your compatibility with family, friends, partners and colleagues. Invite someone with a link and see your shared strengths and differences.", cta: "Try CheckMatch →" },
+        equestrian: { tag: "Full assessment", badge: "Guest access", title: "Equestrian Match", tagline: "Find your perfect stride.", desc: "Compare your profile as a rider, trainer, groom or owner with your horse's temperament (obedience, routine and work energy) and see your compatibility, strengths and ways to improve the partnership. Try it as a guest.", cta: "Take the full match →" },
+        butterfly: { tag: 'Annual subscription', badge: '€47/year', title: 'Butterfly Method — 2026 Collection', tagline: 'Performance and personal growth, in one place.', desc: 'Eleven products bundled into one subscription: lessons with experts, drone footage and AI-edited video, and sensory experiences for connecting with the horse.', cta: 'Subscribe on Hotmart →' },
+        masterclass: { tag: 'Online course', badge: 'Price not listed', title: 'My Way Masterclass', tagline: 'The Butterfly Method, straight from the source.', desc: 'A step-by-step course where Luciana teaches her training methods, built around the Butterfly Method — the foundation she credits for her own success in the sport.', cta: 'View course on Hotmart →', note: "The page doesn't detail modules, materials, or access terms, and shows no price — confirm before publishing." },
+        interactive: { tag: 'Interactive exercises', badge: 'Free', title: 'Interactive Hall', tagline: 'Choose your activity.', desc: "Riding patterns riders can try with their own horse — like 'My First Ride' (a turning exercise) and 'Butterflying' (figure-eights over fences). Simple, hands-on, and free to explore.", cta: 'Choose an activity →' },
+        aiagents: { tag: 'Conversational AI', badge: '4 agents', title: 'AI Agents', tagline: 'Try one of the four.', desc: 'Four AI companions, each with a focus: Butterfly (holistic coach), Lucki (performance strategist), Trevi (horse whisperer), and Mr. Obstacle (challenge coach). None of them replace a trainer or a vet.', cta: 'Meet the agents →' },
+        fit4gold: { tag: 'E-book', badge: 'Price not listed', title: 'Fit 4 Gold', tagline: 'From preparation to the Olympic final.', desc: "An e-book following Luciana and her horse Fit For Fun from Olympic preparation through daily life in the athletes' village, all the way to the individual jumping final in Rio.", cta: 'View e-book on Hotmart →', note: 'The page lists only the e-book itself, in English, with no price — confirm before publishing.' },
+        youtube: { tag: 'Video channel', badge: 'Free', title: 'YouTube — Luciana Diniz', tagline: 'I jump for my dreams.', desc: 'Official channel with show jumping content, Butterfly Method material, and behind-the-scenes from competitions and training.', cta: 'Watch on YouTube →' },
+        checkpoint: { tag: "Podcast", badge: "10 videos", title: "Checkpoint Podcast", tagline: "Self-knowledge, one short audio at a time.", desc: "A short audio series by Checkmatch on Luciana Diniz's YouTube channel. In quick episodes it explains what Checkmatch is, how to create your profile and find your True Nature, how AI helps with self-discovery, and how to invite friends and learn through matching.", cta: "Watch the playlist →" },
+        instagram: { tag: "Social media", badge: "148K followers", title: "Instagram — @luciana_diniz11", tagline: "Behind the scenes of an Olympic life.", desc: "Join a community of 148K followers who ride along every day: training, competitions, horses, travel and moments that never make it to the arena. Over 2,250 posts and an audience that comments, shares and cheers on every jump. Follow along and become part of the conversation.", cta: "Follow on Instagram →" },
+        cv: { tag: 'Athlete profile', badge: 'PDF', title: 'Luciana Diniz — Athlete CV', tagline: 'The career, in one document.', desc: 'A full athlete resume: Olympic history, titles, horses, and career milestones — useful for press, sponsors, and event organizers.', cta: 'Open the CV →' },
+      },
+    },
+    pt: {
+      h1: 'Entre no universo Luciana Diniz',
+      sub: "O mundo de Luciana vai muito além da pista. É um universo de aprendizado, autoconhecimento e conexão entre pessoas, cavaleiros e cavalos: com cursos, testes, exercícios, companheiros de IA, livros, vídeos, redes sociais e parcerias esperando a cada curva. Por onde quer que você comece, sempre há algo mais a descobrir.",
+      footer: 'Textos adaptados a partir das páginas públicas de cada produto. Copy final a validar com a Luciana antes de publicar.',
+      cards: {
+        brand: { tag: 'Parcerias & marcas', badge: 'Sob consulta', title: 'Branded Content — Mídia Kit', tagline: 'Para marcas que querem andar ao lado da Luciana.', desc: 'Portfólio de formatos de conteúdo patrocinado, alcance e condições de parceria — a referência para marcas interessadas em uma ativação com a Luciana.', cta: 'Ver mídia kit →' },
+        checkmatch: { tag: "Ferramenta rápida", badge: "Gratuito", title: "CheckMatch Lite", tagline: "Conheça a si mesmo. Entenda os outros.", desc: "App gratuito que monta seu perfil comportamental em poucos minutos e mede sua compatibilidade com família, amigos, parceiros e colegas. Convide alguém por link e veja pontos fortes em comum e diferenças.", cta: "Testar o CheckMatch →" },
+        equestrian: { tag: "Avaliação completa", badge: "Acesso como convidado", title: "Equestrian Match", tagline: "Find your perfect stride.", desc: "Compare seu perfil como cavaleiro, treinador, groom ou proprietário com o temperamento do seu cavalo (obediência, rotina e energia de trabalho) e veja compatibilidade, pontos fortes e caminhos para melhorar a parceria. Experimente como convidado.", cta: "Fazer o match completo →" },
+        butterfly: { tag: 'Assinatura anual', badge: '€47/ano', title: 'Butterfly Method — Coleção 2026', tagline: 'Performance e desenvolvimento pessoal, em um só lugar.', desc: 'Onze produtos reunidos em uma assinatura: aulas com especialistas, vídeos com tecnologia de drone e edição por IA, e experiências sensoriais de conexão com o cavalo.', cta: 'Assinar no Hotmart →' },
+        masterclass: { tag: 'Curso online', badge: 'Preço não informado', title: 'My Way Masterclass', tagline: 'O método Butterfly, direto da fonte.', desc: 'Curso passo a passo em que a Luciana ensina seus métodos de treino, construídos em torno do Butterfly Method — a base que ela credita pelo próprio sucesso no esporte.', cta: 'Ver o curso no Hotmart →', note: 'A página não detalha módulos, materiais nem prazo de acesso, e não mostra preço — confirmar antes de divulgar.' },
+        interactive: { tag: 'Exercícios interativos', badge: 'Gratuito', title: 'Interactive Hall', tagline: 'Escolha sua atividade.', desc: "Padrões de equitação para o cavaleiro testar com o próprio cavalo — como o 'My First Ride' (exercício de giro) e o 'Butterflying' (oitos com obstáculos). Simples, prático e livre para explorar.", cta: 'Escolher uma atividade →' },
+        aiagents: { tag: 'IA conversacional', badge: '4 agentes', title: 'AI Agents', tagline: 'Experimente um dos quatro.', desc: 'Quatro companhias de IA, cada uma com um foco: Butterfly (coach holístico), Lucki (estrategista de performance), Trevi (que entende os cavalos) e Mr. Obstacle (coach de desafios). Nenhuma substitui um treinador ou veterinário.', cta: 'Conhecer os agentes →' },
+        fit4gold: { tag: 'E-book', badge: 'Preço não informado', title: 'Fit 4 Gold', tagline: 'Da preparação à final olímpica.', desc: 'Um e-book que acompanha a Luciana e seu cavalo Fit For Fun desde a preparação olímpica até o dia a dia na vila dos atletas, chegando à final individual de salto no Rio.', cta: 'Ver e-book no Hotmart →', note: 'A página lista só o e-book, em inglês, sem preço — confirmar antes de divulgar.' },
+        youtube: { tag: 'Canal de vídeos', badge: 'Gratuito', title: 'YouTube — Luciana Diniz', tagline: 'I jump for my dreams.', desc: 'Canal oficial com conteúdo de hipismo, material do Butterfly Method e bastidores de competições e treinos.', cta: 'Ver no YouTube →' },
+        checkpoint: { tag: "Podcast", badge: "10 vídeos", title: "Checkpoint Podcast", tagline: "Autoconhecimento, um áudio curto de cada vez.", desc: "Uma série de áudios curtos do Checkmatch no canal da Luciana Diniz no YouTube. Em episódios rápidos, explica o que é o Checkmatch, como criar seu perfil e descobrir sua Verdadeira Natureza, como a IA ajuda no autoconhecimento e como convidar amigos e aprender com os matches.", cta: "Ver a playlist →" },
+        instagram: { tag: "Redes sociais", badge: "148 mil seguidores", title: "Instagram — @luciana_diniz11", tagline: "Os bastidores de uma vida olímpica.", desc: "Faça parte de uma comunidade de 148 mil seguidores que acompanha o dia a dia: treinos, competições, cavalos, viagens e momentos que nunca chegam à pista. Mais de 2.250 publicações e um público que comenta, compartilha e vibra a cada salto. Siga e entre na conversa.", cta: "Seguir no Instagram →" },
+        cv: { tag: 'Perfil de atleta', badge: 'PDF', title: 'Luciana Diniz — CV de Atleta', tagline: 'A carreira, em um documento.', desc: 'Um currículo completo de atleta: histórico olímpico, títulos, cavalos e marcos da carreira — útil para imprensa, patrocinadores e organizadores de eventos.', cta: 'Abrir o CV →' },
+      },
+    },
+    fr: {
+      h1: "Entrez dans l'univers Luciana Diniz",
+      sub: "L'univers de Luciana va bien au-delà de la piste. C'est un monde d'apprentissage, de connaissance de soi et de connexion entre les personnes, les cavaliers et les chevaux : avec des cours, des tests, des exercices, des compagnons IA, des livres, des vidéos, des réseaux sociaux et des partenariats qui vous attendent à chaque tournant. Quoi que vous ouvriez en premier, il y a toujours quelque chose de plus à découvrir.",
+      footer: 'Textes adaptés à partir des pages publiques de chaque produit. Le texte final doit être validé avec Luciana avant publication.',
+      cards: {
+        brand: { tag: 'Partenariats & marques', badge: 'Sur demande', title: 'Branded Content — Kit média', tagline: "Pour les marques qui veulent s'associer à Luciana.", desc: 'Un portfolio des formats de contenu sponsorisé, de la portée et des conditions de partenariat — la référence pour toute marque intéressée par une activation avec Luciana.', cta: 'Voir le kit média →' },
+        checkmatch: { tag: "Outil rapide", badge: "Gratuit", title: "CheckMatch Lite", tagline: "Connaissez-vous. Comprenez les autres.", desc: "Une appli gratuite qui établit votre profil comportemental en quelques minutes et mesure votre compatibilité avec votre famille, vos amis, vos partenaires et vos collègues. Invitez quelqu'un par lien et découvrez vos forces communes et vos différences.", cta: "Essayer CheckMatch →" },
+        equestrian: { tag: "Évaluation complète", badge: "Accès invité", title: "Equestrian Match", tagline: "Find your perfect stride.", desc: "Comparez votre profil de cavalier, entraîneur, groom ou propriétaire avec le tempérament de votre cheval (obéissance, routine et énergie de travail) et découvrez compatibilité, forces et pistes pour améliorer le partenariat. Essayez en tant qu'invité.", cta: "Faire le match complet →" },
+        butterfly: { tag: 'Abonnement annuel', badge: '47 €/an', title: 'Butterfly Method — Collection 2026', tagline: 'Performance et développement personnel, réunis en un seul endroit.', desc: 'Onze produits réunis dans un seul abonnement : cours avec des experts, vidéos filmées au drone et montées par IA, et expériences sensorielles de connexion avec le cheval.', cta: "S'abonner sur Hotmart →" },
+        masterclass: { tag: 'Cours en ligne', badge: 'Prix non indiqué', title: 'My Way Masterclass', tagline: 'La méthode Butterfly, directement à la source.', desc: "Un cours pas à pas dans lequel Luciana enseigne ses méthodes d'entraînement, construites autour de la méthode Butterfly — la base à laquelle elle attribue son propre succès dans ce sport.", cta: 'Voir le cours sur Hotmart →', note: "La page ne détaille ni les modules, ni le matériel, ni les conditions d'accès, et n'indique aucun prix — à confirmer avant publication." },
+        interactive: { tag: 'Exercices interactifs', badge: 'Gratuit', title: 'Interactive Hall', tagline: 'Choisissez votre activité.', desc: "Des figures d'équitation que le cavalier peut essayer avec son propre cheval — comme « My First Ride » (exercice de virage) et « Butterflying » (huit de chiffre sur des obstacles). Simple, concret et libre à explorer.", cta: 'Choisir une activité →' },
+        aiagents: { tag: 'IA conversationnelle', badge: '4 agents', title: 'AI Agents', tagline: "Essayez l'un des quatre.", desc: 'Quatre compagnons IA, chacun avec sa spécialité : Butterfly (coach holistique), Lucki (stratège de performance), Trevi (qui comprend les chevaux) et Mr. Obstacle (coach de défis). Aucun ne remplace un entraîneur ou un vétérinaire.', cta: 'Découvrir les agents →' },
+        fit4gold: { tag: 'E-book', badge: 'Prix non indiqué', title: 'Fit 4 Gold', tagline: 'De la préparation à la finale olympique.', desc: "Un e-book qui suit Luciana et son cheval Fit For Fun depuis la préparation olympique jusqu'au quotidien dans le village des athlètes, jusqu'à la finale individuelle de saut à Rio.", cta: "Voir l'e-book sur Hotmart →", note: "La page ne présente que l'e-book, en anglais, sans prix — à confirmer avant publication." },
+        youtube: { tag: 'Chaîne vidéo', badge: 'Gratuit', title: 'YouTube — Luciana Diniz', tagline: 'I jump for my dreams.', desc: "Chaîne officielle avec du contenu de saut d'obstacles, du matériel sur la méthode Butterfly et des coulisses de compétitions et d'entraînements.", cta: 'Voir sur YouTube →' },
+        checkpoint: { tag: "Podcast", badge: "10 vidéos", title: "Checkpoint Podcast", tagline: "La connaissance de soi, un court audio à la fois.", desc: "Une série de courts audios de Checkmatch sur la chaîne YouTube de Luciana Diniz. En épisodes rapides, elle explique ce qu'est Checkmatch, comment créer votre profil et trouver votre vraie nature, comment l'IA aide à mieux se connaître, et comment inviter des amis et apprendre grâce aux matchs.", cta: "Voir la playlist →" },
+        instagram: { tag: "Réseaux sociaux", badge: "148 k abonnés", title: "Instagram — @luciana_diniz11", tagline: "Les coulisses d'une vie olympique.", desc: "Rejoignez une communauté de 148 000 abonnés qui suit le quotidien : entraînements, compétitions, chevaux, voyages et moments qui n'arrivent jamais en piste. Plus de 2 250 publications et un public qui commente, partage et encourage chaque saut. Suivez et entrez dans la conversation.", cta: "Suivre sur Instagram →" },
+        cv: { tag: 'Profil athlète', badge: 'PDF', title: 'Luciana Diniz — CV athlète', tagline: 'La carrière, en un seul document.', desc: "Un CV complet d'athlète : parcours olympique, titres, chevaux et grandes étapes de carrière — utile pour la presse, les sponsors et les organisateurs d'événements.", cta: 'Ouvrir le CV →' },
+      },
+    },
+    it: {
+      h1: "Entra nell'universo di Luciana Diniz",
+      sub: "Il mondo di Luciana va ben oltre il campo gara. È un universo di apprendimento, conoscenza di sé e connessione tra persone, cavalieri e cavalli: con corsi, test, esercizi, compagni IA, libri, video, social media e partnership che ti aspettano a ogni curva. Qualunque cosa tu apra per prima, c'è sempre qualcosa in più da scoprire.",
+      footer: 'Testi adattati dalle pagine pubbliche di ogni prodotto. Il testo finale va confermato con Luciana prima della pubblicazione.',
+      cards: {
+        brand: { tag: 'Partnership & brand', badge: 'Su richiesta', title: 'Branded Content — Media Kit', tagline: 'Per i brand che vogliono affiancare Luciana.', desc: "Un portfolio dei formati di contenuto sponsorizzato, della copertura e delle condizioni di partnership — il riferimento per qualsiasi brand interessato a un'attivazione con Luciana.", cta: 'Vedi il media kit →' },
+        checkmatch: { tag: "Strumento rapido", badge: "Gratuito", title: "CheckMatch Lite", tagline: "Conosci te stesso. Capisci gli altri.", desc: "Un'app gratuita che costruisce il tuo profilo comportamentale in pochi minuti e misura la compatibilità con famiglia, amici, partner e colleghi. Invita qualcuno con un link e scopri punti di forza in comune e differenze.", cta: "Prova CheckMatch →" },
+        equestrian: { tag: "Valutazione completa", badge: "Accesso ospite", title: "Equestrian Match", tagline: "Find your perfect stride.", desc: "Confronta il tuo profilo di cavaliere, istruttore, groom o proprietario con il temperamento del tuo cavallo (obbedienza, routine ed energia di lavoro) e scopri compatibilità, punti di forza e come migliorare la partnership. Provalo come ospite.", cta: "Fai il match completo →" },
+        butterfly: { tag: 'Abbonamento annuale', badge: '47 €/anno', title: 'Butterfly Method — Collezione 2026', tagline: 'Performance e crescita personale, in un unico posto.', desc: 'Undici prodotti riuniti in un solo abbonamento: lezioni con esperti, video con drone e montaggio AI, ed esperienze sensoriali di connessione con il cavallo.', cta: 'Abbonati su Hotmart →' },
+        masterclass: { tag: 'Corso online', badge: 'Prezzo non indicato', title: 'My Way Masterclass', tagline: 'Il metodo Butterfly, direttamente dalla fonte.', desc: 'Un corso passo dopo passo in cui Luciana insegna i suoi metodi di allenamento, costruiti attorno al Butterfly Method — la base a cui attribuisce il proprio successo nello sport.', cta: 'Vedi il corso su Hotmart →', note: 'La pagina non specifica moduli, materiali o condizioni di accesso, e non mostra il prezzo — da confermare prima della pubblicazione.' },
+        interactive: { tag: 'Esercizi interattivi', badge: 'Gratuito', title: 'Interactive Hall', tagline: 'Scegli la tua attività.', desc: "Schemi di equitazione che il cavaliere può provare con il proprio cavallo — come 'My First Ride' (esercizio di svolta) e 'Butterflying' (otto su ostacoli). Semplice, pratico e libero da esplorare.", cta: "Scegli un'attività →" },
+        aiagents: { tag: 'IA conversazionale', badge: '4 agenti', title: 'AI Agents', tagline: 'Provane uno dei quattro.', desc: 'Quattro compagni IA, ciascuno con una propria specialità: Butterfly (coach olistico), Lucki (strategist delle performance), Trevi (che comprende i cavalli) e Mr. Obstacle (coach delle sfide). Nessuno di loro sostituisce un istruttore o un veterinario.', cta: 'Scopri gli agenti →' },
+        fit4gold: { tag: 'E-book', badge: 'Prezzo non indicato', title: 'Fit 4 Gold', tagline: 'Dalla preparazione alla finale olimpica.', desc: "Un e-book che segue Luciana e il suo cavallo Fit For Fun dalla preparazione olimpica alla vita quotidiana nel villaggio degli atleti, fino alla finale individuale di salto a Rio.", cta: "Vedi l'e-book su Hotmart →", note: "La pagina mostra solo l'e-book, in inglese, senza prezzo — da confermare prima della pubblicazione." },
+        youtube: { tag: 'Canale video', badge: 'Gratuito', title: 'YouTube — Luciana Diniz', tagline: 'I jump for my dreams.', desc: 'Canale ufficiale con contenuti di salto ostacoli, materiale sul Butterfly Method e dietro le quinte di gare e allenamenti.', cta: 'Guarda su YouTube →' },
+        checkpoint: { tag: "Podcast", badge: "10 video", title: "Checkpoint Podcast", tagline: "Conoscenza di sé, un breve audio alla volta.", desc: "Una serie di brevi audio di Checkmatch sul canale YouTube di Luciana Diniz. In episodi rapidi spiega cos'è Checkmatch, come creare il tuo profilo e scoprire la tua vera natura, come l'IA aiuta la conoscenza di sé e come invitare amici e imparare attraverso i match.", cta: "Guarda la playlist →" },
+        instagram: { tag: "Social media", badge: "148 mila follower", title: "Instagram — @luciana_diniz11", tagline: "I retroscena di una vita olimpica.", desc: "Entra in una community di 148 mila follower che segue ogni giorno: allenamenti, gare, cavalli, viaggi e momenti che non arrivano mai in campo. Oltre 2.250 post e un pubblico che commenta, condivide e tifa a ogni salto. Seguici e partecipa alla conversazione.", cta: "Segui su Instagram →" },
+        cv: { tag: 'Profilo atleta', badge: 'PDF', title: 'Luciana Diniz — CV atleta', tagline: 'La carriera, in un unico documento.', desc: 'Un CV completo da atleta: storia olimpica, titoli, cavalli e tappe della carriera — utile per stampa, sponsor e organizzatori di eventi.', cta: 'Apri il CV →' },
+      },
+    },
+    de: {
+      h1: 'Tauche ein in das Universum von Luciana Diniz',
+      sub: "Die Welt von Luciana reicht weit über den Parcours hinaus. Es ist ein Universum aus Lernen, Selbsterkenntnis und Verbindung zwischen Menschen, Reitern und Pferden: mit Kursen, Tests, Übungen, KI-Begleitern, Büchern, Videos, Social Media und Partnerschaften, die an jeder Ecke auf dich warten. Was auch immer du zuerst öffnest, es gibt immer noch mehr zu entdecken.",
+      footer: 'Texte angepasst von den öffentlichen Seiten jedes Produkts. Der endgültige Text muss vor der Veröffentlichung mit Luciana abgestimmt werden.',
+      cards: {
+        brand: { tag: 'Partnerschaften & Marken', badge: 'Auf Anfrage', title: 'Branded Content — Media-Kit', tagline: 'Für Marken, die an Lucianas Seite stehen möchten.', desc: 'Ein Portfolio aus gesponserten Content-Formaten, Reichweite und Partnerschaftsbedingungen — die Referenz für jede Marke, die an einer Aktivierung mit Luciana interessiert ist.', cta: 'Media-Kit ansehen →' },
+        checkmatch: { tag: "Schnelles Tool", badge: "Kostenlos", title: "CheckMatch Lite", tagline: "Erkenne dich selbst. Verstehe andere.", desc: "Eine kostenlose App, die in wenigen Minuten dein Verhaltensprofil erstellt und deine Kompatibilität mit Familie, Freunden, Partnern und Kollegen misst. Lade andere per Link ein und entdecke gemeinsame Stärken und Unterschiede.", cta: "CheckMatch testen →" },
+        equestrian: { tag: "Vollständige Bewertung", badge: "Gastzugang", title: "Equestrian Match", tagline: "Find your perfect stride.", desc: "Vergleiche dein Profil als Reiter, Trainer, Pfleger oder Besitzer mit dem Temperament deines Pferdes (Gehorsam, Routine und Arbeitsenergie) und sieh Kompatibilität, Stärken und Wege, die Partnerschaft zu verbessern. Probiere es als Gast aus.", cta: "Vollständiges Match starten →" },
+        butterfly: { tag: 'Jahresabonnement', badge: '47 €/Jahr', title: 'Butterfly Method — Kollektion 2026', tagline: 'Leistung und persönliche Entwicklung an einem Ort.', desc: 'Elf Produkte in einem Abonnement gebündelt: Lektionen mit Experten, Drohnenaufnahmen und KI-geschnittene Videos sowie sensorische Erlebnisse zur Verbindung mit dem Pferd.', cta: 'Auf Hotmart abonnieren →' },
+        masterclass: { tag: 'Online-Kurs', badge: 'Preis nicht angegeben', title: 'My Way Masterclass', tagline: 'Die Butterfly-Methode, direkt von der Quelle.', desc: 'Ein Schritt-für-Schritt-Kurs, in dem Luciana ihre Trainingsmethoden lehrt, die auf der Butterfly-Methode aufbauen — der Grundlage, der sie ihren eigenen sportlichen Erfolg zuschreibt.', cta: 'Kurs auf Hotmart ansehen →', note: 'Die Seite nennt weder Module, Materialien noch Zugangsbedingungen und zeigt keinen Preis — vor Veröffentlichung bestätigen.' },
+        interactive: { tag: 'Interaktive Übungen', badge: 'Kostenlos', title: 'Interactive Hall', tagline: 'Wähle deine Aktivität.', desc: "Reitmuster, die der Reiter mit dem eigenen Pferd ausprobieren kann — wie 'My First Ride' (eine Wendeübung) und 'Butterflying' (Achten über Hindernisse). Einfach, praktisch und frei zum Entdecken.", cta: 'Aktivität wählen →' },
+        aiagents: { tag: 'Konversations-KI', badge: '4 Agenten', title: 'AI Agents', tagline: 'Probiere einen der vier aus.', desc: 'Vier KI-Begleiter, jeder mit einem eigenen Schwerpunkt: Butterfly (holistischer Coach), Lucki (Performance-Stratege), Trevi (versteht Pferde) und Mr. Obstacle (Herausforderungs-Coach). Keiner ersetzt einen Trainer oder Tierarzt.', cta: 'Die Agenten kennenlernen →' },
+        fit4gold: { tag: 'E-Book', badge: 'Preis nicht angegeben', title: 'Fit 4 Gold', tagline: 'Von der Vorbereitung bis zum olympischen Finale.', desc: 'Ein E-Book, das Luciana und ihr Pferd Fit For Fun von der olympischen Vorbereitung über den Alltag im Athletendorf bis zum Einzel-Springfinale in Rio begleitet.', cta: 'E-Book auf Hotmart ansehen →', note: 'Die Seite zeigt nur das E-Book, auf Englisch, ohne Preis — vor Veröffentlichung bestätigen.' },
+        youtube: { tag: 'Video-Kanal', badge: 'Kostenlos', title: 'YouTube — Luciana Diniz', tagline: 'I jump for my dreams.', desc: 'Offizieller Kanal mit Springreit-Inhalten, Material zur Butterfly-Methode und Einblicken hinter die Kulissen von Wettkämpfen und Training.', cta: 'Auf YouTube ansehen →' },
+        checkpoint: { tag: "Podcast", badge: "10 Videos", title: "Checkpoint Podcast", tagline: "Selbsterkenntnis, ein kurzer Audio-Beitrag nach dem anderen.", desc: "Eine Serie kurzer Audio-Beiträge von Checkmatch auf Luciana Dinizs YouTube-Kanal. In schnellen Folgen erklärt sie, was Checkmatch ist, wie du dein Profil erstellst und deine wahre Natur findest, wie KI bei der Selbsterkenntnis hilft und wie du Freunde einlädst und durch Matches lernst.", cta: "Playlist ansehen →" },
+        instagram: { tag: "Social Media", badge: "148 Tsd. Follower", title: "Instagram — @luciana_diniz11", tagline: "Hinter den Kulissen eines olympischen Lebens.", desc: "Werde Teil einer Community von 148.000 Followern, die den Alltag begleitet: Training, Turniere, Pferde, Reisen und Momente, die nie im Parcours landen. Über 2.250 Beiträge und ein Publikum, das kommentiert, teilt und bei jedem Sprung mitfiebert. Folge uns und sprich mit.", cta: "Auf Instagram folgen →" },
+        cv: { tag: 'Athletenprofil', badge: 'PDF', title: 'Luciana Diniz — Athleten-CV', tagline: 'Die Karriere, in einem Dokument.', desc: 'Ein vollständiger Athleten-Lebenslauf: olympische Geschichte, Titel, Pferde und Karrieremeilensteine — nützlich für Presse, Sponsoren und Veranstalter.', cta: 'CV öffnen →' },
+      },
+    },
+  };
+
+  const FLAGS = {
+    en: '<svg viewBox="0 0 60 40" aria-hidden="true"><rect fill="#012169" width="60" height="40"/><path d="M0,0 60,40 M60,0 0,40" stroke="#fff" stroke-width="8"/><path d="M0,0 60,40 M60,0 0,40" stroke="#C8102E" stroke-width="3"/><path d="M30,0V40M0,20H60" stroke="#fff" stroke-width="12"/><path d="M30,0V40M0,20H60" stroke="#C8102E" stroke-width="7"/></svg>',
+    pt: '<svg viewBox="0 0 60 40" aria-hidden="true"><rect fill="#009B3A" width="60" height="40"/><polygon points="30,4 56,20 30,36 4,20" fill="#FEDF00"/><circle cx="30" cy="20" r="8.5" fill="#002776"/></svg>',
+    fr: '<svg viewBox="0 0 60 40" aria-hidden="true"><rect fill="#002654" width="20" height="40"/><rect fill="#fff" x="20" width="20" height="40"/><rect fill="#ED2939" x="40" width="20" height="40"/></svg>',
+    it: '<svg viewBox="0 0 60 40" aria-hidden="true"><rect fill="#009246" width="20" height="40"/><rect fill="#fff" x="20" width="20" height="40"/><rect fill="#CE2B37" x="40" width="20" height="40"/></svg>',
+    de: '<svg viewBox="0 0 60 40" aria-hidden="true"><rect fill="#000" width="60" height="14"/><rect fill="#DD0000" y="13.3" width="60" height="13.4"/><rect fill="#FFCE00" y="26.6" width="60" height="13.4"/></svg>',
+  };
+
+  const LANGS = [
+    { id: 'en', name: 'English' },
+    { id: 'pt', name: 'Português' },
+    { id: 'fr', name: 'Français' },
+    { id: 'it', name: 'Italiano' },
+    { id: 'de', name: 'Deutsch' },
+  ];
+
+  const META = [
+    { id: 'brand', icon: 'handshake', color: '#B01A63', bg: '#FBE7F0', href: '#branded', internal: true },
+    { id: 'checkmatch', icon: 'match', color: '#0F766E', bg: '#E3F2EF', href: 'https://checkmatchlite.com/', detail: 'checkmatch' },
+    { id: 'equestrian', icon: 'match', color: '#4338CA', bg: '#E9E7FB', href: 'https://matchequestrian.com/', detail: 'equestrian' },
+    { id: 'butterfly', icon: 'book', color: '#B45309', bg: '#FBEADA', href: 'https://hotmart.com/en/marketplace/products/all-subscriptions/T62609130S' },
+    { id: 'masterclass', icon: 'book', color: '#6D28D9', bg: '#EFE7FB', href: 'https://hotmart.com/en/marketplace/products/my-way-masterclass/L40005221H' },
+    { id: 'interactive', icon: 'flag', color: '#9A3412', bg: '#FDEBDD', href: 'https://www.luciana-diniz.com/interactivehall' },
+    { id: 'aiagents', icon: 'chat', color: '#1D4ED8', bg: '#DBEAFE', href: 'https://www.luciana-diniz.com/ai-agents' },
+    { id: 'fit4gold', icon: 'book', color: '#166534', bg: '#DCFCE7', href: 'https://hotmart.com/en/marketplace/products/fit-4-gold/I41007311Q' },
+    { id: 'youtube', icon: 'play', color: '#B91C1C', bg: '#FEE2E2', href: 'https://www.youtube.com/channel/UC5p5jP4DB_sgpiMFA4WeLEA' },
+    { id: 'instagram', icon: 'camera', color: '#C13584', bg: '#FCE7F3', href: 'https://www.instagram.com/luciana_diniz11/' },
+    { id: 'checkpoint', icon: 'play', color: '#0E7490', bg: '#CFFAFE', href: 'https://www.youtube.com/playlist?list=PLFdwisXGhzx8' },
+    { id: 'cv', icon: 'book', color: '#334155', bg: '#E2E8F0', href: '#cv', internal: true },
+  ];
+
+  // Content categories: one colour per category (metro-line style)
+  const CATS = {
+    self:  { color: '#4338CA', bg: '#E9E7FB', label: { en: 'Self-knowledge & match', pt: 'Autoconhecimento e match', fr: 'Connaissance de soi & match', it: 'Conoscenza di sé e match', de: 'Selbsterkenntnis & Match' } },
+    learn: { color: '#B45309', bg: '#FBEADA', label: { en: 'Learn & train', pt: 'Aprender e treinar', fr: 'Apprendre & s\'entraîner', it: 'Imparare e allenarsi', de: 'Lernen & Training' } },
+    media: { color: '#0F766E', bg: '#E3F2EF', label: { en: 'Media & community', pt: 'Mídia e comunidade', fr: 'Médias & communauté', it: 'Media e community', de: 'Medien & Community' } },
+    brand: { color: '#B01A63', bg: '#FBE7F0', label: { en: 'Partnerships & brands', pt: 'Parcerias e marcas', fr: 'Partenariats & marques', it: 'Partnership e brand', de: 'Partnerschaften & Marken' } },
+    profile: { color: '#334155', bg: '#E2E8F0', label: { en: 'Athlete profile', pt: 'Perfil do atleta', fr: 'Profil athlète', it: 'Profilo atleta', de: 'Athletenprofil' } },
+  };
+  const CAT_OF = { brand: 'brand', checkmatch: 'self', equestrian: 'self', aiagents: 'self', butterfly: 'learn', masterclass: 'learn', fit4gold: 'learn', interactive: 'learn', youtube: 'media', instagram: 'media', checkpoint: 'media', cv: 'profile' };
+  META.forEach((m) => { const k = CAT_OF[m.id]; m.cat = k; m.color = CATS[k].color; m.bg = CATS[k].bg; });
+
+  const ICONS = {
+    handshake: (c) => `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 12l3 3 7-7" stroke="${c}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><rect x="3" y="4" width="18" height="16" rx="3" stroke="${c}" stroke-width="1.8"></rect></svg>`,
+    match: (c) => `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="9" cy="10" r="4.5" stroke="${c}" stroke-width="1.8"></circle><circle cx="15" cy="10" r="4.5" stroke="${c}" stroke-width="1.8"></circle></svg>`,
+    book: (c) => `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 7l9-4 9 4-9 4-9-4Z" stroke="${c}" stroke-width="1.8" stroke-linejoin="round"></path><path d="M7 9.5V16c0 1.1 2.2 2 5 2s5-.9 5-2V9.5" stroke="${c}" stroke-width="1.8"></path></svg>`,
+    flag: (c) => `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 21V3" stroke="${c}" stroke-width="1.8" stroke-linecap="round"></path><path d="M6 4h12l-3.2 4L18 12H6" stroke="${c}" stroke-width="1.8" stroke-linejoin="round"></path></svg>`,
+    chat: (c) => `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 5h16v10.5H9.5L5 19.5V15.5H4Z" stroke="${c}" stroke-width="1.8" stroke-linejoin="round"></path></svg>`,
+    camera: (c) => `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5" stroke="${c}" stroke-width="1.8"/><circle cx="12" cy="12" r="4" stroke="${c}" stroke-width="1.8"/><circle cx="17" cy="7" r="1.1" fill="${c}"/></svg>`,
+    play: (c) => `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3" stroke="${c}" stroke-width="1.8"></rect><path d="M10 9l5 3-5 3V9Z" fill="${c}"></path></svg>`,
+  };
+
+  const SHARE_UI = {
+    en: { qrTitle: 'Scan to open on your phone', share: 'Share', copy: 'Copy link', copied: 'Link copied', close: 'Close', mail: 'Email', urlTitle: "Share link needed", urlHelp: "This page is open from a file on your phone, so it has no public address yet. Paste the address where it is published (https://...) and the QR code and sharing will use it.", urlSave: "Save address", urlChange: "Change address", urlInvalid: "Enter a full address starting with https://", msg: 'Luciana Diniz: a universe of learning, self-discovery and connection between people, riders and horses.' },
+    pt: { qrTitle: 'Escaneie para abrir no celular', share: 'Compartilhar', copy: 'Copiar link', copied: 'Link copiado', close: 'Fechar', mail: 'E-mail', urlTitle: "Endereço necessário", urlHelp: "Esta página está aberta a partir de um arquivo no seu celular, então ainda não tem endereço público. Cole o endereço onde ela está publicada (https://...) e o QR code e o compartilhamento passam a usá-lo.", urlSave: "Salvar endereço", urlChange: "Mudar endereço", urlInvalid: "Digite um endereço completo, começando com https://", msg: 'Luciana Diniz: um universo de aprendizado, autoconhecimento e conexão entre pessoas, cavaleiros e cavalos.' },
+    fr: { qrTitle: 'Scannez pour ouvrir sur votre téléphone', share: 'Partager', copy: 'Copier le lien', copied: 'Lien copié', close: 'Fermer', mail: 'E-mail', urlTitle: "Adresse nécessaire", urlHelp: "Cette page est ouverte depuis un fichier sur votre téléphone, elle n'a donc pas encore d'adresse publique. Collez l'adresse où elle est publiée (https://...) et le QR code et le partage l'utiliseront.", urlSave: "Enregistrer l'adresse", urlChange: "Changer l'adresse", urlInvalid: "Saisissez une adresse complète commençant par https://", msg: "Luciana Diniz : un univers d'apprentissage, de connaissance de soi et de connexion entre les personnes, les cavaliers et les chevaux." },
+    it: { qrTitle: 'Scansiona per aprire sul telefono', share: 'Condividi', copy: 'Copia link', copied: 'Link copiato', close: 'Chiudi', mail: 'E-mail', urlTitle: "Indirizzo necessario", urlHelp: "Questa pagina è aperta da un file sul tuo telefono, quindi non ha ancora un indirizzo pubblico. Incolla l'indirizzo in cui è pubblicata (https://...) e QR code e condivisione lo useranno.", urlSave: "Salva indirizzo", urlChange: "Cambia indirizzo", urlInvalid: "Inserisci un indirizzo completo che inizi con https://", msg: 'Luciana Diniz: un universo di apprendimento, conoscenza di sé e connessione tra persone, cavalieri e cavalli.' },
+    de: { qrTitle: 'Scannen, um auf dem Handy zu öffnen', share: 'Teilen', copy: 'Link kopieren', copied: 'Link kopiert', close: 'Schließen', mail: 'E-Mail', urlTitle: "Adresse erforderlich", urlHelp: "Diese Seite wurde aus einer Datei auf deinem Handy geöffnet und hat daher noch keine öffentliche Adresse. Füge die Adresse ein, unter der sie veröffentlicht ist (https://...), dann nutzen QR-Code und Teilen sie.", urlSave: "Adresse speichern", urlChange: "Adresse ändern", urlInvalid: "Gib eine vollständige Adresse ein, die mit https:// beginnt", msg: 'Luciana Diniz: ein Universum aus Lernen, Selbsterkenntnis und Verbindung zwischen Menschen, Reitern und Pferden.' },
+  };
+
+  const WA = {
+    en: { title: "Let's talk", text: 'Questions, partnerships or want to start your journey? Message us on WhatsApp.', cta: 'Chat on WhatsApp', msg: 'Hello, I would like to know more about the Luciana Diniz Universe' },
+    pt: { title: 'Vamos conversar', text: 'Dúvidas, parcerias ou quer começar sua jornada? Fale com a gente pelo WhatsApp.', cta: 'Falar no WhatsApp', msg: 'Olá, gostaria de saber mais sobre o Universo Luciana Diniz' },
+    fr: { title: 'Parlons-en', text: 'Une question, un partenariat ou envie de commencer votre parcours ? Écrivez-nous sur WhatsApp.', cta: 'Discuter sur WhatsApp', msg: "Bonjour, j\'aimerais en savoir plus sur l\'univers de Luciana Diniz" },
+    it: { title: 'Parliamone', text: 'Domande, partnership o vuoi iniziare il tuo percorso? Scrivici su WhatsApp.', cta: 'Scrivici su WhatsApp', msg: 'Ciao, vorrei saperne di più sull\'universo di Luciana Diniz' },
+    de: { title: 'Lass uns sprechen', text: 'Fragen, Partnerschaften oder bereit für den Start? Schreib uns auf WhatsApp.', cta: 'Auf WhatsApp schreiben', msg: 'Hallo, ich möchte mehr über das Luciana-Diniz-Universum erfahren' },
+  };
+  const WA_NUMBER = '491724526422';
+
+  const UI = {
+    en: { more: 'Learn more', back: '← Back to the overview', steps: 'How it works', site: 'Official page' },
+    pt: { more: 'Veja mais', back: '← Voltar à visão geral', steps: 'Como funciona', site: 'Página oficial' },
+    fr: { more: 'En savoir plus', back: "← Retour à l'aperçu", steps: 'Comment ça marche', site: 'Page officielle' },
+    it: { more: 'Scopri di più', back: '← Torna alla panoramica', steps: 'Come funziona', site: 'Pagina ufficiale' },
+    de: { more: 'Mehr erfahren', back: '← Zurück zur Übersicht', steps: "So funktioniert's", site: 'Offizielle Seite' },
+  };
+
+  const DETAILS = {
+    checkmatch: {
+      url: 'https://checkmatchlite.com/',
+      en: {
+        kicker: 'Know your Self. Understand others.',
+        lead: 'A free app that helps you understand your unique behavioral profile and measure how you connect with the people around you: family, friends, partners, colleagues and teammates.',
+        steps: [
+          ['Build your profile', 'Answer a few simple questions about yourself. It only takes a couple of minutes.'],
+          ['Invite your friends', 'Share your link with anyone, whenever you are ready, even before you finish your own profile.'],
+          ['Match', 'Measure your compatibility and uncover strengths and differences to build more meaningful relationships.'],
+          ['Update your perspective', 'Redo your profile whenever you feel like it and refresh your matches to see new results.'],
+        ],
+        blocks: [
+          { h: 'Relationships across life', p: 'There is more to compatibility than romance. Discover how your traits shape your connections with:', ul: ['Family', 'Friends', 'Love', 'Work', 'Sports', 'Animals (coming soon, in the full version)'] },
+          { h: 'Why use it', p: 'Great relationships happen when you know what you are working with. Some connections bring out your strengths, some challenge you to grow, and others take more than they give. CheckMatch helps you tell them apart, so you can choose where to invest your time, energy and attention.' },
+          { h: 'What is a Match', p: 'A Match is a compatibility breakdown between two profiles: shared strengths, potential differences and tips to improve the relationship. Both profiles must be completed; until then the match shows as Pending and switches to Ready to match automatically. The other person sees the match results, while your individual results stay private.' },
+          { h: 'Lite vs. the full version', p: 'Lite is free and quick, a lightweight way to test core compatibility. The upcoming full version adds:', ul: ['A complete Self Profile, with a deeper questionnaire and richer insights', 'Context-specific profiles for Work, Love, Family, Sports or Animals', 'Tailored journeys, with activities and recommendations', 'Advanced individual and group matches'] },
+        ],
+      },
+      pt: {
+        kicker: 'Conheça a si mesmo. Entenda os outros.',
+        lead: 'Um app gratuito que ajuda você a entender seu perfil comportamental único e a medir como se conecta com as pessoas ao seu redor: família, amigos, parceiros, colegas e companheiros de equipe.',
+        steps: [
+          ['Monte seu perfil', 'Responda a algumas perguntas simples sobre você. Leva só alguns minutos.'],
+          ['Convide seus amigos', 'Compartilhe seu link com quem quiser, quando quiser, mesmo antes de terminar o seu perfil.'],
+          ['Faça o match', 'Meça a compatibilidade e descubra pontos fortes e diferenças para construir relações mais significativas.'],
+          ['Atualize sua perspectiva', 'Refaça o perfil quando tiver vontade e atualize seus matches para ver novos resultados.'],
+        ],
+        blocks: [
+          { h: 'Relações em todas as áreas da vida', p: 'Compatibilidade vai além do romance. Descubra como suas características moldam suas conexões com:', ul: ['Família', 'Amigos', 'Amor', 'Trabalho', 'Esportes', 'Animais (em breve, na versão completa)'] },
+          { h: 'Por que usar', p: 'Boas relações acontecem quando você sabe com o que está lidando. Algumas conexões trazem à tona seus pontos fortes, outras desafiam você a crescer e outras tiram mais do que dão. O CheckMatch ajuda a diferenciar isso, para você escolher onde investir seu tempo, sua energia e sua atenção.' },
+          { h: 'O que é um Match', p: 'Um Match é uma análise de compatibilidade entre dois perfis: pontos fortes em comum, possíveis diferenças e dicas para melhorar a relação. Os dois perfis precisam estar completos; até lá, o match aparece como Pendente e passa a Pronto para o match automaticamente. A outra pessoa vê os resultados do match, e seus resultados individuais continuam privados.' },
+          { h: 'Lite x versão completa', p: 'O Lite é gratuito e rápido, um jeito leve de testar a compatibilidade essencial. A futura versão completa traz:', ul: ['Perfil completo, com questionário mais profundo e análises mais ricas', 'Perfis por contexto: Trabalho, Amor, Família, Esportes ou Animais', 'Jornadas personalizadas, com atividades e recomendações', 'Matches individuais e em grupo mais avançados'] },
+        ],
+      },
+      fr: {
+        kicker: 'Connaissez-vous. Comprenez les autres.',
+        lead: "Une appli gratuite qui vous aide à comprendre votre profil comportemental unique et à mesurer comment vous vous connectez aux personnes qui vous entourent : famille, amis, partenaires, collègues et coéquipiers.",
+        steps: [
+          ['Créez votre profil', 'Répondez à quelques questions simples sur vous. Il suffit de quelques minutes.'],
+          ['Invitez vos amis', "Partagez votre lien avec qui vous voulez, quand vous voulez, même avant d'avoir terminé votre profil."],
+          ['Faites le match', 'Mesurez votre compatibilité et découvrez vos forces et vos différences pour bâtir des relations plus riches de sens.'],
+          ['Actualisez votre regard', 'Refaites votre profil quand vous le souhaitez et actualisez vos matchs pour voir de nouveaux résultats.'],
+        ],
+        blocks: [
+          { h: 'Des relations dans tous les domaines de la vie', p: "La compatibilité ne se limite pas à l'amour. Découvrez comment vos traits façonnent vos liens avec :", ul: ['La famille', 'Les amis', "L'amour", 'Le travail', 'Le sport', 'Les animaux (bientôt, dans la version complète)'] },
+          { h: 'Pourquoi l\'utiliser', p: "Les belles relations naissent quand on sait à qui on a affaire. Certains liens révèlent vos forces, d'autres vous poussent à grandir, et d'autres prennent plus qu'ils ne donnent. CheckMatch vous aide à faire la différence pour choisir où investir votre temps, votre énergie et votre attention." },
+          { h: "Qu'est-ce qu'un Match", p: "Un Match est une analyse de compatibilité entre deux profils : forces communes, différences possibles et conseils pour améliorer la relation. Les deux profils doivent être terminés ; d'ici là, le match apparaît comme En attente puis passe automatiquement à Prêt pour le match. L'autre personne voit les résultats du match, tandis que vos résultats individuels restent privés." },
+          { h: 'Lite et version complète', p: 'Lite est gratuit et rapide, une façon légère de tester la compatibilité essentielle. La future version complète ajoutera :', ul: ['Un profil complet, avec un questionnaire plus approfondi et des analyses plus riches', 'Des profils par contexte : travail, amour, famille, sport ou animaux', 'Des parcours personnalisés, avec activités et recommandations', 'Des matchs individuels et de groupe plus avancés'] },
+        ],
+      },
+      it: {
+        kicker: 'Conosci te stesso. Capisci gli altri.',
+        lead: "Un'app gratuita che ti aiuta a capire il tuo profilo comportamentale unico e a misurare come ti connetti con le persone intorno a te: famiglia, amici, partner, colleghi e compagni di squadra.",
+        steps: [
+          ['Crea il tuo profilo', 'Rispondi ad alcune semplici domande su di te. Bastano un paio di minuti.'],
+          ['Invita i tuoi amici', 'Condividi il tuo link con chi vuoi, quando vuoi, anche prima di aver finito il tuo profilo.'],
+          ['Fai il match', 'Misura la compatibilità e scopri punti di forza e differenze per costruire relazioni più significative.'],
+          ['Aggiorna la tua prospettiva', 'Rifai il profilo quando ti va e aggiorna i tuoi match per vedere nuovi risultati.'],
+        ],
+        blocks: [
+          { h: 'Relazioni in ogni area della vita', p: 'La compatibilità non è solo romanticismo. Scopri come i tuoi tratti plasmano i legami con:', ul: ['Famiglia', 'Amici', 'Amore', 'Lavoro', 'Sport', 'Animali (presto, nella versione completa)'] },
+          { h: 'Perché usarlo', p: 'Le grandi relazioni nascono quando sai con cosa hai a che fare. Alcuni legami fanno emergere i tuoi punti di forza, altri ti sfidano a crescere, altri ancora prendono più di quanto danno. CheckMatch ti aiuta a distinguerli, per scegliere dove investire tempo, energia e attenzione.' },
+          { h: "Cos'è un Match", p: "Un Match è un'analisi di compatibilità tra due profili: punti di forza condivisi, possibili differenze e consigli per migliorare la relazione. Entrambi i profili devono essere completati; fino ad allora il match risulta In attesa e passa automaticamente a Pronto per il match. L'altra persona vede i risultati del match, mentre i tuoi risultati individuali restano privati." },
+          { h: 'Lite e versione completa', p: 'Lite è gratuita e veloce, un modo leggero per testare la compatibilità di base. La futura versione completa aggiungerà:', ul: ['Un profilo completo, con questionario più approfondito e analisi più ricche', 'Profili per contesto: lavoro, amore, famiglia, sport o animali', 'Percorsi su misura, con attività e consigli', 'Match individuali e di gruppo più avanzati'] },
+        ],
+      },
+      de: {
+        kicker: 'Erkenne dich selbst. Verstehe andere.',
+        lead: 'Eine kostenlose App, die dir hilft, dein einzigartiges Verhaltensprofil zu verstehen und zu messen, wie du mit den Menschen um dich herum verbunden bist: Familie, Freunde, Partner, Kollegen und Teamkameraden.',
+        steps: [
+          ['Erstelle dein Profil', 'Beantworte ein paar einfache Fragen zu dir. Es dauert nur wenige Minuten.'],
+          ['Lade Freunde ein', 'Teile deinen Link, mit wem du willst und wann du willst, auch bevor dein Profil fertig ist.'],
+          ['Match', 'Miss eure Kompatibilität und entdecke Stärken und Unterschiede für bedeutungsvollere Beziehungen.'],
+          ['Aktualisiere deine Perspektive', 'Mach dein Profil jederzeit neu und aktualisiere deine Matches, um neue Ergebnisse zu sehen.'],
+        ],
+        blocks: [
+          { h: 'Beziehungen in allen Lebensbereichen', p: 'Kompatibilität ist mehr als Romantik. Entdecke, wie deine Eigenschaften deine Verbindungen prägen zu:', ul: ['Familie', 'Freunden', 'Liebe', 'Arbeit', 'Sport', 'Tieren (bald, in der Vollversion)'] },
+          { h: 'Warum nutzen', p: 'Gute Beziehungen entstehen, wenn man weiß, womit man es zu tun hat. Manche Verbindungen bringen deine Stärken hervor, manche fordern dich zum Wachsen heraus, und andere nehmen mehr, als sie geben. CheckMatch hilft dir, das zu unterscheiden, damit du entscheidest, wo du Zeit, Energie und Aufmerksamkeit investierst.' },
+          { h: 'Was ist ein Match', p: 'Ein Match ist eine Kompatibilitätsanalyse zweier Profile: gemeinsame Stärken, mögliche Unterschiede und Tipps zur Verbesserung der Beziehung. Beide Profile müssen abgeschlossen sein; bis dahin steht das Match auf Ausstehend und wechselt automatisch zu Bereit zum Match. Die andere Person sieht die Match-Ergebnisse, deine individuellen Ergebnisse bleiben privat.' },
+          { h: 'Lite und Vollversion', p: 'Lite ist kostenlos und schnell, ein leichter Weg, die grundlegende Kompatibilität zu testen. Die kommende Vollversion bringt zusätzlich:', ul: ['Ein vollständiges Selbstprofil mit tieferem Fragebogen und reichhaltigeren Einblicken', 'Kontextspezifische Profile für Arbeit, Liebe, Familie, Sport oder Tiere', 'Individuelle Journeys mit Aktivitäten und Empfehlungen', 'Fortgeschrittene Einzel- und Gruppen-Matches'] },
+        ],
+      },
+    },
+    equestrian: {
+      url: 'https://matchequestrian.com/',
+      en: {
+        kicker: 'Find your perfect stride.',
+        lead: "Understand your equestrian profile, your horse's natural temperament, and how the two of you work together. Equestrian Match shows compatibility, strengths and differences for riders, trainers, grooms and owners.",
+        steps: [
+          ['Choose your equestrian role', 'Pick Rider, Groom, Trainer or Owner and complete a profile assessment that maps your behavioral and decision-making style.'],
+          ['Register your first horse', 'Add a horse to your roster and create its behavioral profile.'],
+          ["Choose your horse's matching role", 'Complete an assessment of Obedience, Routine and Work Energy.'],
+          ['Unlock your Equestrian Match', "Compare your role profile with your horse's profile to see compatibility insights, strengths and ways to improve the partnership."],
+        ],
+        blocks: [
+          { h: 'Who it is for', p: 'Riders, trainers, grooms and owners. Each role completes its own profile assessment, mapping how you behave and make decisions around horses.' },
+          { h: 'What the horse profile covers', p: "Your horse's behavioral profile is built around three dimensions:", ul: ['Obedience', 'Routine', 'Work energy'] },
+          { h: 'What you get', p: "A side-by-side comparison of your role profile and your horse's profile: where you fit naturally, where you differ, and concrete ways to improve the partnership." },
+          { h: 'Guest or account', p: 'You can try it as a guest. Creating an account saves your progress and results so you can open them from any device. Google sign-in is optional and used only for authentication: the service receives your name, email address and profile picture, and does not request access to any other Google data.' },
+        ],
+      },
+      pt: {
+        kicker: 'Find your perfect stride.',
+        lead: 'Entenda seu perfil equestre, o temperamento natural do seu cavalo e como vocês funcionam juntos. O Equestrian Match mostra compatibilidade, pontos fortes e diferenças para cavaleiros, treinadores, grooms e proprietários.',
+        steps: [
+          ['Escolha seu papel equestre', 'Selecione Cavaleiro, Groom, Treinador ou Proprietário e faça uma avaliação de perfil que mapeia seu estilo comportamental e de decisão.'],
+          ['Cadastre seu primeiro cavalo', 'Adicione um cavalo à sua lista e crie o perfil comportamental dele.'],
+          ['Escolha o papel do seu cavalo', 'Faça uma avaliação de Obediência, Rotina e Energia de trabalho.'],
+          ['Libere seu Equestrian Match', 'Compare o seu perfil com o do seu cavalo para ver compatibilidade, pontos fortes e caminhos para melhorar a parceria.'],
+        ],
+        blocks: [
+          { h: 'Para quem é', p: 'Cavaleiros, treinadores, grooms e proprietários. Cada papel faz a sua própria avaliação de perfil, mapeando como você age e decide perto dos cavalos.' },
+          { h: 'O que o perfil do cavalo avalia', p: 'O perfil comportamental do seu cavalo é construído em torno de três dimensões:', ul: ['Obediência', 'Rotina', 'Energia de trabalho'] },
+          { h: 'O que você recebe', p: 'Uma comparação lado a lado do seu perfil e do perfil do seu cavalo: onde vocês se encaixam naturalmente, onde diferem e formas concretas de melhorar a parceria.' },
+          { h: 'Convidado ou conta', p: 'Você pode experimentar como convidado. Criar uma conta salva seu progresso e seus resultados para acessar de qualquer dispositivo. O login com Google é opcional e usado apenas para autenticação: o serviço recebe seu nome, e-mail e foto de perfil, e não pede acesso a nenhum outro dado do Google.' },
+        ],
+      },
+      fr: {
+        kicker: 'Find your perfect stride.',
+        lead: "Comprenez votre profil équestre, le tempérament naturel de votre cheval et la façon dont vous travaillez ensemble. Equestrian Match montre compatibilité, forces et différences pour les cavaliers, entraîneurs, grooms et propriétaires.",
+        steps: [
+          ['Choisissez votre rôle équestre', "Sélectionnez Cavalier, Groom, Entraîneur ou Propriétaire et réalisez une évaluation de profil qui cartographie votre style comportemental et décisionnel."],
+          ['Enregistrez votre premier cheval', 'Ajoutez un cheval à votre liste et créez son profil comportemental.'],
+          ['Choisissez le rôle de votre cheval', "Réalisez une évaluation de l'Obéissance, de la Routine et de l'Énergie de travail."],
+          ['Débloquez votre Equestrian Match', 'Comparez votre profil à celui de votre cheval pour voir compatibilité, forces et pistes pour améliorer le partenariat.'],
+        ],
+        blocks: [
+          { h: 'Pour qui', p: 'Cavaliers, entraîneurs, grooms et propriétaires. Chaque rôle réalise sa propre évaluation de profil, qui cartographie votre façon d\'agir et de décider auprès des chevaux.' },
+          { h: 'Ce que couvre le profil du cheval', p: 'Le profil comportemental de votre cheval repose sur trois dimensions :', ul: ['Obéissance', 'Routine', 'Énergie de travail'] },
+          { h: 'Ce que vous obtenez', p: 'Une comparaison côte à côte de votre profil et de celui de votre cheval : où vous vous accordez naturellement, où vous différez, et des moyens concrets d\'améliorer le partenariat.' },
+          { h: 'Invité ou compte', p: "Vous pouvez essayer en tant qu'invité. Créer un compte enregistre votre progression et vos résultats pour y accéder depuis n'importe quel appareil. La connexion Google est facultative et sert uniquement à l'authentification : le service reçoit votre nom, votre adresse e-mail et votre photo de profil, et ne demande l'accès à aucune autre donnée Google." },
+        ],
+      },
+      it: {
+        kicker: 'Find your perfect stride.',
+        lead: 'Capisci il tuo profilo equestre, il temperamento naturale del tuo cavallo e come lavorate insieme. Equestrian Match mostra compatibilità, punti di forza e differenze per cavalieri, istruttori, groom e proprietari.',
+        steps: [
+          ['Scegli il tuo ruolo equestre', 'Seleziona Cavaliere, Groom, Istruttore o Proprietario e completa una valutazione del profilo che mappa il tuo stile comportamentale e decisionale.'],
+          ['Registra il tuo primo cavallo', 'Aggiungi un cavallo al tuo elenco e crea il suo profilo comportamentale.'],
+          ['Scegli il ruolo del tuo cavallo', 'Completa una valutazione di Obbedienza, Routine ed Energia di lavoro.'],
+          ['Sblocca il tuo Equestrian Match', 'Confronta il tuo profilo con quello del tuo cavallo per vedere compatibilità, punti di forza e come migliorare la partnership.'],
+        ],
+        blocks: [
+          { h: 'Per chi è', p: 'Cavalieri, istruttori, groom e proprietari. Ogni ruolo completa la propria valutazione del profilo, che mappa come agisci e decidi attorno ai cavalli.' },
+          { h: 'Cosa copre il profilo del cavallo', p: 'Il profilo comportamentale del tuo cavallo si basa su tre dimensioni:', ul: ['Obbedienza', 'Routine', 'Energia di lavoro'] },
+          { h: 'Cosa ottieni', p: 'Un confronto affiancato tra il tuo profilo e quello del tuo cavallo: dove vi incastrate naturalmente, dove siete diversi e modi concreti per migliorare la partnership.' },
+          { h: 'Ospite o account', p: "Puoi provarlo come ospite. Creare un account salva i tuoi progressi e risultati, accessibili da qualsiasi dispositivo. L'accesso con Google è facoltativo e usato solo per l'autenticazione: il servizio riceve nome, indirizzo e-mail e foto del profilo, e non richiede accesso ad altri dati Google." },
+        ],
+      },
+      de: {
+        kicker: 'Find your perfect stride.',
+        lead: 'Verstehe dein Reiterprofil, das natürliche Temperament deines Pferdes und wie ihr zusammenarbeitet. Equestrian Match zeigt Kompatibilität, Stärken und Unterschiede für Reiter, Trainer, Pfleger und Besitzer.',
+        steps: [
+          ['Wähle deine Rolle', 'Wähle Reiter, Pfleger, Trainer oder Besitzer und absolviere eine Profilbewertung, die deinen Verhaltens- und Entscheidungsstil erfasst.'],
+          ['Registriere dein erstes Pferd', 'Füge ein Pferd zu deiner Liste hinzu und erstelle sein Verhaltensprofil.'],
+          ['Wähle die Rolle deines Pferdes', 'Absolviere eine Bewertung von Gehorsam, Routine und Arbeitsenergie.'],
+          ['Schalte dein Equestrian Match frei', 'Vergleiche dein Profil mit dem deines Pferdes und sieh Kompatibilität, Stärken und Wege zur Verbesserung der Partnerschaft.'],
+        ],
+        blocks: [
+          { h: 'Für wen', p: 'Reiter, Trainer, Pfleger und Besitzer. Jede Rolle absolviert eine eigene Profilbewertung, die erfasst, wie du im Umgang mit Pferden handelst und entscheidest.' },
+          { h: 'Was das Pferdeprofil umfasst', p: 'Das Verhaltensprofil deines Pferdes basiert auf drei Dimensionen:', ul: ['Gehorsam', 'Routine', 'Arbeitsenergie'] },
+          { h: 'Was du bekommst', p: 'Ein direkter Vergleich deines Rollenprofils mit dem Profil deines Pferdes: wo ihr natürlich zusammenpasst, wo ihr euch unterscheidet und konkrete Wege, die Partnerschaft zu verbessern.' },
+          { h: 'Gast oder Konto', p: 'Du kannst es als Gast ausprobieren. Mit einem Konto werden Fortschritt und Ergebnisse gespeichert und sind auf jedem Gerät abrufbar. Die Anmeldung mit Google ist optional und dient nur der Authentifizierung: Der Dienst erhält deinen Namen, deine E-Mail-Adresse und dein Profilbild und fragt keine anderen Google-Daten ab.' },
+        ],
+      },
+    },
+  };
+
+  let currentLang = 'en';
+  let currentDetail = null;
+
+  function esc(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  const CHEVRON = '<svg class="ld-chev" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+  const ICON_QR = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="3.5" width="6.5" height="6.5" rx="1.2" stroke="currentColor" stroke-width="1.8"/><rect x="14" y="3.5" width="6.5" height="6.5" rx="1.2" stroke="currentColor" stroke-width="1.8"/><rect x="3.5" y="14" width="6.5" height="6.5" rx="1.2" stroke="currentColor" stroke-width="1.8"/><path d="M14 14h2.5v2.5H14zM18 18h2.5v2.5H18zM18 14h2.5M14 18v2.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  const ICON_SHARE = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="18" cy="5.5" r="2.7" stroke="currentColor" stroke-width="1.8"/><circle cx="6" cy="12" r="2.7" stroke="currentColor" stroke-width="1.8"/><circle cx="18" cy="18.5" r="2.7" stroke="currentColor" stroke-width="1.8"/><path d="M8.4 10.7l7.2-3.9M8.4 13.3l7.2 3.9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>';
+
+  // Set this to the published address of the page (e.g. 'https://example.com/luciana.html') to skip the prompt.
+  const PUBLIC_URL = 'https://claude.ai/artifact/99kk2GXv3jGV6PfUj2ScC7';
+  function storedUrl() { try { return localStorage.getItem('ld-public-url') || ''; } catch (e) { return ''; } }
+  function pageUrl() {
+    if (PUBLIC_URL) return PUBLIC_URL;
+    if (/^https?:$/.test(location.protocol)) return location.href.split('#')[0];
+    return storedUrl();
+  }
+  function canChangeUrl() { return !PUBLIC_URL && !/^https?:$/.test(location.protocol); }
+  function askUrl(next) {
+    openModal(`<h3>${esc(su().urlTitle)}</h3>
+      <p class="ld-modal-note">${esc(su().urlHelp)}</p>
+      <input id="ld-url-in" class="ld-url-input" type="url" inputmode="url" autocomplete="off" placeholder="https://" value="${esc(storedUrl())}">
+      <p class="ld-modal-err" id="ld-url-err" hidden>${esc(su().urlInvalid)}</p>
+      <button type="button" class="ld-share-opt ld-share-primary" id="ld-url-save">${esc(su().urlSave)}</button>`);
+    const input = document.getElementById('ld-url-in');
+    const save = () => {
+      const v = input.value.trim();
+      if (!/^https?:\/\/\S+\.\S+/i.test(v)) { document.getElementById('ld-url-err').hidden = false; return; }
+      try { localStorage.setItem('ld-public-url', v); } catch (e) {}
+      closeModal();
+      if (next) next();
+    };
+    document.getElementById('ld-url-save').addEventListener('click', save);
+    input.addEventListener('keydown', (e) => { if (e.key === 'Enter') save(); });
+    input.focus();
+  }
+  function changeLink() {
+    return canChangeUrl() ? `<button type="button" class="ld-linkbtn" id="ld-url-change">${esc(su().urlChange)}</button>` : '';
+  }
+  function su() { return SHARE_UI[currentLang] || SHARE_UI.en; }
+
+  function openModal(html) {
+    const m = document.getElementById('ld-modal');
+    m.innerHTML = `<div class="ld-modal-card" role="dialog" aria-modal="true">
+      <button type="button" class="ld-modal-close" aria-label="${esc(su().close)}">×</button>${html}</div>`;
+    m.hidden = false;
+    m.querySelector('.ld-modal-close').addEventListener('click', closeModal);
+    m.querySelector('.ld-modal-close').focus();
+  }
+  function closeModal() { document.getElementById('ld-modal').hidden = true; }
+  document.getElementById('ld-modal').addEventListener('click', (e) => { if (e.target.id === 'ld-modal') closeModal(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+  function openQR() {
+    const url = pageUrl();
+    if (!url) return askUrl(openQR);
+    const qr = qrcode(0, 'M');
+    qr.addData(url);
+    qr.make();
+    openModal(`<h3>${esc(su().qrTitle)}</h3><div class="ld-qr" role="img" aria-label="QR code">${qr.createSvgTag({ cellSize: 4, margin: 0, scalable: true })}</div><p class="ld-modal-url">${esc(url)}</p>${changeLink()}`);
+    const ch = document.getElementById('ld-url-change'); if (ch) ch.addEventListener('click', () => askUrl(openQR));
+  }
+
+  async function copyLink(btn) {
+    const url = pageUrl();
+    try { await navigator.clipboard.writeText(url); }
+    catch (e) {
+      const t = document.createElement('textarea'); t.value = url; document.body.appendChild(t); t.select();
+      try { document.execCommand('copy'); } catch (e2) {} t.remove();
+    }
+    if (btn) { btn.textContent = su().copied; }
+  }
+
+  async function openShare() {
+    const url = pageUrl();
+    if (!url) return askUrl(openShare);
+    const text = su().msg;
+    if (navigator.share) {
+      try { await navigator.share({ title: 'Luciana Diniz', text, url }); return; }
+      catch (e) { if (e && e.name === 'AbortError') return; }
+    }
+    const wa = 'https://wa.me/?text=' + encodeURIComponent(text + ' ' + url);
+    const mail = 'mailto:?subject=' + encodeURIComponent('Luciana Diniz') + '&body=' + encodeURIComponent(text + '\n\n' + url);
+    openModal(`<h3>${esc(su().share)}</h3>
+      <div class="ld-share-list">
+        <a class="ld-share-opt" href="${wa}" target="_blank" rel="noopener">WhatsApp</a>
+        <a class="ld-share-opt" href="${mail}">${esc(su().mail)}</a>
+        <button type="button" class="ld-share-opt" id="ld-copy">${esc(su().copy)}</button>
+      </div>
+      <p class="ld-modal-url">${esc(url)}</p>${changeLink()}`);
+    document.getElementById('ld-copy').addEventListener('click', (e) => copyLink(e.currentTarget));
+    const ch = document.getElementById('ld-url-change'); if (ch) ch.addEventListener('click', () => askUrl(openShare));
+  }
+
+  function renderActions() {
+    document.querySelectorAll('.js-actions').forEach((el) => {
+      el.innerHTML = `<button type="button" class="ld-icon-btn" data-act="qr" title="QR code" aria-label="QR code">${ICON_QR}</button><button type="button" class="ld-icon-btn" data-act="share" title="${esc(su().share)}" aria-label="${esc(su().share)}">${ICON_SHARE}</button>`;
+      el.querySelector('[data-act=qr]').addEventListener('click', openQR);
+      el.querySelector('[data-act=share]').addEventListener('click', openShare);
+    });
+  }
+
+  function closeCombos() {
+    document.querySelectorAll('.ld-combo-menu').forEach((m) => { m.hidden = true; });
+    document.querySelectorAll('.ld-combo-btn').forEach((b) => b.setAttribute('aria-expanded', 'false'));
+  }
+
+  function renderLangButtons() {
+    renderActions();
+    const cur = LANGS.find((l) => l.id === currentLang) || LANGS[0];
+    document.querySelectorAll('.js-langs').forEach((el) => {
+      el.innerHTML = `
+        <button type="button" class="ld-combo-btn" aria-haspopup="listbox" aria-expanded="false" aria-label="Language: ${cur.name}">
+          ${FLAGS[cur.id]}<span>${cur.id.toUpperCase()}</span>${CHEVRON}
+        </button>
+        <div class="ld-combo-menu" role="listbox" hidden>
+          ${LANGS.map((l) => `<button type="button" role="option" class="ld-combo-opt" aria-selected="${l.id === currentLang}" data-lang="${l.id}">${FLAGS[l.id]}<span>${l.name}</span></button>`).join('')}
+        </div>`;
+      const btn = el.querySelector('.ld-combo-btn');
+      const menu = el.querySelector('.ld-combo-menu');
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const open = menu.hidden;
+        closeCombos();
+        menu.hidden = !open;
+        btn.setAttribute('aria-expanded', String(open));
+      });
+      menu.querySelectorAll('button').forEach((o) => {
+        o.addEventListener('click', () => setLang(o.getAttribute('data-lang')));
+      });
+    });
+  }
+
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.js-langs')) closeCombos();
+  });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeCombos(); });
+
+  // In-page section links (CV / Branded Content menus): scroll instead of changing the route
+  const ROUTES = ['', 'branded', 'cv', 'checkmatch', 'equestrian'];
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('a[href^="#"]');
+    if (!a) return;
+    const id = a.getAttribute('href').slice(1);
+    if (ROUTES.includes(id)) return;
+    const target = document.getElementById(id);
+    if (!target) return;
+    e.preventDefault();
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
+  function renderCards() {
+    const texts = TRANSLATIONS[currentLang] || TRANSLATIONS.en;
+    const grid = document.getElementById('ld-grid');
+    grid.innerHTML = META.map((m) => {
+      const c = texts.cards[m.id];
+      const ctaAttrs = m.internal ? `href="${m.href}"` : `href="${m.href}" target="_blank" rel="noopener"`;
+      const noteHtml = c.note ? `<span class="ld-note">${esc(c.note)}</span>` : '';
+      return `
+        <div class="ld-card" style="--c: ${m.color};">
+          <div class="ld-icon" style="background: ${m.bg};">${ICONS[m.icon](m.color)}</div>
+          <div class="ld-tag-row">
+            <span class="ld-tag" style="color: ${m.color};">${esc(CATS[m.cat].label[currentLang] || CATS[m.cat].label.en)}</span>
+            <span class="ld-badge" style="color: ${m.color}; background: ${m.bg};">${esc(c.badge)}</span>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <h3>${esc(c.title)}</h3>
+            <p class="ld-tagline" style="color: ${m.color};">${esc(c.tagline)}</p>
+          </div>
+          <p class="ld-desc">${esc(c.desc)}</p>
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            ${m.detail ? `<a class="ld-cta-2" style="color: ${m.color}; border-color: ${m.color};" href="#${m.detail}">${esc((UI[currentLang] || UI.en).more)}</a>` : ''}
+            <a class="ld-cta" style="background: ${m.color};" ${ctaAttrs}>${esc(c.cta)}</a>
+            ${noteHtml}
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  function updateHeroText() {
+    const texts = TRANSLATIONS[currentLang] || TRANSLATIONS.en;
+    document.getElementById('ld-h1').textContent = texts.h1;
+    document.getElementById('ld-sub').textContent = texts.sub;
+    document.getElementById('ld-footer-text').textContent = texts.footer;
+    const wa = WA[currentLang] || WA.en;
+    document.getElementById('ld-wa-title').textContent = wa.title;
+    document.getElementById('ld-wa-text').textContent = wa.text;
+    document.getElementById('ld-wa-cta').textContent = wa.cta;
+    document.getElementById('ld-wa-btn').href = 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(wa.msg);
+  }
+
+  function renderDetail(id) {
+    const m = META.find((x) => x.detail === id);
+    const d = DETAILS[id];
+    const t = d[currentLang] || d.en;
+    const ui = UI[currentLang] || UI.en;
+    const card = (TRANSLATIONS[currentLang] || TRANSLATIONS.en).cards[m.id];
+    const host = d.url.replace(/^https?:\/\//, '').replace(/\/$/, '');
+    const steps = t.steps.map((st, i) => `
+      <div class="dt-step">
+        <div class="dt-num" style="background: ${m.color};">${i + 1}</div>
+        <h3>${esc(st[0])}</h3>
+        <p>${esc(st[1])}</p>
+      </div>`).join('');
+    const blocks = t.blocks.map((b) => `
+      <div class="dt-block">
+        <h3>${esc(b.h)}</h3>
+        <p>${esc(b.p)}</p>
+        ${b.ul ? '<ul>' + b.ul.map((li) => `<li>${esc(li)}</li>`).join('') + '</ul>' : ''}
+      </div>`).join('');
+    document.getElementById('view-detail').innerHTML = `
+      <div class="dt-top">
+        <a class="dt-back" onclick="goTo('main')">${esc(ui.back)}</a>
+        <div class="ld-right">
+          <div class="ld-actions js-actions"></div>
+          <div class="ld-langs js-langs"></div>
+        </div>
+      </div>
+      <section class="dt-hero" style="background: ${m.bg};">
+        <div class="dt-hero-in">
+          <span class="dt-kicker" style="color: ${m.color};">${esc(t.kicker)}</span>
+          <h1 class="dt-h1">${esc(card.title)}</h1>
+          <p class="dt-lead">${esc(t.lead)}</p>
+          <a class="dt-btn" style="background: ${m.color};" href="${d.url}" target="_blank" rel="noopener">${esc(card.cta)}</a>
+          <span class="dt-url">${esc(ui.site)}: ${esc(host)}</span>
+        </div>
+      </section>
+      <div class="dt-body" style="padding-top: clamp(28px, 5vw, 48px);">
+        <section>
+          <h2 class="dt-h2">${esc(ui.steps)}</h2>
+          <div class="dt-steps">${steps}</div>
+        </section>
+        <section class="dt-blocks">${blocks}</section>
+        <div class="dt-cta-row">
+          <a class="dt-btn" style="background: ${m.color};" href="${d.url}" target="_blank" rel="noopener">${esc(card.cta)}</a>
+          <span class="dt-url">${esc(ui.site)}: ${esc(host)}</span>
+          <a class="dt-back" style="margin-top: 14px;" onclick="goTo('main')">${esc(ui.back)}</a>
+        </div>
+      </div>`;
+    renderLangButtons();
+  }
+
+  function setLang(id) {
+    currentLang = id;
+    renderLangButtons();
+    renderCards();
+    updateHeroText();
+    if (currentDetail) renderDetail(currentDetail);
+  }
+
+  function showView(id) {
+    document.querySelectorAll('.ld-view').forEach((v) => v.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    window.scrollTo(0, 0);
+  }
+
+  function goTo(name) {
+    location.hash = name === 'main' ? '' : name;
+  }
+
+  function routeFromHash() {
+    const h = location.hash.replace('#', '');
+    currentDetail = null;
+    if (DETAILS[h]) { currentDetail = h; renderDetail(h); showView('view-detail'); }
+    else if (h === 'branded') showView('view-branded');
+    else if (h === 'cv') showView('view-cv');
+    else showView('view-main');
+  }
+
+
+  // Particle flow along a lemniscate (figure-eight), behind the hero
+  (function () {
+    const canvas = document.getElementById('ld-flow');
+    if (!canvas || !canvas.getContext) return;
+    const ctx = canvas.getContext('2d');
+    const COLORS = ['#B01A63', '#B01A63', '#B01A63', '#4338CA', '#0F766E', '#B45309', '#1D4ED8'];
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const KY = 1.5, STEP = 0.032;
+    let W = 0, H = 0, cx = 0, cy = 0, A = 0, trail = 12, particles = [], last = 0, inView = true;
+
+    function build() {
+      const n = W < 600 ? 90 : 170;
+      trail = W < 600 ? 9 : 13;
+      particles = Array.from({ length: n }, () => ({
+        t: Math.random() * Math.PI * 2,
+        speed: 0.32 + Math.random() * 0.28,
+        s: 0.78 + Math.random() * 0.44,
+        c: COLORS[Math.floor(Math.random() * COLORS.length)],
+        w: 1.2 + Math.random() * 1.6,
+        a: 0.28 + Math.random() * 0.4,
+      }));
+    }
+
+    function resize() {
+      const r = canvas.getBoundingClientRect();
+      if (!r.width || !r.height) return;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = r.width; H = r.height;
+      canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      if (W > 820) { cx = W * 0.68; A = Math.min(W * 0.25, H * 0.66); }
+      else { cx = W * 0.5; A = Math.min(W * 0.36, H * 0.66); }
+      cy = H * 0.5;
+      build();
+      draw();
+    }
+
+    function px(t, s) { const sn = Math.sin(t), cs = Math.cos(t), d = 1 + sn * sn; return cx + A * s * cs / d; }
+    function py(t, s) { const sn = Math.sin(t), cs = Math.cos(t), d = 1 + sn * sn; return cy + A * s * KY * sn * cs / d; }
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      ctx.lineCap = 'round';
+      for (const p of particles) {
+        ctx.strokeStyle = p.c;
+        let x0 = px(p.t, p.s), y0 = py(p.t, p.s);
+        for (let k = 1; k <= trail; k++) {
+          const t1 = p.t - k * STEP, x1 = px(t1, p.s), y1 = py(t1, p.s), f = 1 - k / (trail + 1);
+          ctx.globalAlpha = p.a * f;
+          ctx.lineWidth = p.w * (0.4 + 0.6 * f);
+          ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(x1, y1); ctx.stroke();
+          x0 = x1; y0 = y1;
+        }
+      }
+      ctx.globalAlpha = 1;
+    }
+
+    function frame(now) {
+      requestAnimationFrame(frame);
+      const dt = Math.min((now - last) / 1000 || 0, 0.05); last = now;
+      const main = document.getElementById('view-main');
+      if (document.hidden || !inView || !main || !main.classList.contains('active') || !W) return;
+      for (const p of particles) p.t += p.speed * dt;
+      draw();
+    }
+
+    if ('ResizeObserver' in window) new ResizeObserver(resize).observe(canvas); else window.addEventListener('resize', resize);
+    if ('IntersectionObserver' in window) new IntersectionObserver((e) => { inView = e[0].isIntersecting; }).observe(canvas);
+    resize();
+    if (!reduce) requestAnimationFrame(frame);
+  })();
+
+
+  // Course path: fill the line, light the stops, ring a bell on each new stop
+  (function () {
+    const grid = document.getElementById('ld-grid');
+    const reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let ticking = false, ready = false;
+    const passedSet = new Set();
+
+    let actx = null;
+    function audio() {
+      try {
+        if (!actx) { const AC = window.AudioContext || window.webkitAudioContext; if (AC) actx = new AC(); }
+        if (actx && actx.state === 'suspended') actx.resume();
+      } catch (e) {}
+      return actx;
+    }
+    ['pointerdown', 'touchend', 'keydown', 'click'].forEach((ev) => window.addEventListener(ev, audio, { passive: true }));
+
+    // soft marimba-like note; stops climb a pentatonic scale
+    const SCALE = [523.25, 587.33, 659.25, 783.99, 880, 1046.5];
+    function note(freq, delay, vol, len) {
+      const ctx = audio();
+      if (!ctx || ctx.state !== 'running') return;
+      const t = ctx.currentTime + (delay || 0);
+      [[1, 1], [2, 0.2]].forEach(([r, g]) => {
+        const o = ctx.createOscillator(), e = ctx.createGain();
+        o.type = 'sine'; o.frequency.value = freq * r;
+        e.gain.setValueAtTime(0.0001, t);
+        e.gain.linearRampToValueAtTime(g * vol, t + 0.025);
+        e.gain.exponentialRampToValueAtTime(0.0001, t + (len || 0.8) / r);
+        o.connect(e); e.connect(ctx.destination);
+        o.start(t); o.stop(t + (len || 0.8) + 0.1);
+      });
+    }
+    function bell(i) { note(SCALE[i % SCALE.length], 0, 0.045, 0.8); }
+
+    function update() {
+      ticking = false;
+      if (!grid.offsetParent) return;
+      const r = grid.getBoundingClientRect();
+      const mark = window.innerHeight * 0.62;
+      const p = Math.max(0, Math.min(1, (mark - r.top) / r.height));
+      grid.style.setProperty('--p', p.toFixed(4));
+      let fresh = -1;
+      grid.querySelectorAll('.ld-card').forEach((c, i) => {
+        const now = c.getBoundingClientRect().top + 44 < mark;
+        c.classList.toggle('passed', now);
+        if (now && !passedSet.has(i)) {
+          passedSet.add(i);
+          if (ready) {
+            fresh = i;
+            if (!reduce) { c.classList.remove('pop'); void c.offsetWidth; c.classList.add('pop'); }
+          }
+        } else if (!now) {
+          passedSet.delete(i);
+          c.classList.remove('pop');
+        }
+      });
+      if (fresh >= 0) bell(fresh);
+      ready = true;
+    }
+    function req() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
+    window.addEventListener('scroll', req, { passive: true });
+    window.addEventListener('resize', req);
+    window.addEventListener('hashchange', () => setTimeout(req, 50));
+    new MutationObserver(req).observe(grid, { childList: true });
+    req();
+
+    // "Let's talk": animated entrance with confetti burst and a soft chime
+    const waBox = document.querySelector('.ld-wa-box');
+    if (waBox && 'IntersectionObserver' in window) {
+      const btn = document.getElementById('ld-wa-btn');
+      if (!reduce) waBox.classList.add('pre');
+      let played = false;
+      function burst() {
+        const br = btn.getBoundingClientRect(), pr = waBox.getBoundingClientRect();
+        const cx = br.left - pr.left + br.width / 2, cy = br.top - pr.top + br.height / 2;
+        const cols = ['#16A34A', '#4338CA', '#B45309', '#0F766E', '#B01A63', '#F59E0B'];
+        for (let k = 0; k < 34; k++) {
+          const d = document.createElement('i');
+          const sz = 6 + Math.random() * 7;
+          d.style.cssText = `position:absolute;left:${cx}px;top:${cy}px;width:${sz}px;height:${sz * (Math.random() > 0.5 ? 1 : 0.5)}px;border-radius:${Math.random() > 0.5 ? '50%' : '2px'};background:${cols[k % cols.length]};pointer-events:none;z-index:3;`;
+          waBox.appendChild(d);
+          const ang = Math.random() * Math.PI * 2, dist = 70 + Math.random() * 150;
+          const dx = Math.cos(ang) * dist, dy = Math.sin(ang) * dist - 40;
+          d.animate([
+            { transform: 'translate(-50%,-50%) scale(0.4) rotate(0deg)', opacity: 1 },
+            { transform: `translate(${dx}px,${dy}px) scale(1) rotate(${Math.random() * 540}deg)`, opacity: 1, offset: 0.55 },
+            { transform: `translate(${dx * 1.15}px,${dy + 90}px) scale(0.8) rotate(${Math.random() * 720}deg)`, opacity: 0 }
+          ], { duration: 1300 + Math.random() * 700, easing: 'cubic-bezier(.2,.7,.3,1)' }).onfinish = () => d.remove();
+        }
+      }
+      new IntersectionObserver((entries, io) => {
+        if (played || !entries.some((en) => en.isIntersecting)) return;
+        played = true; io.disconnect();
+        waBox.classList.remove('pre');
+        if (reduce) return;
+        waBox.classList.add('in');
+        setTimeout(burst, 350);
+        [523.25, 659.25, 783.99, 1046.5].forEach((f, k) => note(f, 0.12 * k, 0.05, 1.1));
+      }, { threshold: 0.6 }).observe(waBox);
+    }
+  })();
+
+  window.addEventListener('hashchange', routeFromHash);
+
+  renderLangButtons();
+  renderCards();
+  updateHeroText();
+  routeFromHash();
+</script>
+</body>
+</html>
